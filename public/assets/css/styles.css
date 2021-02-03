@@ -1,0 +1,12 @@
+.nav-link {
+    color: #111 !important;
+    font-weight: 500 !important;
+}
+
+.nav-link:hover {
+    color: #007bff !important
+}
+
+.bg-gray {
+    background-color: rgba(243, 244, 246) !important;
+}
