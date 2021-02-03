@@ -15,7 +15,7 @@
     <body class="bg-gray">
         <div class="container p-0">
             <!-- Page Heading -->
-            <header class="bg-white w-100">
+            <header class="bg-white w-100 shadow">
                 <nav class="navbar navbar-expand-lg navbar-light bg-light">
                     <a class="navbar-brand" href="#"><img src="{{asset('/assets/images/logo.png')}}"
                             class="d-inline-block align-top" alt="" loading="lazy" width="48" /></a>
@@ -51,11 +51,11 @@
                     </div>
                 </nav>
                 <nav class="navbar navbar-expand-sm navbar-light bg-light border-top border-bottom border-dark p-0">
-                    <button class="navbar-toggler my-2" type="button" data-toggle="collapse" data-target="#navbarSubMenu"
+                    <button class="navbar-toggler my-2 mx-2" type="button" data-toggle="collapse" data-target="#navbarSubMenu"
                         aria-controls="navbarSubMenu" aria-expanded="false" aria-label="Toggle navigation">
                         <span class="navbar-toggler-icon"></span>
                     </button>            
-                    <div class="collapse navbar-collapse" id="navbarSubMenu">
+                    <div class="collapse navbar-collapse mx-2" id="navbarSubMenu">
                         <ul class="navbar-nav">
                             <li class="nav-item">
                                 <a class="nav-link d-flex align-items-center" href="{{ asset('') }}"><i class="ri-home-line mr-1"></i> Trang chủ</a>
