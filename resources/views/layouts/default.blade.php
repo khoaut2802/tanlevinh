@@ -58,16 +58,16 @@
                     <div class="collapse navbar-collapse mx-2" id="navbarSubMenu">
                         <ul class="navbar-nav">
                             <li class="nav-item">
-                                <a class="nav-link d-flex align-items-center" href="{{ asset('') }}"><i class="ri-home-line mr-1"></i> Trang chủ</a>
+                                <a class="nav-link d-flex align-items-center @if(request()->routeIs('home')){{'active'}}@endif" href="{{ asset('') }}"><i class="ri-home-line mr-1"></i> Trang chủ</a>
                             </li>                    
                             @foreach(getMenus() as $menu)
                                 @if(empty($menu['sub_menus']))
                                     <li class="nav-item">
-                                        <a class="nav-link" href="{{ asset($menu['slug']) }}">{{$menu['name']}}</a>
+                                        <a class="nav-link @if(request()->route('slug') == $menu['slug']){{'active'}}@endif" href="{{ asset($menu['slug']) }}">{{$menu['name']}}</a>
                                     </li>                                          
                                 @else
                                     <li class="nav-item dropdown">
-                                        <a class="nav-link dropdown-toggle" href="#" id="menu_{{$menu['id']}}" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                        <a class="nav-link dropdown-toggle @if(request()->route('slug') == $menu['slug'] || property_exists($menu['sub_menus'], request()->route('slug'))){{'active'}}@endif" href="#" id="menu_{{$menu['id']}}" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                         {{$menu['name']}}
                                         </a>
                                         <div class="dropdown-menu" aria-labelledby="menu_{{$menu['id']}}">
@@ -84,7 +84,34 @@
             </header>
 
             <div class="main-banner my-2">
-                <img src="{{ asset(getBanner('main')) }}" class="img-fluid" width="100%" height="auto"/>
+                <div id="carousel" class="carousel slide" class="carousel slide" data-ride="carousel">
+                    <ol class="carousel-indicators">
+                    @for($i = 1; $i <= count(getBanner('main')); $i++)
+                      <li data-target="#carousel" data-slide-to="{{$i}}" @if($i == 1)class="active"@endif></li>
+                    @endfor
+                    </ol>
+                    <div class="carousel-inner">
+                    @foreach(getBanner('main') as $banner)
+                      <div class="carousel-item @if($loop->first) active @endif" data-interval="5000">
+                        <a href="{{$banner->link}}">
+                            <img src="{{ asset($banner->image) }}" class="d-block w-100" height="350" alt="{{$banner->name}}" style="object-fit: cover"/>
+                            <div class="carousel-caption d-none d-md-block">
+                                <h5>{{$banner->name}}</h5>
+                            </div>                            
+                        </a>
+                      </div>
+                      @endforeach
+                    </div>
+                    
+                    <a class="carousel-control-prev" href="#carousel" role="button" data-slide="prev">
+                      <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                      <span class="sr-only">Previous</span>
+                    </a>
+                    <a class="carousel-control-next" href="#carousel" role="button" data-slide="next">
+                      <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                      <span class="sr-only">Next</span>
+                    </a>
+                  </div>                
             </div>
 
             <!-- Page Content -->

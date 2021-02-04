@@ -17,22 +17,22 @@
                     </x-nav-link>
                 </div>
                 <div class="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex">
-                    <x-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')">
-                        {{ __('Trang') }}
+                    <x-nav-link :href="route('products')" :active="request()->routeIs('products')">
+                        {{ __('Sản phẩm') }}
                     </x-nav-link>
                 </div> 
                 <div class="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex">
-                    <x-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')">
+                    <x-nav-link :href="route('menu')" :active="request()->routeIs('menu')">
                         {{ __('Menu') }}
                     </x-nav-link>
                 </div> 
                 <div class="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex">
-                    <x-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')">
+                    <x-nav-link :href="route('banners')" :active="request()->routeIs('banners')">
                         {{ __('Banner') }}
                     </x-nav-link>
                 </div>     
                 <div class="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex">
-                    <x-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')">
+                    <x-nav-link :href="route('settings')" :active="request()->routeIs('settings')">
                         {{ __('Cài đặt') }}
                     </x-nav-link>
                 </div>                                                                        
@@ -87,19 +87,19 @@
                 {{ __('Tổng quan') }}
             </x-responsive-nav-link>
 
-            <x-responsive-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')">
-                {{ __('Trang') }}
+            <x-responsive-nav-link :href="route('products')" :active="request()->routeIs('products')">
+                {{ __('Sản phẩm') }}
             </x-responsive-nav-link>
             
-            <x-responsive-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')">
+            <x-responsive-nav-link :href="route('menu')" :active="request()->routeIs('menu')">
                 {{ __('Menu') }}
             </x-responsive-nav-link>
 
-            <x-responsive-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')">
+            <x-responsive-nav-link :href="route('banners')" :active="request()->routeIs('banners')">
                 {{ __('Banner') }}
             </x-responsive-nav-link>
 
-            <x-responsive-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')">
+            <x-responsive-nav-link :href="route('settings')" :active="request()->routeIs('settings')">
                 {{ __('Cài đặt') }}
             </x-responsive-nav-link>            
         </div>

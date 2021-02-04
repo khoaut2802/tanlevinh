@@ -9,9 +9,10 @@ if(!function_exists('getSetting')) {
 
 if(!function_exists('getBanner')) {
     function getBanner($position) {
-        $banner = new \App\Models\Banners;
-        
-        return $banner->where('position', $position)->first()->image ?? '';
+        $banners = new \App\Models\Banners;
+        $items = $banners->where('position', $position)->get();
+
+        return $items ?? '';
     }
 }
 
@@ -31,5 +32,14 @@ if(!function_exists('getMenus')) {
         }
 
         return $ar;
+    }
+}
+
+
+if(!function_exists('formatDate')) {
+    function formatDate($date, $format = 'd-m-Y') {
+        $carbon = new \Carbon\Carbon;
+
+        return $carbon->parse($date)->format($format);
     }
 }

@@ -11,7 +11,22 @@ use App\Http\Controllers\Auth\VerifyEmailController;
 use Illuminate\Support\Facades\Route;
 
 Route::group(['prefix' => env('DASHBOARD_PREFIX')], function($router) {
-    $router->get('/', function () { return view('dashboard');})->middleware(['auth'])->name('dashboard');   
+
+    $router->group(['middleware' => 'auth'], function ($router) {
+        $router->get('/', 'DashboardController@index')->name('dashboard');
+        $router->get('/products', 'DashboardController@products')->name('products');
+        $router->get('/groups', 'DashboardController@groups')->name('groups');
+        $router->get('/menu', 'DashboardController@products')->name('menu');
+        $router->get('/banners', 'DashboardController@products')->name('banners');
+        $router->get('/settings', 'DashboardController@products')->name('settings');
+
+        //POST
+        $router->post('/products', 'DashboardController@products')->name('product_search');
+        $router->post('/groups', 'DashboardController@groups')->name('group_search');
+
+        $router->post('/products/add', 'ProductController@store')->name('add_product');
+        $router->post('/groups/add', 'GroupController@store')->name('add_group');
+    });
 
     $router->get('/register', [RegisteredUserController::class, 'create'])
                     ->middleware('guest')

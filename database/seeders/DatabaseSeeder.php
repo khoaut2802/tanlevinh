@@ -20,6 +20,7 @@ class DatabaseSeeder extends Seeder
             // DefaultMenus::class
             // DefaultPages::class
             // DefaultHomeLayout::class
+            DefaultAttributes::class
         ]);
     }
 }

@@ -7,10 +7,20 @@
     color: #007bff !important
 }
 
+.nav-link.active {
+    color: #007bff !important
+}
+
 .bg-gray {
     background-color: rgba(243, 244, 246) !important;
 }
 
-.card, .main-banner img, .navbar, header {
+/* .card, .main-banner img, .navbar, header {
     border-radius: 0.5rem !important;
+} */
+
+@media only screen and (min-width: 320px) and (max-width: 768px) {
+    .carousel-inner .carousel-item img {
+        height: 200px !important;
+    }
 }
