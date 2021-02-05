@@ -14,12 +14,12 @@ class DatabaseSeeder extends Seeder
     public function run()
     {
         $this->call([
-            // AdminGenerator::class,
-            // DefaultSettings::class
-            // DefaultBanners::class
+            AdminGenerator::class,
+            DefaultSettings::class,
+            DefaultBanners::class,
             // DefaultMenus::class
             // DefaultPages::class
-            // DefaultHomeLayout::class
+            DefaultHomeLayout::class,
             DefaultAttributes::class
         ]);
     }
