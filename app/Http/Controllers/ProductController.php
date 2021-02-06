@@ -32,7 +32,7 @@ class ProductController extends Controller
         try {
             $name = $request->name;
             $desc = $request->description;
-            $group = $request->group_id;
+            $group = $request->group_id ?? 0;
             $attrs = $request->attrs;
             $image = $request->image;
             $file_name = time();

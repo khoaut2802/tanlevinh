@@ -169,7 +169,7 @@
                 </div>
                 <div class="relative flex w-full flex-wrap items-stretch mb-3">
                     <select class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50" name="group_id" required>
-                        <option value="123">Chọn nhóm sản phẩm</option>
+                        <option value="">Chọn nhóm sản phẩm</option>
                         @foreach($groups as $group)
                             <option value="{{$group->id}}">{{$group->name}}</option>
                         @endforeach                        

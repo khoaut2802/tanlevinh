@@ -31,18 +31,21 @@ Route::group(['prefix' => env('DASHBOARD_PREFIX')], function($router) {
             $router->get('/', 'GroupController@index')->name('groups');
             $router->post('/', 'GroupController@index')->name('group_search');
         
-            $router->post('/add', 'GroupController@store')->name('add_group');            
+            $router->post('/add', 'GroupController@store')->name('add_group');  
+            
+            $router->get('/{id}', 'GroupController@detail')->name('group_detail');
+            $router->post('/{id}/delete', 'GroupController@delete')->name('group_delete');
         });
        
+        $router->group(['prefix' => 'menu'], function($router) {
+            $router->get('/', 'MenuController@index')->name('menu');
 
+            $router->post('/add', 'MenuController@store')->name('menu_add');
+            $router->post('/{id}/delete', 'MenuController@delete')->name('menu_delete');
+        });
 
-        $router->get('/menu', 'DashboardController@products')->name('menu');
         $router->get('/banners', 'DashboardController@products')->name('banners');
         $router->get('/settings', 'DashboardController@products')->name('settings');
-
-        //POST
-        
-
     });
 
     $router->get('/register', [RegisteredUserController::class, 'create'])
