@@ -14,18 +14,35 @@ Route::group(['prefix' => env('DASHBOARD_PREFIX')], function($router) {
 
     $router->group(['middleware' => 'auth'], function ($router) {
         $router->get('/', 'DashboardController@index')->name('dashboard');
-        $router->get('/products', 'DashboardController@products')->name('products');
-        $router->get('/groups', 'DashboardController@groups')->name('groups');
+
+        $router->group(['prefix' => 'products'], function($router) {
+            $router->get('/', 'ProductController@index')->name('products');
+            $router->post('/', 'ProductController@index')->name('product_search');
+
+            $router->post('/add', 'ProductController@store')->name('add_product');
+
+            $router->get('/update/{id}', 'ProductController@updateView')->name('product_update');
+            $router->post('/update/{id}', 'ProductController@update')->name('product_update_submit');
+            $router->post('/{id}/get-attr', 'ProductController@getAttr')->name('product_get_attr');
+            $router->post('/{id}/delete', 'ProductController@delete')->name('product_delete');
+        });
+
+        $router->group(['prefix' => 'groups'], function($router) {
+            $router->get('/', 'GroupController@index')->name('groups');
+            $router->post('/', 'GroupController@index')->name('group_search');
+        
+            $router->post('/add', 'GroupController@store')->name('add_group');            
+        });
+       
+
+
         $router->get('/menu', 'DashboardController@products')->name('menu');
         $router->get('/banners', 'DashboardController@products')->name('banners');
         $router->get('/settings', 'DashboardController@products')->name('settings');
 
         //POST
-        $router->post('/products', 'DashboardController@products')->name('product_search');
-        $router->post('/groups', 'DashboardController@groups')->name('group_search');
+        
 
-        $router->post('/products/add', 'ProductController@store')->name('add_product');
-        $router->post('/groups/add', 'GroupController@store')->name('add_group');
     });
 
     $router->get('/register', [RegisteredUserController::class, 'create'])

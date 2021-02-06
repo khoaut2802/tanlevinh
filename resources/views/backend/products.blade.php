@@ -19,6 +19,7 @@
                     <div class="py-8">
                         <div class="my-2 flex sm:flex-row flex-col justify-between items-center">
                             <form method="POST" action="{{route('product_search')}}" class="flex">
+                                @csrf
                             <div class="flex flex-row mb-1 sm:mb-0">
                                 <div class="relative">
                                     <select
@@ -34,7 +35,7 @@
                                     <select
                                         name="group"
                                         class="appearance-none h-full rounded-r border-t sm:rounded-r-none sm:border-r-0 border-r border-b block appearance-none w-full bg-white border-gray-400 text-gray-700 py-2 px-4 pr-8 leading-tight focus:outline-none focus:border-l focus:border-r focus:bg-white focus:border-gray-500">
-                                        <option value="*">All</option>
+                                        <option value="">All</option>
                                         @foreach($groups as $group)
                                             <option value="{{$group->id}}">{{$group->name}}</option>
                                         @endforeach
@@ -102,13 +103,14 @@
                                                 </p>
                                             </td>
                                             <td class="px-5 py-5 border-b border-gray-200 bg-white text-sm">
-                                                <button type="button" 
+                                                <a href="{{route('product_update', ['id' => $product['id']])}}"
                                                 class="bg-yellow-500 text-white active:bg-pink-600 font-bold uppercase text-xs px-4 py-2 rounded shadow hover:shadow-md outline-none focus:outline-none mr-1 mb-1"
                                                 >
                                                     Sửa
-                                                </button>                                                 
+                                                </a>                                                 
                                                 <button type="button" 
-                                                class="bg-red-500 text-white active:bg-pink-600 font-bold uppercase text-xs px-4 py-2 rounded shadow hover:shadow-md outline-none focus:outline-none mr-1 mb-1"
+                                                class="bg-red-500 text-white active:bg-pink-600 font-bold uppercase text-xs px-4 py-2 rounded shadow hover:shadow-md outline-none focus:outline-none mr-1 mb-1 deleteModal"
+                                                data-id="{{$product['id']}}"
                                                 >
                                                     Xóa
                                                 </button> 
