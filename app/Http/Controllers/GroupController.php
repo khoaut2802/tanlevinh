@@ -37,9 +37,28 @@ class GroupController extends Controller
                     redirect()->back()->withErrors('Nhóm sản phẩm đã tồn tại.');
                 }
 
+                $file = 'none';
+
+                if ($request->hasFile('image')) {
+                    if ($request->file('image')->isValid()) {
+                        $validated = $request->validate([
+                            'image' => 'mimes:jpeg,png,gif|max:2048',
+                        ]);                    
+                        
+                        $file_name = 'banner_'.time();
+                        $extension = $request->image->extension();
+                        $request->file('image')->storeAs('uploads',$file_name.".".$extension, 'public');
+    
+                        $file = 'storage/uploads/'.$file_name.".".$extension;                
+                    }         
+                }        
+
                 $data = [
-                    'name' => $request->name,
+                    'name'        => $request->name,
                     'description' => $request->description,
+                    'slug'        => slugtify($request->name),
+                    'image'       => $file,
+                    'image_type'  => $request->image_type,
                     'created_at'    => Carbon::now()
                 ];
             
@@ -49,8 +68,7 @@ class GroupController extends Controller
                     'parent_id'  => 0,
                     'group_id'   => $group,
                     'product_id' => 0,
-                    'name'       => $request->name,
-                    'slug'       => slugtify($request->name)
+                    'name'       => $request->name
                 ]);
             }       
 
@@ -68,6 +86,17 @@ class GroupController extends Controller
             return response()->json($e->gerMessage());
         }
     }
+
+    public function order(Request $request, $id)
+    {
+        try {
+            ProductGroups::where('id', $id)->update(['order' => $request->order ?? 0]);
+
+            return redirect()->back()->withSuccess('Lưu thay đổi thành công');
+        } catch(\Exception $e) {
+            return redirect()->back()->withErrors($e->getMessage());
+        }
+    }    
 
     public function delete(Request $request, $id)
     {

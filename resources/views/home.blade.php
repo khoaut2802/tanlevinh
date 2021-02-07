@@ -1,22 +1,18 @@
 <x-default-layout>
-    @foreach($layouts as $layout)
-    <section class="my-2">
-        @if($layout->component != null)
-            @include($layout->component)
-        @else
-            <div class="card">
-                <div class="card-body">
-                    @foreach($layout->menus as $menu)
-                    <h4>{{$menu->page->title}}</h4>
-                    <div class="row">
-                        <div class="col-12">
-                            {!! $menu->page->content !!}
-                        </div>
-                    </div>
-                    @endforeach
-                </div>
-            <div>
-        @endif
-    </section>
+    <div class="my-2 row no-gutters">
+    @foreach($groups as $group)
+    <div class="@if($group->image_type == 'card'){{'col-6 col-sm-3'}}@else{{'col-12'}}@endif p-2">
+		<figure class="card card-product-grid">
+            <a href="{{route('group', ['slug' => $group->slug])}}">
+                <div class="img-wrap"> <img src="{{asset($group->image)}}"> </div>
+                @if($group->image_type == 'card')
+                <figcaption class="info-wrap border-top">
+                    <span class="title">{{$group->name}}</span>
+                </figcaption>
+                @endif
+            </a>
+        </figure>
+	</div>
     @endforeach
+</div>
 </x-default-layout>

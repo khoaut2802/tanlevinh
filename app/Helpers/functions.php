@@ -31,12 +31,40 @@ if(!function_exists('getMenus')) {
             $ar[] = [
                 'id'   => $menu->id,
                 'name' => $menu->name,
-                'slug' => $menu->slug,
-                'sub_menus' => $menus->orderBy('order', 'ASC')->where('parent_id', $menu->id)->get() ?? []
+                'type' => $menu->type,
+                'link' => $menu->link,
+                'page_id' => $menu->page_id,
+                'group_id' => $menu->group_id,
+                'product_id' => $menu->product_id,
+                'sub_menus' => $menus->orderBy('order', 'ASC')->where('parent_id', $menu->id)->get()
             ];
         }
 
         return $ar;
+    }
+}
+
+if(!function_exists('getSlug')) {
+    function getSlug($key, $menu) {
+        if($key == 'parent') {
+            if($menu['group_id'] != 0) {
+                $groups = new \App\Models\ProductGroups;
+                $slug = '/group/'.$groups->where('id', $menu['group_id'])->first()->slug;
+            } else if($menu['product_id'] != 0) {
+                $products = new \App\Models\Products;
+                $slug = '/product/'.$products->where('id', $menu['product_id'])->first()->slug;            
+            } else if($menu['page_id'] != 0) {
+                $pages = new \App\Models\Pages;
+                $slug = '/page/'.$pages->where('id', $menu['page_id'])->first()->slug;   
+            } else {
+                $slug = $menu['link'];
+            }
+        } else {
+            $products = new \App\Models\Products;
+            $slug = '/product/'.$products->where('id', $menu['product_id'])->first()->slug;                 
+        }
+
+        return $slug;
     }
 }
 

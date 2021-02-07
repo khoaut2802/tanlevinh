@@ -13,5 +13,6 @@ use Illuminate\Support\Facades\Route;
 |
 */
 Route::get('/', 'HomeController@index')->name('home');
-
-Route::get('/{slug}', 'HomeController@page');
+Route::get('/group/{slug}', 'HomeController@group')->name('group');
+Route::get('/product/{slug}', 'HomeController@product')->name('product');
+Route::get('/page/{slug}', 'HomeController@page');

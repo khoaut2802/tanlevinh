@@ -10,7 +10,7 @@ use App\Http\Controllers\Auth\RegisteredUserController;
 use App\Http\Controllers\Auth\VerifyEmailController;
 use Illuminate\Support\Facades\Route;
 
-Route::group(['prefix' => env('DASHBOARD_PREFIX')], function($router) {
+Route::group(['prefix' => getSetting('admin_prefix')], function($router) {
 
     $router->group(['middleware' => 'auth'], function ($router) {
         $router->get('/', 'DashboardController@index')->name('dashboard');
@@ -34,6 +34,7 @@ Route::group(['prefix' => env('DASHBOARD_PREFIX')], function($router) {
             $router->post('/add', 'GroupController@store')->name('add_group');  
             
             $router->get('/{id}', 'GroupController@detail')->name('group_detail');
+            $router->post('/{id}/order', 'GroupController@order')->name('group_order');
             $router->post('/{id}/delete', 'GroupController@delete')->name('group_delete');
         });
        
@@ -44,8 +45,20 @@ Route::group(['prefix' => env('DASHBOARD_PREFIX')], function($router) {
             $router->post('/{id}/delete', 'MenuController@delete')->name('menu_delete');
         });
 
-        $router->get('/banners', 'DashboardController@products')->name('banners');
-        $router->get('/settings', 'DashboardController@products')->name('settings');
+        $router->group(['prefix' => 'banners'], function($router) {
+            $router->get('/', 'BannerController@index')->name('banners');
+
+            $router->post('/add', 'BannerController@store')->name('banner_add');
+            $router->post('/{id}/delete', 'BannerController@delete')->name('banner_delete');
+        });
+
+        $router->group(['prefix' => 'settings'], function($router) {
+            $router->get('/', 'SettingsController@index')->name('settings');
+
+            $router->post('/update', 'SettingsController@update')->name('settings_update');
+        });
+        
+        
     });
 
     $router->get('/register', [RegisteredUserController::class, 'create'])

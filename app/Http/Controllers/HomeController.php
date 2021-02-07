@@ -6,20 +6,27 @@ use Illuminate\Http\Request;
 use App\Models\Pages;
 use App\Models\Menus;
 use App\Models\HomeLayouts;
+use App\Models\ProductGroups;
 
 class HomeController extends Controller
 {
     public function index(Request $request)
     {
-        $layouts = HomeLayouts::with('menus', 'menus.page')->orderBy('order', 'ASC')->get();
-        // dd($layouts);
-        return view('home', compact('layouts'));
+        $groups = ProductGroups::orderBy('order', 'ASC')->get();
+
+        return view('home', compact('groups'));
     }
+
+    public function group(Request $request, $slug)
+    {
+        $group = ProductGroups::where('slug', $slug)->with('products')->orderBy('order', 'ASC')->first();
+
+        return view('group', compact('group'));
+    }   
     
     public function page(Request $request, $slug)
     {
-        $menu = Menus::where('slug', $slug)->first();
-        $page = Pages::where('menu_id', $menu->id)->first();
+        $page = Pages::where('slug', $slug)->first();
 
         return view('page', compact('page'));
     }

@@ -65,6 +65,18 @@
                                             </th>
                                             <th
                                                 class="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
+                                                Hình ảnh
+                                            </th>    
+                                            <th
+                                                class="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
+                                                Kiểu ảnh
+                                            </th>  
+                                            <th
+                                                class="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
+                                                Sắp xếp
+                                            </th>                                                                                                                              
+                                            <th
+                                                class="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
                                                 Tạo lúc
                                             </th>
                                             <th
@@ -86,6 +98,19 @@
                                             <td class="px-5 py-5 border-b border-gray-200 bg-white text-sm">
                                                 <p class="text-gray-900 whitespace-no-wrap">{{count($group['products'])}}</p>
                                             </td>
+                                            <td class="px-5 py-5 border-b border-gray-200 bg-white text-sm">
+                                                <p class="text-gray-900 whitespace-no-wrap"><img src="{{asset($group['image'])}}" class="img-responsive" width="100"/></p>
+                                            </td>   
+                                            <td class="px-5 py-5 border-b border-gray-200 bg-white text-sm">
+                                                <p class="text-gray-900 whitespace-no-wrap">{{$group['image_type'] == 'card' ? 'Vuông' : 'Chữ nhật'}}</p>
+                                            </td>      
+                                            <td class="px-5 py-5 border-b border-gray-200 bg-white text-sm">
+                                                <form method="POST" action="{{route('group_order', ['id' => $group['id']])}}">
+                                                    @csrf
+                                                    <input type="number" name="order" class="text-gray-900 whitespace-no-wrap w-20" value="{{$group['order']}}">
+                                                    <input type="submit" class="hidden" value="submit">
+                                                </form>
+                                            </td>                                                                                    
                                             <td class="px-5 py-5 border-b border-gray-200 bg-white text-sm">
                                                 <p class="text-gray-900 whitespace-no-wrap">
                                                     {{formatDate($group['created_at'])}}
@@ -144,7 +169,7 @@
           <span class="hidden sm:inline-block sm:align-middle sm:h-screen" aria-hidden="true">&#8203;</span>
     
           <div class="inline-block align-bottom bg-white rounded-lg text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-lg sm:w-full" role="dialog" aria-modal="true" aria-labelledby="modal-headline">
-            <form method="post" action="{{route('add_group')}}">
+            <form method="post" id="add_group_form">
                 @csrf
                 <input type="hidden" name="group_id">
                 <div class="bg-white px-4 pt-5 pb-4 sm:p-6 sm:pb-4">
@@ -157,7 +182,18 @@
                         </div>
                         <div class="relative flex w-full flex-wrap items-stretch mb-3">
                             <textarea name="description" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50" rows="3" placeholder="Mô tả" required></textarea>
-                        </div>                     
+                        </div>  
+                        <div class="flex content-between items-center my-2">
+                            <label class="mr-5 w-1/3">Kiểu ảnh:</label>
+                            <select name="image_type" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50" required>
+                                <option value="card">Vuông</option>      
+                                <option value="banner">Chữ nhật</option>                   
+                            </select>  
+                        </div>
+                        <div class="flex content-between items-center my-2">
+                            <label class="mr-5 w-1/3">Ảnh đại diện:</label>
+                            <input type="file" name="image" id="upload_image" class="mt-1 block w-full border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50" required>
+                        </div>                                                                     
                     </div>
                 </div>
                 <div class="bg-gray-50 px-4 py-3 sm:px-6 sm:flex sm:flex-row-reverse">

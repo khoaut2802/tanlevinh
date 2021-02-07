@@ -39,7 +39,7 @@ class ProductController extends Controller
             $file = 'none';
             $slug = slugtify($name);
 
-            if(Menus::where('slug', $slug)->exists()) {
+            if(Products::where('slug', $slug)->exists()) {
                 return response()->json('Sản phẩm đã tồn tại.', 400);
             }
 
@@ -81,7 +81,6 @@ class ProductController extends Controller
                 'group_id'  => $group,
                 'product_id'=> $result,
                 'name'      => $name,
-                'slug'      => $slug,
                 'order'     => 0,
                 'created_at'=> Carbon::now()
             ]);
@@ -131,7 +130,12 @@ class ProductController extends Controller
                 }
             }
 
+            if(Products::where('slug', slugtify($request->name))->exists()) {
+                return response()->json('Sản phẩm đã tồn tại.', 400);
+            }
+
             $product->name = $request->name;
+            $product->slug = slugtify($request->name);
             $product->description = $request->description;
             $product->group_id = $request->group_id;
 
