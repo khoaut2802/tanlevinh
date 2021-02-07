@@ -69,10 +69,12 @@ if(!function_exists('getSlug')) {
 }
 
 if(!function_exists('getAttr')) {
-    function getAttr($key) {
+    function getAttrValue($attr, $key) {
         $attrs = new \App\Models\Attributes;
+        $attr = $attrs->where('id', $attr)->first();
+        $result = json_decode($attr->options);
 
-        return $attrs;
+        return $result[$key];
     }
 }
 

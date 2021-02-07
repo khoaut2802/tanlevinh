@@ -247,6 +247,82 @@
 .brands_next {
     right: 40px
 }
+.attr-name {
+    min-width: 200px
+}
+.card-attr {
+    cursor: pointer;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-width: 100px;
+    padding: 10px 10px;
+    border: solid 1px #828383;
+    border-radius: 5px;
+    margin-right: 5px
+}
+.card-attr:hover {
+    border: solid 1px #2563ff;
+}
+.card-attr.active {
+    border: solid 1px #16b54b;
+}
+.card-attr p {
+    margin : 0
+}
+
+.gallery-wrap .img-big-wrap {
+    margin-bottom: 10px;
+    border-radius: 0.37rem;
+    overflow: hidden;
+    background-color: #fff;
+}
+
+.gallery-wrap .img-big-wrap a {
+    text-align: center;
+    display: block;
+}
+
+.gallery-wrap .img-big-wrap img {
+    height: 300px;
+    width: auto;
+    display: inline-block;
+    cursor: zoom-in;
+}
+
+.gallery-wrap .thumbs-wrap {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.gallery-wrap .thumbs-wrap .item-thumb {
+    width: 60px;
+    height: 60px;
+    border: 1px solid #ddd;
+    border-radius: 6px;
+    margin: 3px;
+    display: inline-block;
+    overflow: hidden;
+}
+
+.gallery-wrap .thumbs-wrap img {
+    max-width: 100%;
+    max-height: 100%;
+    -o-object-fit: cover;
+    object-fit: cover;
+    border-radius: 4px;
+    cursor: zoom-in;
+}
+
+.position-fixed {
+    position: fixed;
+    top: 0;
+}
+
+.position-absolute {
+    position: absolute;
+    bottom: 0px;
+}
 
 @media only screen and (min-width: 320px) and (max-width: 768px) {
     .carousel-inner .carousel-item img {
@@ -255,4 +331,7 @@
     .carousel-inner .carousel-item img.top-banner {
         height: 60px !important;
     }    
+    .attr-name {
+        min-width: 100px
+    }
 }

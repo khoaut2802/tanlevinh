@@ -58,7 +58,9 @@ Route::group(['prefix' => getSetting('admin_prefix')], function($router) {
             $router->post('/update', 'SettingsController@update')->name('settings_update');
         });
         
-        
+        $router->group(['prefix' => 'orders'], function($router) {
+            $router->post('/create', 'OrdersController@store')->name('orders_create');
+        });
     });
 
     $router->get('/register', [RegisteredUserController::class, 'create'])

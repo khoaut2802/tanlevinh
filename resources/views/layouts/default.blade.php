@@ -124,7 +124,7 @@
                 </nav>  
             </header>
 
-            @if(getSetting('enable_main_banner') == 'on')
+            @if(getSetting('enable_main_banner') == 'on' && request()->route()->getName() != 'product')
             <div class="main-banner my-2">
                 <div id="carousel" class="carousel slide" class="carousel slide" data-ride="carousel">
                     <ol class="carousel-indicators">
@@ -292,6 +292,7 @@
         <script src="{{ asset('assets/js/jquery-3.5.1.min.js') }}"></script>
         <script src="{{ asset('assets/js/bootstrap.min.js') }}"></script>
         <script src="{{ asset('assets/js/owl-carousel/owl.carousel.min.js') }}"></script>
+        {{$script ?? ''}}
         <script>
             if ($('.brands_slider').length) {
                 var brandsSlider = $('.brands_slider');
@@ -303,7 +304,7 @@
                     nav: false,
                     dots: false,
                     autoWidth: true,
-                    items: 6,
+                    items: 9,
                     margin: 20
                 });
 

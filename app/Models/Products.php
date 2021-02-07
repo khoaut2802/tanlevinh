@@ -15,4 +15,14 @@ class Products extends Model
     {
         return $this->belongsTo(ProductGroups::class, 'group_id', 'id');
     }
+
+    public function attributes()
+    {
+        return $this->hasMany(ProductAttrs::class, 'product_id', 'id');
+    }
+
+    public function images()
+    {
+        return $this->hasMany(ProductImages::class, 'product_id', 'id');
+    }
 }

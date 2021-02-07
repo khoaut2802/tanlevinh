@@ -13,4 +13,9 @@ class ProductAttrs extends Model
     {
         return $this->belongsTo(Attributes::class, 'attr_id', 'id');
     }
+
+    public function product()
+    {
+        return $this->belongsTo(Product::class, 'product_id', 'id');
+    }
 }
