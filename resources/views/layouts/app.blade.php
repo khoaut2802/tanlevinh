@@ -25,7 +25,7 @@
         <script src="{{ asset('assets/js/spectrum/spectrum.min.js') }}" defer></script>
         <script src="{{ asset('assets/js/custom.js') }}" defer></script>
         <script>
-            window.web_url = '{{asset("/".env('DASHBOARD_PREFIX'))}}';
+            window.web_url = '{{asset("/".getSetting('admin_prefix'))}}';
             @if(request()->route()->id) window.slug = {{request()->route()->id}}; @endif
         </script>
     </head>
