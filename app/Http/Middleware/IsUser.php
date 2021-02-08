@@ -20,7 +20,11 @@ class IsUser
         if(Auth::user()->user_type == 'user') {
             return $next($request);
         } else {
-            return redirect()->route('home');
+            if(Auth::user()->user_type == 'admin') {
+                return redirect()->route('dashboard');
+            } else {
+                return redirect()->route('home');
+            }
         }
     }
 }
