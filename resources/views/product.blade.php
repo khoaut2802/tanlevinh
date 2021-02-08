@@ -1,4 +1,7 @@
 <x-default-layout>
+    @php
+        $sumTotal = $product->price ?? 0;
+    @endphp
     <div class="my-2 row" id="main-div">
     <div class="col-12 my-2">
         <h3>{{$product->product_group->name}} / {{$product->name}}:</h3>
@@ -9,6 +12,7 @@
                     <h4>Chọn thuộc tính cho sản phẩm:</h4>
                     <form method="POST" action="{{route('orders_create')}}" id="createOrderForm">
                     @foreach($product->attributes as $attr)
+
                         <input type="hidden" name="attr_{{$attr->attr_id}}" value="{{json_decode($attr->values)[0]}}">
                         <div class="d-flex justify-content-left align-items-center my-3">
                             <span class="attr-name font-weight-bold">{{$attr->attr->name}}</span>
@@ -17,16 +21,18 @@
                                 @foreach(json_decode($attr->values) as $option)
                                     @php
                                         $attrDetail = getAttrValue($attr->attr_id, $option);
+                                        $sumTotal = $sumTotal + $attrDetail->price ?? 0;
                                     @endphp
-                                    <option value="{{$option}}" data-price="{{$attrDetail->price}}">{{$attrDetail->name}}</option>
+                                    <option value="{{$option}}" data-price="{{$attrDetail->price ?? 0}}">{{$attrDetail->name}}</option>
                                 @endforeach
                             </select>
                             @elseif($attr->attr->type == 'card')
                                 @foreach(json_decode($attr->values) as $option)
                                     @php
                                         $attrDetail = getAttrValue($attr->attr_id, $option);
+                                        $sumTotal = $sumTotal + $attrDetail->price ?? 0;
                                     @endphp
-                                    <div class="card-attr @if($loop->first){{'active'}}@endif" data-attr="{{$attr->attr_id}}" data-option="{{$option}}" data-price="{{$attrDetail->price}}">
+                                    <div class="card-attr @if($loop->first){{'active'}}@endif" data-attr="{{$attr->attr_id}}" data-option="{{$option}}" data-price="{{$attrDetail->price ?? 0}}">
                                         <p>{{$attrDetail->name}}</p>
                                     </div>                                
                                 @endforeach                        
@@ -44,26 +50,10 @@
                     <h4>Tóm tắt đơn hàng:</h4>
                     <dl class="d-flex">
                         <dt style="width: 150px">Total price:</dt>
-                        <dd style="flex-grow: 1" class="text-right">$69.97</dd>
-                      </dl>
-                      <dl class="d-flex">
-                        <dt style="width: 150px">Discount:</dt>
-                        <dd style="flex-grow: 1"class="text-right text-danger">- $10.00</dd>
-                      </dl>
-                      <dl class="d-flex">
-                        <dt style="width: 150px">Total:</dt>
-                        <dd style="flex-grow: 1" class="text-right text-dark b"><strong>$59.97</strong></dd>
+                        <dd style="flex-grow: 1" class="text-right">{{number_format($sumTotal)}}</dd>
                       </dl>
                       <hr>
-                      <textarea class="form-control" placeholder="Ghi chú"></textarea>
-                      <div class="input-group mb-3 mt-2">
-                        <input type="text" class="form-control" name="" placeholder="Mã giảm giá (nếu có)">
-                        <span class="input-group-append"> 
-                            <button class="btn btn-primary">Ok</button>
-                        </span>
-                      </div>
-
-                      <a href="#" class="btn btn-primary btn-block">Đặt hàng</a>                    
+                      <a href="#" class="btn btn-primary btn-block">Thêm vào giỏ hàng</a>                    
                 </div>
             </div>
             <div class="card mt-3">

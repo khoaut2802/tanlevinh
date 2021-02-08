@@ -21,6 +21,13 @@
                         {{ __('Sản phẩm') }}
                     </x-nav-link>
                 </div> 
+
+                <div class="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex">
+                    <x-nav-link :href="route('attributes')" :active="request()->routeIs('attributes')">
+                        {{ __('Thuộc tính') }}
+                    </x-nav-link>
+                </div> 
+
                 <div class="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex">
                     <x-nav-link :href="route('menu')" :active="request()->routeIs('menu')">
                         {{ __('Menu') }}
@@ -89,6 +96,10 @@
 
             <x-responsive-nav-link :href="route('products')" :active="request()->routeIs('products')">
                 {{ __('Sản phẩm') }}
+            </x-responsive-nav-link>
+
+            <x-responsive-nav-link :href="route('attributes')" :active="request()->routeIs('attributes')">
+                {{ __('Thuộc tính') }}
             </x-responsive-nav-link>
             
             <x-responsive-nav-link :href="route('menu')" :active="request()->routeIs('menu')">

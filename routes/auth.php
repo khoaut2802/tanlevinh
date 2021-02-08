@@ -12,7 +12,7 @@ use Illuminate\Support\Facades\Route;
 
 Route::group(['prefix' => getSetting('admin_prefix')], function($router) {
 
-    $router->group(['middleware' => 'auth'], function ($router) {
+    $router->group(['middleware' => ['auth', 'auth.admin']], function ($router) {
         $router->get('/', 'DashboardController@index')->name('dashboard');
 
         $router->group(['prefix' => 'products'], function($router) {
@@ -37,7 +37,15 @@ Route::group(['prefix' => getSetting('admin_prefix')], function($router) {
             $router->post('/{id}/order', 'GroupController@order')->name('group_order');
             $router->post('/{id}/delete', 'GroupController@delete')->name('group_delete');
         });
-       
+
+        $router->group(['prefix' => 'attributes'], function($router) {
+            $router->get('/', 'AttributesController@index')->name('attributes');
+
+            $router->post('/add', 'AttributesController@store')->name('attributes_add');
+            $router->post('/update', 'AttributesController@update')->name('attributes_update');
+            $router->post('/delete', 'AttributesController@delete')->name('attributes_delete');
+        });
+
         $router->group(['prefix' => 'menu'], function($router) {
             $router->get('/', 'MenuController@index')->name('menu');
 
@@ -61,25 +69,7 @@ Route::group(['prefix' => getSetting('admin_prefix')], function($router) {
         $router->group(['prefix' => 'orders'], function($router) {
             $router->post('/create', 'OrdersController@store')->name('orders_create');
         });
-    });
-
-    $router->get('/register', [RegisteredUserController::class, 'create'])
-                    ->middleware('guest')
-                    ->name('register');
-
-    $router->post('/register', [RegisteredUserController::class, 'store'])
-                    ->middleware('guest');
-
-    $router->get('/login', [AuthenticatedSessionController::class, 'create'])
-                    ->middleware('guest')
-                    ->name('login');
-
-    $router->post('/login', [AuthenticatedSessionController::class, 'store'])
-                    ->middleware('guest');
-
-    $router->post('/logout', [AuthenticatedSessionController::class, 'destroy'])
-    ->middleware('auth')
-    ->name('logout');                    
+    });                 
 
     // $router->get('/forgot-password', [PasswordResetLinkController::class, 'create'])
     //                 ->middleware('guest')
@@ -117,3 +107,28 @@ Route::group(['prefix' => getSetting('admin_prefix')], function($router) {
     //                 ->middleware('auth');
 
 });
+
+Route::group(['prefix' => 'user', 'middleware' => 'auth.user', 'as' => 'user.'], function($router) {
+    $router->get('/', 'UserController@index')->name('dashboard');
+});
+
+$router->get('/register', [RegisteredUserController::class, 'create'])
+->middleware('guest')
+->name('register');
+
+$router->post('/register', [RegisteredUserController::class, 'store'])
+->middleware('guest');
+
+$router->get('/login', [AuthenticatedSessionController::class, 'create'])
+->middleware('guest')
+->name('login');
+
+$router->post('/login', [AuthenticatedSessionController::class, 'store'])
+->middleware('guest');
+
+$router->post('/logout', [AuthenticatedSessionController::class, 'destroy'])
+->middleware('auth')
+->name('logout');   
+
+$router->get('/logout', [AuthenticatedSessionController::class, 'destroy'])->middleware('auth')
+->name('logout2');

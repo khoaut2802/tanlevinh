@@ -38,6 +38,12 @@
                     </div>
                     <div class="grid md:grid-cols-2 sm:grid-cols-1 my-2">
                         <div class="flex content-between items-center">
+                            <label class="mr-5 w-1/3">Giá:</label>
+                            <input type="number" name="price" min="0" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50" placeholder="Nhập giá sản phẩm" value="{{$product['price']}}" required>
+                        </div>                      
+                    </div>                    
+                    <div class="grid md:grid-cols-2 sm:grid-cols-1 my-2">
+                        <div class="flex content-between items-center">
                             <label class="mr-5 w-1/3">Thuộc nhóm:</label>
                             <select class="select2" name="group_id" class="mb-3">
                                 @foreach($groups as $group)
@@ -56,7 +62,7 @@
                             <div class="w-full mb-2">
                                 <select class="select2 attrs" name="attr_{{$attr->attr->id}}[]" multiple="multiple" class="mb-3" data-selected="{{$attr->values}}">
                                     @foreach(json_decode($attr->attr->options) as $key => $value)
-                                        <option value="{{$key}}" @if($attr->attr->type == 'color')title="{{$value->value}}"@endif>{{ $value->name }}</option>
+                                        <option value="{{$key}}">{{ $value->name }}</option>
                                     @endforeach                      
                                 </select>                                                              
                             </div>

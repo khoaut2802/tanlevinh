@@ -38,4 +38,9 @@ class HomeController extends Controller
 
         return view('page', compact('page'));
     }
+
+    public function cart(Request $request)
+    {
+        return view('cart');
+    }
 }

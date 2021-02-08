@@ -31,6 +31,7 @@ class ProductController extends Controller
     {
         try {
             $name = $request->name;
+            $price = $request->price;
             $desc = $request->description;
             $group = $request->group_id ?? 0;
             $attrs = $request->attrs;
@@ -58,10 +59,12 @@ class ProductController extends Controller
 
             $result = Products::insertGetId([
                 'name' => $name,
+                'price'     => $price ?? 0,
                 'description' => $desc,
                 'group_id'    => $group,
                 'attrs'       => json_encode($attrs),
                 'image'       => $file,
+                'slug'        => $slug,
                 'created_at'  => Carbon::now()
             ]);
             
@@ -130,11 +133,12 @@ class ProductController extends Controller
                 }
             }
 
-            if(Products::where('slug', slugtify($request->name))->exists()) {
+            if($product->name != $request->name && Products::where('slug', slugtify($request->name))->exists()) {
                 return response()->json('Sản phẩm đã tồn tại.', 400);
             }
 
             $product->name = $request->name;
+            $product->price = $request->price ?? 0;
             $product->slug = slugtify($request->name);
             $product->description = $request->description;
             $product->group_id = $request->group_id;

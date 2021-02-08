@@ -12,6 +12,7 @@
         <link rel="stylesheet" href="{{ asset('assets/css/remixicon.css') }}">
         <link rel="stylesheet" href="{{ asset('assets/css/owl-carousel/owl.carousel.min.css') }}">
         <link rel="stylesheet" href="{{ asset('assets/css/owl-carousel/owl.theme.default.css') }}">
+        <link rel="stylesheet" href="{{ asset('assets/css/datatable/dataTables.bootstrap4.min.css') }}">
         <link rel="stylesheet" href="{{ asset('assets/css/styles.css') }}">
     </head>
     <body class="bg-gray">
@@ -129,40 +130,6 @@
                     </div>
                 </nav>  
             </header>
-
-            
-            @if(getSetting('enable_main_banner') == 'on' && !request()->routeIs('product'))
-            <div class="main-banner my-2">
-                <div id="carousel" class="carousel slide" class="carousel slide" data-ride="carousel">
-                    <ol class="carousel-indicators">
-                    @for($i = 1; $i <= count(getBanner('main')); $i++)
-                      <li data-target="#carousel" data-slide-to="{{$i}}" @if($i == 1)class="active"@endif></li>
-                    @endfor
-                    </ol>
-                    <div class="carousel-inner">
-                    @foreach(getBanner('main') as $banner)
-                      <div class="carousel-item @if($loop->first) active @endif" data-interval="5000">
-                        <a href="{{$banner->link}}">
-                            <img src="{{ asset($banner->image) }}" class="d-block w-100" height="350" alt="{{$banner->name}}" style="object-fit: cover"/>
-                            <div class="carousel-caption d-none d-md-block">
-                                <h5>{{$banner->name}}</h5>
-                            </div>                            
-                        </a>
-                      </div>
-                      @endforeach
-                    </div>
-                    
-                    <a class="carousel-control-prev" href="#carousel" role="button" data-slide="prev">
-                      <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-                      <span class="sr-only">Previous</span>
-                    </a>
-                    <a class="carousel-control-next" href="#carousel" role="button" data-slide="next">
-                      <span class="carousel-control-next-icon" aria-hidden="true"></span>
-                      <span class="sr-only">Next</span>
-                    </a>
-                  </div>                
-            </div>
-            @endif
             
             <!-- Page Content -->
             <section class="mt-2">
@@ -265,7 +232,7 @@
           <ul class="list-unstyled mb-0">
             <li class="mb-2"><a href="#" class="text-muted">Đăng nhập</a></li>
             <li class="mb-2"><a href="#" class="text-muted">Đăng ký</a></li>
-            <li class="mb-2"><a href="{{route('cart')}}" class="text-muted">Giỏ hàng</a></li>
+            <li class="mb-2"><a href="#" class="text-muted">Giỏ hàng</a></li>
             <li class="mb-2"><a href="#" class="text-muted">Liên hẹ</a></li>
           </ul>
         </div>
@@ -299,8 +266,12 @@
         <script src="{{ asset('assets/js/jquery-3.5.1.min.js') }}"></script>
         <script src="{{ asset('assets/js/bootstrap.min.js') }}"></script>
         <script src="{{ asset('assets/js/owl-carousel/owl.carousel.min.js') }}"></script>
+        <script src="{{ asset('assets/js/datatable/jquery.dataTables.min.js') }}"></script>
+        <script src="{{ asset('assets/js/datatable/dataTables.bootstrap4.js') }}"></script>
         {{$script ?? ''}}
         <script>
+            $('#datatable').DataTable()
+            
             if ($('.brands_slider').length) {
                 var brandsSlider = $('.brands_slider');
 

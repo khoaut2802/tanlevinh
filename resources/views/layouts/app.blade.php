@@ -28,6 +28,7 @@
             window.web_url = '{{asset("/".getSetting('admin_prefix'))}}';
             @if(request()->route()->id) window.slug = {{request()->route()->id}}; @endif
         </script>
+        {{$script ?? ''}}
     </head>
     <body class="font-sans antialiased">
         <div class="min-h-screen bg-gray-100">

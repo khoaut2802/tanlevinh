@@ -324,6 +324,40 @@
     bottom: 0px;
 }
 
+.itemside {
+    position: relative;
+    display: flex;
+    width: 100%;
+}
+.itemside .aside {
+    position: relative;
+    flex-shrink: 0;
+}
+
+.img-sm {
+    width: 80px;
+    height: 80px;
+}
+
+.itemside .info {
+    padding-left: 15px;
+    padding-right: 7px;
+}
+
+.itemside .title {
+    display: block;
+    margin-bottom: 5px;
+    color: #212529;
+}
+.itemside p {
+    margin-bottom: 0;
+}
+@media (max-width: 992px) {
+    .table-shopping-cart .itemside .info {
+        padding: 0;
+    }
+}
+
 @media only screen and (min-width: 320px) and (max-width: 768px) {
     .carousel-inner .carousel-item img {
         height: 200px !important;
