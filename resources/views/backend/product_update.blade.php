@@ -41,7 +41,20 @@
                             <label class="mr-5 w-1/3">Giá:</label>
                             <input type="number" name="price" min="0" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50" placeholder="Nhập giá sản phẩm" value="{{$product['price']}}" required>
                         </div>                      
-                    </div>                    
+                    </div> 
+                    <div class="grid md:grid-cols-2 sm:grid-cols-1 my-2">
+                        <div class="flex content-between items-center">
+                            <label class="mr-5 w-1/3">Đơn vị:</label>
+                            <input type="text" name="unit" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50" placeholder="Nhập đơn vị" value="{{$product['unit']}}" required>
+                        </div>                      
+                    </div>     
+                    <div class="grid md:grid-cols-2 sm:grid-cols-1 my-2">
+                        <div class="flex content-between items-center">
+                            <label class="mr-5 w-1/3">Số lượng:</label>
+                            <input type="text" name="min_qty" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50" placeholder="Nhập đơn vị" value="{{$product['min_qty']}}" required>
+                        </div>                 
+                    </div>       
+                    <small>Nhập số 0 nếu không có giới hạn số lượng, nếu có số lượng vui lòng nhập khoảng cách bằng dấu phẩy : ví dụ: 10,20,30</small>            
                     <div class="grid md:grid-cols-2 sm:grid-cols-1 my-2">
                         <div class="flex content-between items-center">
                             <label class="mr-5 w-1/3">Thuộc nhóm:</label>

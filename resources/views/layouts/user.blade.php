@@ -13,6 +13,7 @@
         <link rel="stylesheet" href="{{ asset('assets/css/owl-carousel/owl.carousel.min.css') }}">
         <link rel="stylesheet" href="{{ asset('assets/css/owl-carousel/owl.theme.default.css') }}">
         <link rel="stylesheet" href="{{ asset('assets/css/datatable/dataTables.bootstrap4.min.css') }}">
+        <link rel="stylesheet" href="{{ asset('assets/css/sweetalert2.min.css') }}">
         <link rel="stylesheet" href="{{ asset('assets/css/styles.css') }}">
     </head>
     <body class="bg-gray">
@@ -88,7 +89,7 @@
                             </li>
                             @endif
                             <li class="nav-item">
-                                <a class="nav-link" href="#"><i class="ri-shopping-cart-line"></i> Giỏ hàng</a>
+                                <a class="nav-link" href="{{route('cart')}}"><i class="ri-shopping-cart-line"></i> Giỏ hàng</a>
                             </li>
                         </ul>
                     </div>
@@ -264,13 +265,15 @@
 
         <!-- Scripts -->
         <script src="{{ asset('assets/js/jquery-3.5.1.min.js') }}"></script>
+        <script src="{{ asset('assets/js/popper.min.js') }}"></script>
         <script src="{{ asset('assets/js/bootstrap.min.js') }}"></script>
         <script src="{{ asset('assets/js/owl-carousel/owl.carousel.min.js') }}"></script>
         <script src="{{ asset('assets/js/datatable/jquery.dataTables.min.js') }}"></script>
         <script src="{{ asset('assets/js/datatable/dataTables.bootstrap4.js') }}"></script>
+        <script src="{{ asset('assets/js/sweetalert2.min.js') }}"></script>
         {{$script ?? ''}}
         <script>
-            $('#datatable').DataTable()
+            $('.datatable').DataTable({"autoWidth": true})
             
             if ($('.brands_slider').length) {
                 var brandsSlider = $('.brands_slider');

@@ -87,7 +87,7 @@
                             </li>
                             @endif
                             <li class="nav-item">
-                                <a class="nav-link" href="#"><i class="ri-shopping-cart-line"></i> Giỏ hàng</a>
+                                <a class="nav-link" href="{{route('cart')}}"><i class="ri-shopping-cart-line"></i> Giỏ hàng</a>
                             </li>
                         </ul>
                     </div>

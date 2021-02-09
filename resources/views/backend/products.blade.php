@@ -187,7 +187,10 @@
                 </div>
                 <div class="relative flex w-full flex-wrap items-stretch mb-3">
                     <input type="number" name="price" min="0" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50" placeholder="Nhập giá sản phẩm" required>
-                </div>                
+                </div>   
+                <div class="relative flex w-full flex-wrap items-stretch mb-3">
+                    <input type="text" name="unit" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50" placeholder="Đơn vị (mặc định: cái)"required>
+                </div>             
                 <label class="block">Chọn ảnh đại diện: </label>
                 <div class="relative flex w-full flex-wrap items-stretch mb-3">
                     <input type="file" name="image" id="upload_image" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50" required>

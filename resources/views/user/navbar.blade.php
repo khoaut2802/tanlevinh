@@ -8,10 +8,10 @@
     <a class="nav-link" href="#">Quản lý tác phẩm</a>
     </li>
     <li class="nav-item">
-    <a class="nav-link" href="#">Tài khoản</a>
+    <a class="nav-link" href="{{route('user.profile')}}">Tài khoản</a>
     </li>
     <li class="nav-item">
-    <a class="nav-link" href="#">Đổi mật khẩu</a>
+    <a class="nav-link" href="{{route('user.password')}}">Đổi mật khẩu</a>
     </li>
     <li class="nav-item">
     <a class="nav-link" href="{{route('logout2')}}">Thoát</a>

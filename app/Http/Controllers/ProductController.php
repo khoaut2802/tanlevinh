@@ -32,6 +32,7 @@ class ProductController extends Controller
         try {
             $name = $request->name;
             $price = $request->price;
+            $unit = $request->unit ?? 'cái';
             $desc = $request->description;
             $group = $request->group_id ?? 0;
             $attrs = $request->attrs;
@@ -58,8 +59,9 @@ class ProductController extends Controller
             }
 
             $result = Products::insertGetId([
-                'name' => $name,
-                'price'     => $price ?? 0,
+                'name'        => $name,
+                'price'       => $price ?? 0,
+                'unit'        => $unit,
                 'description' => $desc,
                 'group_id'    => $group,
                 'attrs'       => json_encode($attrs),
@@ -137,8 +139,15 @@ class ProductController extends Controller
                 return response()->json('Sản phẩm đã tồn tại.', 400);
             }
 
+            $check_qty = explode(',',$request->min_qty);
+            if(count($check_qty) <= 0 || !is_numeric(str_replace(',', '',$request->min_qty))) {
+                return response()->json('Số lượng bạn nhập không hợp lệ', 400);
+            }
+
             $product->name = $request->name;
+            $product->min_qty = $request->min_qty ?? 0;
             $product->price = $request->price ?? 0;
+            $product->unit = $request->unit ?? 'cái';
             $product->slug = slugtify($request->name);
             $product->description = $request->description;
             $product->group_id = $request->group_id;

@@ -15,5 +15,9 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', 'HomeController@index')->name('home');
 Route::get('/group/{slug}', 'HomeController@group')->name('group');
 Route::get('/product/{slug}', 'HomeController@product')->name('product');
+
 Route::get('/cart', 'HomeController@cart')->name('cart');
+Route::post('/cart', 'HomeController@cartAdd')->name('cart.add');
+Route::post('/cart/delete', 'HomeController@cartDelete')->name('cart.delete');
+
 Route::get('/page/{slug}', 'HomeController@page');

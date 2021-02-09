@@ -68,7 +68,7 @@ if(!function_exists('getSlug')) {
     }
 }
 
-if(!function_exists('getAttr')) {
+if(!function_exists('getAttrValue')) {
     function getAttrValue($attr, $key) {
         $attrs = new \App\Models\Attributes;
         $attr = $attrs->where('id', $attr)->first();
@@ -126,5 +126,32 @@ if(!function_exists('slugtify')) {
         $str = str_replace(' ','_',$str);
         
         return $str;        
+    }
+}
+
+if(!function_exists('getProductDetail')) {
+    function getProductDetail($id)
+    {
+        $product = new \App\Models\Products;
+
+        return $product->where('id', $id)->first();
+    }
+}
+
+if(!function_exists('getCartAttrs')) {
+    function getCartAttrs($item)
+    {
+        $attrs = [];
+        $attributes = new \App\Models\Attributes;
+
+        foreach($item as $key => $value) {
+            if(strpos($key, 'attr') !== false) {
+                $id = str_replace('attr_', '', $key);
+                $attr = $attributes->where('id', $id)->first();
+                $attrs[] = ['id' => $id, 'name' => $attr->name, 'values' => json_decode($attr->options, true)[$value]];
+            }
+        }
+
+        return $attrs;
     }
 }

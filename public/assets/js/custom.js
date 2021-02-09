@@ -99,7 +99,7 @@ $(document).ready(function() {
             type: 'POST',
             contentType: false, // NEEDED, DON'T OMIT THIS (requires jQuery 1.6+)
             processData: false, // NEEDED, DON'T OMIT THIS
-            success: function(msg) {
+            success: function(result) {
                 swal({
                     title: "Congratulations!",
                     text: "Bạn đã cập nhật sản phẩm thành công.",
@@ -113,7 +113,22 @@ $(document).ready(function() {
                         window.location.reload()
                     }
                 })
-            }
+            },
+            complete: function(xhr, textStatus) {
+                if(xhr.status != 200) {
+                    console.log(xhr)
+                    swal({
+                        title: "Đã xảy ra lỗi!",
+                        text: xhr.responseJSON,
+                        type: "error",
+                        timer: 3000,
+                        showCancelButton: false,
+                        showCloseButton: false,
+                        showConfirmButton: false,
+                        showLoaderOnConfirm: true
+                    })                    
+                }
+            } 
         });        
     })
 

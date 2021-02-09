@@ -18,7 +18,7 @@ class CreateOrderDetailsTable extends Migration
             $table->string('order_id');
             $table->integer('product_id');
             $table->text('product_attrs');
-            $table->integer('quantiy');
+            $table->integer('quantity');
             $table->double('price', 10, 2);
             $table->timestamps();
         });

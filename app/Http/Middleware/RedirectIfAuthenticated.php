@@ -26,7 +26,7 @@ class RedirectIfAuthenticated
                 if(Auth::user()->user_type == 'admin') {
                     return redirect()->route('dashboard');
                 } else {
-                    return redirect()->route('home');
+                    return redirect()->route($request->get('return', 'home'));
                 }
             }
         }

@@ -352,6 +352,18 @@
 .itemside p {
     margin-bottom: 0;
 }
+
+.dlist-align {
+    display: flex;
+    justify-content: space-between;
+    align-self: center;
+}
+
+#datatable th, #datatable td {
+    font-size: 12px;
+}
+
+.dropdown-toggle:after { content: none }
 @media (max-width: 992px) {
     .table-shopping-cart .itemside .info {
         padding: 0;

@@ -110,6 +110,19 @@ Route::group(['prefix' => getSetting('admin_prefix')], function($router) {
 
 Route::group(['prefix' => 'user', 'middleware' => 'auth.user', 'as' => 'user.'], function($router) {
     $router->get('/', 'UserController@index')->name('dashboard');
+    $router->get('/profile', 'UserController@profile')->name('profile');
+    $router->get('/password', 'UserController@password')->name('password');
+
+    $router->post('/update', 'UserController@update')->name('update');
+    $router->post('/update-password', 'UserController@updatePassword')->name('update.password');
+
+    $router->group(['prefix' => 'order'], function($router) {
+        $router->get('/detail/{code}', 'UserController@detailOrder')->name('order.detail');
+        
+        $router->post('/create', 'UserController@createOrder')->name('order.create');
+
+        $router->post('/cancel', 'UserController@cancelOrder')->name('order.cancel');
+    });
 });
 
 $router->get('/register', [RegisteredUserController::class, 'create'])
