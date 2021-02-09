@@ -5,7 +5,7 @@
             <div class="flex">
                 <!-- Logo -->
                 <div class="flex-shrink-0 flex items-center">
-                    <a href="{{ route('dashboard') }}">
+                    <a href="{{ route('home') }}">
                         <x-application-logo class="block h-10 w-auto fill-current text-gray-600" />
                     </a>
                 </div>
@@ -16,6 +16,13 @@
                         {{ __('Tổng quan') }}
                     </x-nav-link>
                 </div>
+
+                <div class="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex">
+                    <x-nav-link :href="route('orders')" :active="request()->routeIs('orders')">
+                        {{ __('Đơn hàng') }}
+                    </x-nav-link>
+                </div> 
+
                 <div class="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex">
                     <x-nav-link :href="route('products')" :active="request()->routeIs('products')">
                         {{ __('Sản phẩm') }}
@@ -37,7 +44,12 @@
                     <x-nav-link :href="route('banners')" :active="request()->routeIs('banners')">
                         {{ __('Banner') }}
                     </x-nav-link>
-                </div>     
+                </div> 
+                <div class="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex">
+                    <x-nav-link :href="route('pages')" :active="request()->routeIs('pages')">
+                        {{ __('Trang') }}
+                    </x-nav-link>
+                </div>         
                 <div class="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex">
                     <x-nav-link :href="route('settings')" :active="request()->routeIs('settings')">
                         {{ __('Cài đặt') }}
@@ -94,6 +106,10 @@
                 {{ __('Tổng quan') }}
             </x-responsive-nav-link>
 
+            <x-responsive-nav-link :href="route('orders')" :active="request()->routeIs('orders')">
+                {{ __('Đơn hàng') }}
+            </x-responsive-nav-link>
+
             <x-responsive-nav-link :href="route('products')" :active="request()->routeIs('products')">
                 {{ __('Sản phẩm') }}
             </x-responsive-nav-link>
@@ -108,6 +124,11 @@
 
             <x-responsive-nav-link :href="route('banners')" :active="request()->routeIs('banners')">
                 {{ __('Banner') }}
+            </x-responsive-nav-link>
+
+
+            <x-responsive-nav-link :href="route('pages')" :active="request()->routeIs('pages')">
+                {{ __('Trang') }}
             </x-responsive-nav-link>
 
             <x-responsive-nav-link :href="route('settings')" :active="request()->routeIs('settings')">

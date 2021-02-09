@@ -40,13 +40,13 @@
                                     <select name="page" class="block w-full mt-1 rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50" :required="showPages == true">
                                       <option value="">Chọn trang</option>
                                       @foreach($pages as $page)
-                                        <option value="{{$page->id}}">{{$page->name}}</option>
+                                        <option value="{{$page->id}}">{{$page->title}}</option>
                                       @endforeach
                                     </select>
                                 </label> 
-                                <label class="block my-2">
+                                <label class="block my-2" x-show="showPages != true">
                                     <span class="text-gray-700">Nhập liên kết</span>
-                                    <input type="text" name="link" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50" placeholder="http://example.com" required>
+                                    <input type="text" name="link" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50" placeholder="http://example.com" :required="showPages != true">
                                 </label>                                                              
                               </div>
                         </div>

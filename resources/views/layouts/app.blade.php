@@ -16,9 +16,10 @@
         <link rel="stylesheet" href="{{ asset('assets/css/select2/select2.min.css') }}">
         <link rel="stylesheet" href="{{ asset('assets/css/sweetalert2.min.css') }}">
         <link rel="stylesheet" href="{{ asset('assets/css/spectrum/spectrum.min.css') }}">
+        <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css" />
         <!-- Scripts -->
-        <script src="{{ asset('assets/js/jquery-3.5.1.min.js') }}" defer></script>
         <script src="{{ asset('assets/js/app.js') }}" defer></script>
+        <script src="{{ asset('assets/js/jquery-3.5.1.min.js') }}"></script>
         <script src="https://cdn.jsdelivr.net/npm/chart.js@2.9.4/dist/Chart.min.js"></script>
         <script src="{{ asset('assets/js/select2/select2.min.js') }}" defer></script>
         <script src="{{ asset('assets/js/sweetalert2.min.js') }}" defer></script>

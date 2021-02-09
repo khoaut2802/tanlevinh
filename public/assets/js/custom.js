@@ -297,4 +297,69 @@ $(document).ready(function() {
             } 
         });        
     })
+
+    $('.changeOrderStauts').on('click', function() {
+        var id = $(this).attr('data-id');
+        var action = $(this).attr('data-action');
+        var text;
+
+        switch(action) {
+            case 'completed':
+                text = 'đã hoàn tất';
+            break;
+            case 'processing':
+                text = 'đang xử lý';
+            break;
+            default:
+                text = 'đã hủy bỏ';
+        }
+
+        swal({
+            title: "Are you sure?",
+            html: `Bạn có chắc sẽ chuyển trạng thái sản phẩm này sang <strong class="text-indigo-800">${text}</strong> không?.`,
+            type: "info",
+            showCancelButton: true,
+            showConfirmButton: true,
+            confirmButtonText: `Xác nhận`,
+            input: 'checkbox',
+            inputPlaceholder: 'Gửi thư thông báo cho khách hàng.'
+        }).then((result) => {
+            console.log(result)
+            var send_mail = 'no';
+
+            if(result)
+                send_mail = 'yes';
+            
+            if(result || result === 0) {
+                $.ajax({
+                    url: window.web_url + '/orders/update',
+                    data: {id: id, action: action, send_mail: send_mail},
+                    type: 'POST',
+                    success: function(msg) {
+                        swal({
+                            title: "Congratulations!",
+                            text: "Bạn đã cập nhật đơn hàng thành công.",
+                            type: "success",
+                            timer: 3000,
+                            showCancelButton: false,
+                            showCloseButton: false,
+                            showConfirmButton: false,
+                            showLoaderOnConfirm: true,
+                            onClose() {
+                                window.location.reload()
+                            }
+                        })
+                    }
+                });     
+            }
+        })                 
+    })
+
+    $('#orderFilterLimit').on('change', function() {
+        window.location.href = window.web_url + '/orders?per_page=' + $(this).val();
+    })
+
+    $('#orderFilterStatus').on('change', function() {
+        window.location.href = window.web_url + '/orders?status=' + $(this).val();
+    })
 });

@@ -13,6 +13,9 @@ use Illuminate\Support\Facades\Route;
 |
 */
 Route::get('/', 'HomeController@index')->name('home');
+
+Route::get('/search', 'HomeController@search')->name('search');
+
 Route::get('/group/{slug}', 'HomeController@group')->name('group');
 Route::get('/product/{slug}', 'HomeController@product')->name('product');
 

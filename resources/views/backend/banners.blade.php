@@ -41,7 +41,7 @@
                                         <td class="text-center py-4">
                                             <form method="POST" action="{{route('banner_delete', ['id' => $banner->id])}}">
                                                 @csrf
-                                                <button href="#" class="rounded-md border border-transparent shadow-sm bg-red-700 text-white px-2">Xóa</button>
+                                                <button type="submit" class="rounded-md border border-transparent shadow-sm bg-red-700 text-white px-2">Xóa</button>
                                             </form>
                                         </td>
                                     </tr>

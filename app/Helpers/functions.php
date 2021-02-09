@@ -155,3 +155,31 @@ if(!function_exists('getCartAttrs')) {
         return $attrs;
     }
 }
+
+if(!function_exists('statistics')) {
+    function statistics($start = '', $end = '')
+    {
+        if($start == '' && $end == '') {
+            $start = new \Carbon\Carbon('first day of this month');
+            $end = new \Carbon\Carbon('last day of this month');
+        }
+
+        $revenue = 0;
+        $orders = \App\Models\Orders::where('status', 'completed')->whereBetween('created_at', [\Carbon\Carbon::parse($start), \Carbon\Carbon::parse($end)])->get();
+
+        foreach($orders as $order) {
+            foreach($order->detail as $detail) {
+                $revenue = $revenue + $detail->price;
+            }
+        }
+
+        $result = [
+            'total_user' => \App\Models\User::count(),
+            'total_order' => \App\Models\Orders::count(),
+            'total_product' => \App\Models\Products::count(),
+            'total_revenue' => $revenue ?? 0
+        ];
+
+        return (object)$result;
+    }
+}

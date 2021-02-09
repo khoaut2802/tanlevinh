@@ -48,7 +48,6 @@ class MenuController extends Controller
                     'name'          => $name,
                     'type'          => $type,
                     'link'          => 'none',
-                    'slug'          => 'none'
                 ]);
             } else {
                 Menus::insert([
@@ -59,7 +58,6 @@ class MenuController extends Controller
                     'name'          => $name,
                     'type'          => $type,
                     'link'          => $link,
-                    'slug'          => 'none'
                 ]);                
             }
             

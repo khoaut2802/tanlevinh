@@ -67,25 +67,21 @@ Route::group(['prefix' => getSetting('admin_prefix')], function($router) {
         });
         
         $router->group(['prefix' => 'orders'], function($router) {
-            $router->post('/create', 'OrdersController@store')->name('orders_create');
+            $router->get('/', 'OrdersController@index')->name('orders');
+            $router->post('/', 'OrdersController@index')->name('orders_search');
+
+            $router->get('/detail/{id}', 'OrdersController@detail')->name('orders_detail');
+            $router->post('/update', 'OrdersController@update')->name('orders_update');
+        });
+
+        $router->group(['prefix' => 'pages'], function($router) {
+            $router->get('/', 'PagesController@index')->name('pages');
+
+            $router->get('/page/{id?}', 'PagesController@detail')->name('pages.edit');
+            $router->post('/page/{id?}', 'PagesController@store')->name('pages.create');
+            $router->post('/page/{id?}/delete', 'PagesController@delete')->name('pages.delete');
         });
     });                 
-
-    // $router->get('/forgot-password', [PasswordResetLinkController::class, 'create'])
-    //                 ->middleware('guest')
-    //                 ->name('password.request');
-
-    // $router->post('/forgot-password', [PasswordResetLinkController::class, 'store'])
-    //                 ->middleware('guest')
-    //                 ->name('password.email');
-
-    // $router->get('/reset-password/{token}', [NewPasswordController::class, 'create'])
-    //                 ->middleware('guest')
-    //                 ->name('password.reset');
-
-    // $router->post('/reset-password', [NewPasswordController::class, 'store'])
-    //                 ->middleware('guest')
-    //                 ->name('password.update');
 
     // $router->get('/verify-email', [EmailVerificationPromptController::class, '__invoke'])
     //                 ->middleware('auth')
@@ -145,3 +141,19 @@ $router->post('/logout', [AuthenticatedSessionController::class, 'destroy'])
 
 $router->get('/logout', [AuthenticatedSessionController::class, 'destroy'])->middleware('auth')
 ->name('logout2');
+
+$router->get('/forgot-password', [PasswordResetLinkController::class, 'create'])
+                ->middleware('guest')
+                ->name('password.request');
+
+$router->post('/forgot-password', [PasswordResetLinkController::class, 'store'])
+                ->middleware('guest')
+                ->name('password.email');
+
+$router->get('/reset-password/{token}', [NewPasswordController::class, 'create'])
+                ->middleware('guest')
+                ->name('password.reset');
+
+$router->post('/reset-password', [NewPasswordController::class, 'store'])
+                ->middleware('guest')
+                ->name('password.update');

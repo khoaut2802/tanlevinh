@@ -3,14 +3,20 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Models\Products;
-use App\Models\ProductGroups;
-use App\Models\Attributes;
+use App\Models\Orders;
+use Carbon\Carbon;
 
 class DashboardController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
-        return view('backend.dashboard');
+        $page = $request->get('page', 1);
+        $per_page = $request->get('per_page', 20);
+        $from = $request->get('from', Carbon::now()->firstOfMonth());
+        $to = $request->get('to', Carbon::now()->lastOfMonth());
+        
+        $orders = Orders::where('status', 'completed')->whereBetween('created_at',[Carbon::parse($from), Carbon::parse($to)])->paginate($per_page, $columns = ['*'], $pageName = 'page', $page)->toArray();
+
+        return view('backend.dashboard', compact('orders'));
     }
 }

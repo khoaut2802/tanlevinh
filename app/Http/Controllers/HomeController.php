@@ -108,4 +108,11 @@ class HomeController extends Controller
             return redirect()->route('home');
         }
     }
+
+    public function search(Request $request)
+    {
+        $results = Products::where('name', 'LIKE', "%{$request->keyword}%")->get();
+
+        return view('search', compact('results'));
+    }
 }

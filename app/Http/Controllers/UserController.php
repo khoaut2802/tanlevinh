@@ -15,9 +15,9 @@ class UserController extends Controller
 {
     public function index(Request $request)
     {
-        $pending_orders = Orders::where('status', 'pending')->with('detail', 'detail.product')->get();
-        $processing_orders = Orders::where('status', 'processing')->with('detail', 'detail.product')->get();
-        $completed_orders = Orders::where('status', 'completed')->orWhere('status', 'canceled')->with('detail', 'detail.product')->get();
+        $pending_orders = Orders::where('status', 'pending')->where('user_id', Auth::user()->id)->with('detail', 'detail.product')->get();
+        $processing_orders = Orders::where('status', 'processing')->where('user_id', Auth::user()->id)->with('detail', 'detail.product')->get();
+        $completed_orders = Orders::whereIn('status', ['completed','canceled'])->where('user_id', Auth::user()->id)->with('detail', 'detail.product')->get();
 
         return view('user.dashboard', compact('pending_orders', 'processing_orders', 'completed_orders'));
     }
@@ -95,7 +95,7 @@ class UserController extends Controller
                     'product_id'    => $item['product_id'],
                     'product_attrs' => json_encode($item['attrs']),
                     'quantity'      => $item['quantity'],
-                    'price'         => $item['total_amount'] * $item['quantity'],
+                    'price'         => $item['total_amount'],
                     'created_at'    => Carbon::now()
                 ];
             }

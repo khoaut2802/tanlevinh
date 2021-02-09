@@ -47,9 +47,9 @@
                     <div class="d-flex justify-content-left align-items-center my-3">
                         <span class="attr-name font-weight-bold">Số lượng ({{ucfirst($product->unit)}})</span>
                         @if($product->min_qty == 0)
-                            <input type="number" name="qty" min="1" class="form-control" value="1">
+                            <input type="number" name="qty" id="qty" min="1" class="form-control" value="1">
                         @else
-                            <select class="form-control" name="qty">
+                            <select class="form-control" name="qty" id="qty">
                                 @foreach(explode(',',$product->min_qty) as $qty)
                                     <option value="{{$qty}}">{{$qty}}</option>
                                 @endforeach
@@ -120,8 +120,20 @@
                 refreshPrice()
             })
 
+            $('#qty').on('change', function() {
+                refreshPrice()
+            });
+
+            $('#qty').on('input', function() {
+                refreshPrice()
+            });
+
             $('#addToCart').on('click', function() {
-                $('#addToCartForm').submit();
+                if($('#qty').val() > 0 && Number.isInteger(parseInt($('#qty').val())) == true) {
+                    $('#addToCartForm').submit();
+                } else {
+                    alert('Số lượng phải lớn hơn 0')
+                }
             })
 
             function refreshPrice() {
@@ -132,7 +144,7 @@
                     attr_price = attr_price + parseInt($(this).attr('data-price'))
                 })
 
-                $('#sumTotal').text(formatter.format(product_price + attr_price))
+                $('#sumTotal').text(formatter.format((product_price + attr_price ) * parseInt($('#qty').val())))
             }
         </script>
     </x-slot>

@@ -5,8 +5,16 @@
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <meta name="csrf-token" content="{{ csrf_token() }}">
 
-        <title>{{ config('app.name', 'Laravel') }}</title>
+        <title>{{$title ?? 'Công ty in ấn giá rẻ, chất lượng'}} - {{ config('app.name', 'Laravel') }}</title>
 
+        <meta name="keywords" content="{{$meta_keyword ?? 'in ấn, in an, thiết kế, thiet ke, công ty, ở, tại, cong ty, o, tai, tp hcm, giá rẻ, gia re.'}}" />
+        <meta name="description" content="{{$meta_desc ?? 'Công ty in ấn chất lượng, giá rẻ và uy tín nhất. Giải pháp tiết kiệm chi phí và thời gian đi lại cho quý khách cần in ấn. Nhận đơn hàng in trực tuyến, giao hàng đến tận nơi. Trong nội thành và các tỉnh khác.'}}" /> 
+        <meta name="copyright" content="{{getSetting('company_name')}}" />
+        <meta name="author" content="{{getSetting('company_name')}}" />
+        <meta property="og:site_name" content="{{env('APP_URL')}}" />
+        <meta property="og:type" content="website" />
+        <meta property="og:locale" content="vi_VN" />        
+        
         <!-- Styles -->
         <link rel="stylesheet" href="{{ asset('assets/css/bootstrap.min.css') }}">
         <link rel="stylesheet" href="{{ asset('assets/css/remixicon.css') }}">
@@ -66,10 +74,10 @@
                     <div class="collapse navbar-collapse" id="navbarSupportedContent">
                         <ul class="navbar-nav ml-auto">
                             <li class="nav-item">
-                                <form class="form-inline mt-2 mr-2">
+                                <form class="form-inline mt-2 mr-2" method="GET" action="{{route('search')}}">
                                     <div class="input-group input-group-sm">
-                                        <input type="text" class="form-control" placeholder="Recipient's username"
-                                            aria-label="Recipient's username" aria-describedby="basic-addon2">
+                                        <input type="text" class="form-control"  name="keyword" placeholder="Nhập sản phẩm cần tìm"
+                                            aria-label="Nhập sản phẩm cần tìm" aria-describedby="basic-addon2">
                                         <div class="input-group-append">
                                             <span class="input-group-text bg-primary text-white" id="basic-addon2"><i class="ri-search-line"></i></span>
                                         </div>
@@ -77,16 +85,21 @@
                                 </form>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link" href="#"><i class="ri-volume-up-line"></i> Tuyển dụng</a>
+                                <a class="nav-link" href="{{asset('/page/Tuyen_dung')}}"><i class="ri-volume-up-line"></i> Tuyển dụng</a>
                             </li>
                             @if(Auth::check())
                             <li class="nav-item">
-                                <a class="nav-link" href="{{route('user.dashboard')}}"><i class="ri-user-line"></i>  Tài khoản</a>
+                                <a class="nav-link" href="{{route('user.dashboard')}}"><i class="ri-user-line"></i> {{Auth::user()->email}}</a>
                             </li>
                             @else
-                            <li class="nav-item">
-                                <a class="nav-link" href="{{route('login')}}"><i class="ri-user-line"></i>  Đăng nhập</a>
-                            </li>
+                            <li class="nav-item dropdown">
+                                <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false"><i class="ri-user-line"></i> Tài khoản</a>
+                                <div class="dropdown-menu">
+                                  <a class="dropdown-item" href="{{route('login')}}">Đăng nhập</a>
+                                  <a class="dropdown-item" href="{{route('register')}}">Đăng ký</a>
+                                  <a class="dropdown-item" href="{{route('password.request')}}">Quên mật khẩu</a>
+                                </div>
+                              </li>
                             @endif
                             <li class="nav-item">
                                 <a class="nav-link" href="{{route('cart')}}"><i class="ri-shopping-cart-line"></i> Giỏ hàng</a>
@@ -201,14 +214,14 @@
                 </div>
             </section>
 
- <!-- Footer -->
- <footer class="bg-white">
+  <!-- Footer -->
+  <footer class="bg-white">
     <div class="container py-5">
       <div class="row py-4">
         <div class="col-lg-4 col-md-6 mb-4 mb-lg-0">
           <div class="text-center">
             <img src="{{asset('/assets/images/logo.png')}}" alt="" width="80" class="mb-3">
-            <p class="font-italic text-muted">Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt.</p>
+            <p class="font-italic text-muted">{{getSetting('company_desc')}}</p>
           </div>
           <ul class="list-inline mt-4">
             <li class="list-inline-item"><a href="#" target="_blank" title="twitter"><i class="fa fa-twitter"></i></a></li>
@@ -231,36 +244,33 @@
         <div class="col-lg-2 col-md-6 mb-4 mb-lg-0">
           <h6 class="text-uppercase font-weight-bold mb-4">Khách hàng</h6>
           <ul class="list-unstyled mb-0">
-            <li class="mb-2"><a href="#" class="text-muted">Đăng nhập</a></li>
-            <li class="mb-2"><a href="#" class="text-muted">Đăng ký</a></li>
-            <li class="mb-2"><a href="#" class="text-muted">Giỏ hàng</a></li>
-            <li class="mb-2"><a href="#" class="text-muted">Liên hẹ</a></li>
+            <li class="mb-2"><a href="{{route('login')}}" class="text-muted">Đăng nhập</a></li>
+            <li class="mb-2"><a href="{{route('register')}}" class="text-muted">Đăng ký</a></li>
+            <li class="mb-2"><a href="{{route('cart')}}" class="text-muted">Giỏ hàng</a></li>
+            <li class="mb-2"><a href="{{asset('/page/Lien_he')}}" class="text-muted">Liên hệ</a></li>
           </ul>
         </div>
-        <div class="col-lg-4 col-md-6 mb-lg-0">
-          <h6 class="text-uppercase font-weight-bold mb-4">Theo dõi chúng tôi</h6>
-          <p class="text-muted mb-4">Để nhận được thông tin về các sản phẩm và dịch vụ mới nhất.</p>
-          <div class="p-1 rounded border">
-            <div class="input-group">
-              <input type="email" placeholder="Nhập địa chỉ Email" aria-describedby="button-addon1" class="form-control border-0 shadow-0">
-              <div class="input-group-append">
-                <button id="button-addon1" type="submit" class="btn btn-link"><i class="ri-send-plane-line"></i></button>
-              </div>
-            </div>
+        <div class="col-lg-4 col-md-6 mb-4 mb-lg-0">
+            <h6 class="text-uppercase font-weight-bold mb-4">Chính sách</h6>
+            <ul class="list-unstyled mb-0">
+              <li class="mb-2"><a href="{{asset('/page/Hinh_thuc_thanh_toan')}}" class="text-muted">Hình thức thanh toán</a></li>
+              <li class="mb-2"><a href="{{asset('/page/Chinh_sach_rieng_tu')}}" class="text-muted">Chính sách riêng tư</a></li>
+              <li class="mb-2"><a href="{{asset('/page/Van_chuyen')}}" class="text-muted">Vận chuyển</a></li>
+              <li class="mb-2"><a href="{{asset('/page/Doi_tra_va_hoan_tien')}}" class="text-muted">Đổi trả và hoàn tiền</a></li>
+            </ul>
           </div>
-        </div>
       </div>
     </div>
 
     <!-- Copyrights -->
     <div class="bg-light py-4">
       <div class="container text-center">
-        <p class="text-muted mb-0 py-2">© 2021 WWW.TANLEVINH.VN. All rights reserved.</p>
+        <p class="text-muted mb-0 py-2">© 2021 {{getSetting('company_name')}}. All rights reserved.</p>
         <p class="text-muted mb-0 py-2">Made by CMSNT.CO.</p>
       </div>
     </div>
   </footer>
-  <!-- End -->            
+  <!-- End -->  
         </div>
 
         <!-- Scripts -->
