@@ -35,7 +35,7 @@ class BannerController extends Controller
                     $file = 'storage/uploads/'.$file_name.".".$extension;
 
                     Banners::insert([
-                        'name'       => $request->name,
+                        'name'       => $request->name ?? '',
                         'link'       => $request->link,
                         'position'   => $request->position,
                         'image'      => $file,

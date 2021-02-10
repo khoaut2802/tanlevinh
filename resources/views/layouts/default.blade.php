@@ -14,7 +14,7 @@
         <meta property="og:site_name" content="{{env('APP_URL')}}" />
         <meta property="og:type" content="website" />
         <meta property="og:locale" content="vi_VN" />        
-
+        <link rel="icon" type="image/ico" href="{{asset('/favicon.ico')}}">
         <!-- Styles -->
         <link rel="stylesheet" href="{{ asset('assets/css/bootstrap.min.css') }}">
         <link rel="stylesheet" href="{{ asset('assets/css/remixicon.css') }}">
