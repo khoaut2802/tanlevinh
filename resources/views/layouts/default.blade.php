@@ -135,6 +135,11 @@
                                         @endif
                                     @endif
                             @endforeach
+                            @if(Auth::check() && Auth::user()->is_patron == 'yes')
+                            <li class="nav-item">
+                                <a class="nav-link d-flex align-items-center @if(request()->routeIs('user.patron')){{'active'}}@endif" href="{{ route('user.patron') }}">Đặt hàng</a>
+                            </li> 
+                            @endif
                         </ul>
                     </div>
                     <div class="text-right mr-3">

@@ -15,9 +15,9 @@ class UserController extends Controller
 {
     public function index(Request $request)
     {
-        $pending_orders = Orders::where('status', 'pending')->where('user_id', Auth::user()->id)->with('detail', 'detail.product')->get();
-        $processing_orders = Orders::where('status', 'processing')->where('user_id', Auth::user()->id)->with('detail', 'detail.product')->get();
-        $completed_orders = Orders::whereIn('status', ['completed','canceled'])->where('user_id', Auth::user()->id)->with('detail', 'detail.product')->get();
+        $pending_orders = Orders::where('status', 'pending')->where('user_id', Auth::user()->id)->where('code', 'LIKE', "%OD%")->get();
+        $processing_orders = Orders::where('status', 'processing')->where('user_id', Auth::user()->id)->where('code', 'LIKE', "%OD%")->get();
+        $completed_orders = Orders::whereIn('status', ['completed','canceled'])->where('user_id', Auth::user()->id)->where('code', 'LIKE', "%OD%")->get();
 
         return view('user.dashboard', compact('pending_orders', 'processing_orders', 'completed_orders'));
     }
@@ -140,6 +140,84 @@ class UserController extends Controller
             return response()->json('Hủy đơn hàng thành công', 200);
         } catch(\Exception $e) {
             return response()->json($e->getMessage(), 400);
+        }
+    }
+
+    public function uploadFile(Request $request)
+    {
+        try {
+            $id = $request->get('order_id');
+            if ($request->hasFile('orderFile') && Orders::where('user_id', Auth::user()->id)->where('code', $id)->exists()) {
+                if ($request->file('orderFile')->isValid()) {              
+
+                    $file_name = 'FILE'.time();
+                    $extension = $request->orderFile->extension();
+                    $request->file('orderFile')->storeAs('uploads/files/',$file_name.".".$extension, 'public');
+
+                    $file = 'storage/uploads/files/'.$file_name.".".$extension;
+
+                    Orders::where('code', $id)->update([
+                        'file' => $file
+                    ]);
+
+                    return response()->json('Tải lên tệp thành công.', 200);
+                } else {
+                    return response()->json('Đã xảy ra lỗi!', 200);
+                }
+            }
+
+            return response()->json('Đã xảy ra lỗi!', 200);
+        } catch(\Exception $e) {
+            return response()->json($e->getMessage());
+        }
+    }
+
+    public function patrons(Request $request)
+    {
+        $orders = Orders::where('user_id', Auth::user()->id)->where('code', 'LIKE', '%PATRON%')->get();
+        return view('user.patrons', compact('orders'));
+    }
+
+    public function patronOrderView(Request $request)
+    {
+        return view('user.patron');
+    }
+
+    public function patronOrder(Request $request)
+    {
+        try {
+            $user = Auth::user();
+
+            if($user->is_patron == 'no')
+                return redirect()->route('user.dashboard');
+
+            $code = 'PATRON'.time();
+
+            $order = new Orders;
+            $order->code = $code;
+            $order->user_id = $user->id;
+            $order->ship_method = 'bank';
+            $order->status = 'pending';
+            $order->created_at = Carbon::now();
+            $order->save();
+
+            $data = $request->all();
+            unset($data['_token']);
+
+            $details[] = [
+                'order_id'      => $code,
+                'product_id'    => 0,
+                'product_attrs' => json_encode($data),
+                'quantity'      => $data['quantity'],
+                'price'         => 0,
+                'created_at'    => Carbon::now()
+            ];
+
+            OrderDetails::insert($details);
+
+            return redirect()->route('user.dashboard')->withSuccess('Đặt hàng thành công.');
+        } catch(\Exception $e) {
+            return redirect()->back()->withErrors($e->getMessage());
         }
     }
 }

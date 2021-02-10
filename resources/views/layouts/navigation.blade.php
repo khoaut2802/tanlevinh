@@ -49,7 +49,12 @@
                     <x-nav-link :href="route('pages')" :active="request()->routeIs('pages')">
                         {{ __('Trang') }}
                     </x-nav-link>
-                </div>         
+                </div>      
+                <div class="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex">
+                    <x-nav-link :href="route('users')" :active="request()->routeIs('users')">
+                        {{ __('Người dùng') }}
+                    </x-nav-link>
+                </div>    
                 <div class="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex">
                     <x-nav-link :href="route('settings')" :active="request()->routeIs('settings')">
                         {{ __('Cài đặt') }}
@@ -126,9 +131,12 @@
                 {{ __('Banner') }}
             </x-responsive-nav-link>
 
-
             <x-responsive-nav-link :href="route('pages')" :active="request()->routeIs('pages')">
                 {{ __('Trang') }}
+            </x-responsive-nav-link>
+
+            <x-responsive-nav-link :href="route('users')" :active="request()->routeIs('users')">
+                {{ __('Người dùng') }}
             </x-responsive-nav-link>
 
             <x-responsive-nav-link :href="route('settings')" :active="request()->routeIs('settings')">

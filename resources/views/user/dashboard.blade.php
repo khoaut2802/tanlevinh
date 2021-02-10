@@ -5,12 +5,15 @@
         </div>
         <div class="col-12 col-sm-10">
             <div class="card">
-                <div class="card-header">Quản lý đơn hàng</div>
+                <div class="card-header d-flex justify-content-between align-items-center">
+                    <span>Quản lý đơn hàng</span>
+                    <a href="{{asset('/page/Hinh_thuc_thanh_toan')}}" class="btn btn-sm btn-primary">Hướng dẫn thanh toán</a>
+                </div>
                 <div class="card-body">
                     <div class="group-tabs">
                         <!-- Nav tabs -->
                         <ul class="nav nav-tabs" role="tablist">
-                          <li class="nav-item"><a class="nav-link active" href="#pending_orders" aria-controls="pending_orders" role="tab" data-toggle="tab">Đơn hàng đang chờ</a></li>
+                          <li class="nav-item"><a class="nav-link active" href="#pending_orders" aria-controls="pending_orders" role="tab" data-toggle="tab">Đơn hàng chờ thanh toán</a></li>
                           <li class="nav-item"><a class="nav-link" href="#processing_order" aria-controls="processing_order" role="tab" data-toggle="tab">Đơn hàng đang xử lý</a></li>
                           <li class="nav-item"><a class="nav-link" href="#completed_order" aria-controls="completed_order" role="tab" data-toggle="tab">Đơn hàng đã hoàn tất</a></li>
                         </ul>
@@ -62,7 +65,7 @@
                                             {{number_format($discount)}}đ
                                         </td>                                            
                                         <td>{{number_format($price + $discount)}}đ</td>
-                                        <td><button type="buttom" class="btn btn-info btn-sm">Tải lên tệp</button></td>
+                                        <td>@if($order->file != null)<span class="badge badge-success">Đã tải lên</span>@else <button type="buttom" class="btn btn-info btn-sm uploadFile" data-id="{{$order->code}}">Tải lên tệp</button>@endif</td>
                                         <td>
                                             <div class="dropdown">
                                             <button class="btn btn-sm btn-primary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -125,7 +128,7 @@
                                             {{number_format($discount)}}đ
                                         </td>                                            
                                         <td>{{number_format($price + $discount)}}đ</td>
-                                        <td><button type="buttom" class="btn btn-info btn-sm">Tải lên tệp</button></td>
+                                        <td>@if($order->file != null)<span class="badge badge-success">Đã tải lên</span>@else <span class="badge badge-dark">Chưa có tệp</span>@endif</td>
                                         <td>
                                             <div class="dropdown">
                                             <button class="btn btn-sm btn-primary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -192,7 +195,7 @@
                                         {{number_format($discount)}}đ
                                     </td>                                            
                                     <td>{{number_format($price + $discount)}}đ</td>
-                                    <td><button type="buttom" class="btn btn-info btn-sm">Tải lên tệp</button></td>
+                                    <td>@if($order->file != null)<span class="badge badge-success">Đã tải lên</span>@else <span class="badge badge-dark">Chưa có tệp</span>@endif</td>
                                     <td>
                                         <div class="dropdown">
                                         <button class="btn btn-sm btn-primary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -213,6 +216,39 @@
                 </div>
             </div>
         </div>
+    </div>
+
+
+
+    <div id="uploadFileModal" class="modal" tabindex="-1">
+    <div class="modal-dialog">
+        <div class="modal-content">
+        <div class="modal-header">
+            <h5 class="modal-title">Đơn hàng số #<span id="uploadFileHeader"></span></h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+        <form method="POST" id="uploadFileForm">
+        <div class="modal-body">
+            <input type="hidden" name="order_id">
+            <div class="input-group mb-3">
+                <div class="input-group-prepend">
+                  <span class="input-group-text" id="inputGroupFileAddon01">Upload</span>
+                </div>
+                <div class="custom-file">
+                  <input type="file" class="custom-file-input" id="inputGroupFile01" name="orderFile" aria-describedby="inputGroupFileAddon01" required>
+                  <label class="custom-file-label" for="inputGroupFile01">Chọn tệp tin</label>
+                </div>
+              </div>
+        </div>
+        <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">Đóng</button>
+            <button type="submit" class="btn btn-primary">Tải lên</button>
+        </div>
+        </form>
+        </div>
+    </div>
     </div>
 
     <x-slot name="script">
@@ -256,6 +292,50 @@
                         });     
                     }
                 })                   
+            })
+
+            $('.custom-file-input').on('change', function() {
+                var file = $('#inputGroupFile01')[0].files[0].name;
+
+                $('label[for="inputGroupFile01"]').text(file)
+            })
+
+            $('.uploadFile').on('click', function() {
+                var id = $(this).attr('data-id');
+                $('#uploadFileHeader').text(id);
+                $('input[name="order_id"]').val(id);
+                $('#uploadFileModal').modal('show');
+            })
+
+            $('#uploadFileForm').on('submit', function(e) {
+                e.preventDefault();
+
+                var id = $('input[name="order_id"]').val();
+                var form = $('#uploadFileForm')[0];
+                var data = new FormData(form);
+
+                $.ajax({
+                    url: '{{route('user.order.upload')}}',
+                    data: data,
+                    type: 'POST', 
+                    contentType: false, // NEEDED, DON'T OMIT THIS (requires jQuery 1.6+)
+                    processData: false, // NEEDED, DON'T OMIT THIS
+                    success: function(msg) {
+                        swal({
+                            title: "Congratulations!",
+                            text: "Bạn đã tải lên tệp thành công.",
+                            type: "success",
+                            timer: 3000,
+                            showCancelButton: false,
+                            showCloseButton: false,
+                            showConfirmButton: false,
+                            showLoaderOnConfirm: true,
+                            onClose() {
+                                window.location.reload();
+                            }
+                        })
+                    }
+                });                   
             })
         </script>
     </x-slot>

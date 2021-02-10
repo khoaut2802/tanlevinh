@@ -5,7 +5,7 @@
     <a class="nav-link" href="{{route('user.dashboard')}}">Quản lý đơn hàng</a>
     </li>
     <li class="nav-item">
-    <a class="nav-link" href="#">Quản lý tác phẩm</a>
+    <a class="nav-link" href="{{route('user.patrons')}}">Khách quen</a>
     </li>
     <li class="nav-item">
     <a class="nav-link" href="{{route('user.profile')}}">Tài khoản</a>

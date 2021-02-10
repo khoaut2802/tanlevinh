@@ -108,15 +108,31 @@
                                             <td class="px-5 py-5 border-b border-gray-200 bg-white text-sm">
                                                 <div class="flex items-center">
                                                     <p class="text-gray-900 whitespace-no-wrap">
+                                                        @if(strpos($order['code'], 'PATRON') !== false)
+                                                            (Khách quen) <br>
+                                                        @endif
                                                         {{$order['code']}}
                                                     </p>
                                                 </div>
                                             </td>
                                             <td class="px-5 py-5 border-b border-gray-200 bg-white text-sm">
                                                 <p class="text-gray-900 whitespace-no-wrap">
-                                                    @foreach($order['detail'] as $detail)
-                                                        {{$detail['product']['name']}}</br>
-                                                    @endforeach
+                                                    @if(strpos($order['code'], 'PATRON') !== false)
+                                                        {{$order['user']['name']}}<br>
+                                                        {{$order['user']['email']}}<br>
+                                                        {{$order['user']['phone']}}<br>
+                                                        {{$order['user']['address']}}<br>
+                                                        <hr>
+                                                        @foreach($order['detail'] as $detail)
+                                                            @foreach(json_decode($detail['product_attrs']) as $key => $value)
+                                                                {{__($key)}}: {{$value}}<br>
+                                                            @endforeach
+                                                        @endforeach                                                            
+                                                    @else                                                    
+                                                        @foreach($order['detail'] as $detail)
+                                                                {{$detail['product']['name']}}</br>
+                                                        @endforeach
+                                                    @endif
                                                 </p>
                                             </td>
                                             <td class="px-5 py-5 border-b border-gray-200 bg-white text-sm">
@@ -160,7 +176,9 @@
                                                       class="bg-white border rounded-sm transform scale-0 group-hover:scale-100 absolute 
                                                     transition duration-150 ease-in-out origin-top min-w-32 z-10"
                                                     >
+                                                    @if(strpos($order['code'], 'PATRON') === false)
                                                       <li class="rounded-sm px-3 py-1 hover:bg-gray-100 cursor-pointer "><a href="{{route('orders_detail', ['id' => $order['code']])}}">Chi tiết</a></li>
+                                                    @endif
                                                       <li class="rounded-sm px-3 py-1 hover:bg-gray-100 cursor-pointer text-green-500 changeOrderStauts" data-action="completed" data-id="{{$order['code']}}">Duyệt</li>
                                                       <li class="rounded-sm px-3 py-1 hover:bg-gray-100 cursor-pointer text-yellow-500 changeOrderStauts" data-action="processing" data-id="{{$order['code']}}">Xử lý</li>
                                                       <li class="rounded-sm px-3 py-1 hover:bg-gray-100 cursor-pointer text-red-500 changeOrderStauts" data-action="canceled" data-id="{{$order['code']}}">Hủy</li>

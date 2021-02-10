@@ -81,6 +81,15 @@ Route::group(['prefix' => getSetting('admin_prefix')], function($router) {
             $router->post('/page/{id?}', 'PagesController@store')->name('pages.create');
             $router->post('/page/{id?}/delete', 'PagesController@delete')->name('pages.delete');
         });
+
+        $router->group(['prefix' => 'users'], function($router) {
+            $router->get('/', 'UsersController@index')->name('users');
+
+            $router->post('/store', 'UsersController@store')->name('users_create');
+            $router->get('/{id}/detail', 'UsersController@detail')->name('users_detail');
+            $router->post('/{id}/delete', 'UsersController@delete')->name('users_delete');
+            $router->post('/update', 'UsersController@update')->name('users_update');
+        });        
     });                 
 
     // $router->get('/verify-email', [EmailVerificationPromptController::class, '__invoke'])
@@ -118,6 +127,11 @@ Route::group(['prefix' => 'user', 'middleware' => 'auth.user', 'as' => 'user.'],
         $router->post('/create', 'UserController@createOrder')->name('order.create');
 
         $router->post('/cancel', 'UserController@cancelOrder')->name('order.cancel');
+        $router->post('/upload', 'UserController@uploadFile')->name('order.upload');
+
+        $router->get('/patrons', 'UserController@patrons')->name('patrons');
+        $router->get('/patron', 'UserController@patronOrderView')->name('patron');
+        $router->post('/patron', 'UserController@patronOrder')->name('patron.order');
     });
 });
 

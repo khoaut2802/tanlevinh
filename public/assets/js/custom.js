@@ -362,4 +362,31 @@ $(document).ready(function() {
     $('#orderFilterStatus').on('change', function() {
         window.location.href = window.web_url + '/orders?status=' + $(this).val();
     })
+
+    $('.editUser').on('click', function() {
+        var id = $(this).attr('data-id');
+        $('input[name="id"]').val(id);
+
+        $.ajax({
+            url: window.web_url + '/users/' + id + '/detail',
+            data: {},
+            type: 'GET',
+            contentType: false, // NEEDED, DON'T OMIT THIS (requires jQuery 1.6+)
+            processData: false, // NEEDED, DON'T OMIT THIS
+            success: function(resp) {
+                $('input[name="name"]').val(resp.name)
+                $('input[name="email"]').val(resp.email)
+                $('input[name="phone"]').val(resp.phone)
+                $('input[name="address"]').val(resp.address)
+                $('select[name="user_type"]').val(resp.user_type)
+
+                if(resp.is_patron == 'yes')
+                    $('input[name="patron"]').prop('checked', true)
+                else
+                    $('input[name="patron"]').prop('checked', false)
+
+                $('#edit_user_modal').toggleClass('hidden');
+            }
+        });            
+    })     
 });
