@@ -27,8 +27,25 @@ class GroupController extends Controller
         try {
 
             if($request->group_id != null || !empty($request->group_id)) {
+                $file = 'none';
+                
+                if ($request->hasFile('image')) {
+                    if ($request->file('image')->isValid()) {
+                        $validated = $request->validate([
+                            'image' => 'mimes:jpeg,png,gif|max:2048',
+                        ]);                    
+                        
+                        $file_name = 'banner_'.time();
+                        $extension = $request->image->extension();
+                        $request->file('image')->storeAs('uploads',$file_name.".".$extension, 'public');
+    
+                        $file = 'storage/uploads/'.$file_name.".".$extension;                
+                    }         
+                } 
+
                 ProductGroups::where('id', $request->group_id)->update([
                     'name' => $request->name,
+                    'image'       => $file,
                     'description' => $request->description           
                 ]);
             } else {

@@ -37,7 +37,7 @@
                                         <a href="#" class="title text-dark">{{$item['product_name']}}</a>
                                         <p class="text-muted small">
                                             @foreach($item['attrs'] as $attr)
-                                                <span>{{$attr['name']}}: <strong>{{ $attr['values']['name'] }}</strong> giá <strong>{{ number_format($attr['values']['price']) }}đ</strong></span></br>
+                                                <span>{{$attr['name']}}: <strong>{{ $attr['values']['name'] }}</strong> giá <strong>@if(is_numeric($attr['values']['price'])) {{ number_format($attr['values']['price']) }}đ @else {{$attr['values']['price']}} @endif </strong></span></br>
                                             @endforeach
                                         </p>
                                     </figcaption>

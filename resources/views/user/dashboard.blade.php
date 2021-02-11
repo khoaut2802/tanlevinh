@@ -73,7 +73,7 @@
                                             </button>
                                             <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
                                                 <a href="{{route('user.order.detail', ['code' => $order->code])}}" class="dropdown-item">Xem</a>
-                                                <a href="javascript:;" class="dropdown-item" id="cancelOrder" data-id="{{$order->code}}">Hủy</a>
+                                                <a href="javascript:;" class="dropdown-item cancelOrder" data-id="{{$order->code}}">Hủy</a>
                                             </div>
                                             </div>                                                
                                         </td>
@@ -259,7 +259,7 @@
                 }
             });            
 
-            $('#cancelOrder').on('click', function() {
+            $('.cancelOrder').on('click', function() {
                 var id = $(this).attr('data-id');
                 swal({
                     title: "Are you sure?",
