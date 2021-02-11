@@ -183,10 +183,11 @@
             @endif
             
             <!-- Page Content -->
-            <section class="mt-2">
+            <div class="dot-line"></div>
+            <section>
                 {{ $slot }}
             </section>
-
+            <div class="dot-line"></div>
             <section>
                 <h3 class="text-center">Thanh toán Online</h3>
                 <p class="text-center">Hỗ trợ thanh toán Online qua các cổng thanh toán trực tuyến.</p>
@@ -257,8 +258,13 @@
       <div class="row py-4">
         <div class="col-lg-4 col-md-6 mb-4 mb-lg-0">
           <div class="text-center">
-            <img src="{{asset('/assets/images/logo.png')}}" alt="" width="80" class="mb-3">
-            <p class="font-italic text-muted">{{getSetting('company_desc')}}</p>
+            <img src="{{asset('/assets/images/logo.png')}}" alt="" width="64" class="mb-3">
+            <p class="text-muted">
+                <strong>{{getSetting('company_name')}}</strong><br>
+                Email: <strong>{{getSetting('company_email')}}</strong><br>
+                Địa chỉ: <strong>{{getSetting('company_address')}}</strong><br>
+                Điện thoại: <strong>{{getSetting('company_phone')}}</strong><br>
+            </p>
           </div>
           <ul class="list-inline mt-4">
             <li class="list-inline-item"><a href="#" target="_blank" title="twitter"><i class="fa fa-twitter"></i></a></li>
