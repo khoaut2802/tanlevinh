@@ -10,38 +10,34 @@
                     <div class="row">
                             <div class="col-12 col-sm-6">
                                 <div class="form-group">
+                                    <label for="name">Nhập tên sản phẩm:</label>
+                                    <input class="form-control" name="name" required>
+                                </div>
+                            </div>
+                            <div class="col-12 col-sm-6">
+                                <div class="form-group">
                                     <label for="paper_type">Loại giấy:</label>
-                                    <input class="form-control" name="paper_type" placeholder="VD: F250" required>
+                                    <select class="form-control" name="paper_type" required>
+                                        @foreach($paper_types as $type)
+                                            <option value="{{$type->name}}">{{$type->name}}</option>
+                                        @endforeach
+                                    </select>
                                 </div>
                             </div>
                             <div class="col-12 col-sm-6">
                                 <div class="form-group">
                                     <label for="paper_size">Khổ giấy:</label>
-                                    <input class="form-control" name="paper_size" placeholder="VD: 79 x 109" required>
-                                </div>
-                            </div>
-                            <div class="col-12 col-sm-6">
-                                <div class="form-group">
-                                    <label for="quantity">Số lượng:</label>
-                                    <input class="form-control" name="quantity" type="number" placeholder="VD: 100" required>
+                                    <select class="form-control" name="paper_size" required>
+                                        @foreach($paper_sizes as $size)
+                                            <option value="{{$size->name}}">{{$size->name}}</option>
+                                        @endforeach
+                                    </select>
                                 </div>
                             </div>
                             <div class="col-12 col-sm-6">
                                 <div class="form-group">
                                     <label for="print_size">Khổ in:</label>
                                     <input class="form-control" name="print_size" placeholder="VD: 54 x 79" required>
-                                </div>
-                            </div>
-                            <div class="col-12 col-sm-6">
-                                <div class="form-group">
-                                    <label for="print_quantity">Số lượng in:</label>
-                                    <input class="form-control" name="print_quantity" placeholder="VD: 150" required>
-                                </div>
-                            </div>
-                            <div class="col-12 col-sm-6">
-                                <div class="form-group">
-                                    <label for="compensate">Bù hao:</label>
-                                    <input class="form-control" name="compensate" placeholder="VD: 50" required>
                                 </div>
                             </div>
                             <div class="col-12 col-sm-6">
@@ -58,8 +54,26 @@
                             </div>
                             <div class="col-12 col-sm-6">
                                 <div class="form-group">
+                                    <label for="quantity">Số lượng:</label>
+                                    <input class="form-control" name="quantity" type="number" value="10" required>
+                                </div>
+                            </div>
+                            <div class="col-12 col-sm-6">
+                                <div class="form-group">
+                                    <label for="compensate">Bù hao:</label>
+                                    <input class="form-control" name="compensate" type="number" value="5" required>
+                                </div>
+                            </div>      
+                            <div class="col-12 col-sm-6">
+                                <div class="form-group">
                                     <label for="cut">Cắt:</label>
-                                    <input class="form-control" name="cut" placeholder="VD: 2" required>
+                                    <input class="form-control" name="cut" type="number" value="2" required>
+                                </div>
+                            </div>                                                  
+                            <div class="col-12 col-sm-6">
+                                <div class="form-group">
+                                    <label for="print_quantity">Số lượng in = (Số lượng * Cắt - Bù hao)</label>
+                                    <input type="number" class="form-control" name="print_quantity" value="0" disabled readonly>
                                 </div>
                             </div>
                             <div class="col-12">
@@ -72,4 +86,32 @@
             </div>
         </div>
     </div>
+
+    <x-slot name="script">
+        <script>
+            refreshPrintQuantity()
+            
+            $('input[name="quantity"]').on('input', function() {
+                refreshPrintQuantity();
+            })
+
+            $('input[name="cut"]').on('input', function() {
+                refreshPrintQuantity();
+            })
+            
+            $('input[name="compensate"]').on('input', function() {
+                refreshPrintQuantity();
+            })
+
+            function refreshPrintQuantity() {
+                var quantity = parseInt($('input[name="quantity"]').val()) || 0;
+                var cut = parseInt($('input[name="cut"]').val()) || 0;
+                var compensate = parseInt($('input[name="compensate"]').val()) || 0;     
+                
+                var total = (quantity * cut) - compensate;
+
+                $('input[name="print_quantity"]').val(total);
+            }
+        </script>
+    </x-slot>
 </x-user-layout>

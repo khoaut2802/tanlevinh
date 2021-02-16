@@ -10,6 +10,7 @@ use Carbon\Carbon;
 use App\Models\Orders;
 use App\Models\OrderDetails;
 use App\Models\User;
+use App\Models\Attributes;
 
 class UserController extends Controller
 {
@@ -180,7 +181,9 @@ class UserController extends Controller
 
     public function patronOrderView(Request $request)
     {
-        return view('user.patron');
+        $paper_types = json_decode(Attributes::where('name', 'Chất liệu')->first()->options);
+        $paper_sizes = json_decode(Attributes::where('name', 'Kích thước')->first()->options);
+        return view('user.patron', compact('paper_types', 'paper_sizes'));
     }
 
     public function patronOrder(Request $request)
