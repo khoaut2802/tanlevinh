@@ -9,6 +9,7 @@
                 Email: <strong>{{getSetting('company_email')}}</strong><br>
                 Địa chỉ: <strong>{{getSetting('company_address')}}</strong><br>
                 Điện thoại: <strong>{{getSetting('company_phone')}}</strong><br>
+                MST: <strong>{{getSetting('mst')}}</strong><br>
             </p>
           </div>
           <ul class="list-inline mt-4">
