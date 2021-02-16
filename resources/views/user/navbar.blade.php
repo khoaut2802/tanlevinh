@@ -4,9 +4,11 @@
     <li class="nav-item">
     <a class="nav-link" href="{{route('user.dashboard')}}">Quản lý đơn hàng</a>
     </li>
+    @if(Auth::check() && Auth::user()->is_patron == 'yes')
     <li class="nav-item">
     <a class="nav-link" href="{{route('user.patrons')}}">Khách quen</a>
     </li>
+    @endif
     <li class="nav-item">
     <a class="nav-link" href="{{route('user.profile')}}">Tài khoản</a>
     </li>
