@@ -9,5 +9,6 @@ return [
     'enable_register'   => 'Cho phép nguời dùng đăng ký',
     'enable_top_banner' => 'Hiện Banner trên cùng',
     'enable_main_banner'=> 'Hiện Banner dưới Menu',
-    'admin_prefix' => 'Admin Prefix URL'
+    'admin_prefix' => 'Admin Prefix URL',
+    'mst'               => 'Mã số thuế'
 ];
