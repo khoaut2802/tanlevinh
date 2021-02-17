@@ -7,6 +7,9 @@ body {
     color: #333333;
     background-color: #ffffff;
 }
+span {
+    font-family: 'Montserrat', sans-serif;
+}
 .container {
     max-width: 1275px;
 }
@@ -448,5 +451,6 @@ footer .title {
     .dropdown-item {
         border-color: rgb(202 202 202) !important;
         border-bottom: 1px solid transparent;
+        font-size:12px;
     }
 }
