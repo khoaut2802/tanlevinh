@@ -33,6 +33,7 @@
             <section class="mt-2">
                 {{ $slot }}
             </section>
+            
             <div class="dot-line"></div>
 
             <section>

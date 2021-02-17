@@ -3,7 +3,7 @@
     <div class="container py-5">
       <div class="row">
         <div class="col-lg-12 col-md-6 mb-4 mb-lg-0">
-          <div class="p-3 bg-gradient-light rounded-lg text-center">
+          <div class="p-3 bg-gradient-light rounded-lg">
             <h5 class="d-block title" style="font-size: 20px !important">{{getSetting('company_name')}}</h5>
             <p class="text-muted" style="font-size: 16px">
                 Thời gian làm việc: <strong>{{getSetting('company_business_time')}}</strong><br>

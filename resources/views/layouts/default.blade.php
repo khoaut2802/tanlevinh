@@ -64,7 +64,11 @@
             <section>
                 {{ $slot }}
             </section>
-            <div class="dot-line"></div>
+            
+            <div class="container">
+                <div class="dot-line"></div>
+            </div>
+
             <section>
                 <h3 class="text-center">Thanh toán Online</h3>
                 <p class="text-center">Hỗ trợ thanh toán Online qua các cổng thanh toán trực tuyến.</p>
