@@ -6,6 +6,7 @@
           <div class="p-3 bg-gradient-light rounded-lg text-center">
             <h5 class="d-block title" style="font-size: 20px !important">{{getSetting('company_name')}}</h5>
             <p class="text-muted" style="font-size: 16px">
+                Thời gian làm việc: <strong>{{getSetting('company_business_time')}}</strong><br>
                 Email: <strong>{{getSetting('company_email')}}</strong><br>
                 Địa chỉ: <strong>{{getSetting('company_address')}}</strong><br>
                 Điện thoại: <strong>{{getSetting('company_phone')}}</strong><br>
