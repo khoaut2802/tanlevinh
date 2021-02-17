@@ -7,6 +7,9 @@ body {
     color: #333333;
     background-color: #ffffff;
 }
+.container {
+    max-width: 1275px;
+}
 .nav-link {
     color: #111 !important;
     font-weight: 500 !important;

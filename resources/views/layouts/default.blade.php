@@ -22,7 +22,7 @@
         <link rel="stylesheet" href="{{ asset('assets/css/owl-carousel/owl.theme.default.css') }}">
         <link rel="stylesheet" href="{{ asset('assets/css/styles.css') }}">
     </head>
-    <body class="bg-gray">
+    <body class="bg-white">
         <div class="container p-0">
             @include('components.header')
 

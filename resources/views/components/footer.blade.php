@@ -1,25 +1,27 @@
  <!-- Footer -->
  <footer class="bg-white">
     <div class="container py-5">
-      <div class="row py-4">
-        <div class="col-lg-5 col-md-6 mb-4 mb-lg-0">
-          <div>
-            <h6 class="title">{{getSetting('company_name')}}</h6>
-            <p class="text-muted">
+      <div class="row">
+        <div class="col-lg-12 col-md-6 mb-4 mb-lg-0">
+          <div class="p-3 bg-gradient-light rounded-lg text-center">
+            <h5 class="d-block title" style="font-size: 20px !important">{{getSetting('company_name')}}</h5>
+            <p class="text-muted" style="font-size: 16px">
                 Email: <strong>{{getSetting('company_email')}}</strong><br>
                 Địa chỉ: <strong>{{getSetting('company_address')}}</strong><br>
                 Điện thoại: <strong>{{getSetting('company_phone')}}</strong><br>
                 MST: <strong>{{getSetting('mst')}}</strong><br>
             </p>
+            <ul class="list-inline mt-4">
+              <li class="list-inline-item"><a href="#" target="_blank" title="twitter"><i class="ri-twitter-line"></i></a></li>
+              <li class="list-inline-item"><a href="#" target="_blank" title="facebook"><i class="ri-facebook-line"></i></a></li>
+              <li class="list-inline-item"><a href="#" target="_blank" title="instagram"><i class="ri-instagram-line"></i></a></li>
+              <li class="list-inline-item"><a href="#" target="_blank" title="pinterest"><i class="ri-pinterest-line"></i></a></li>
+              <li class="list-inline-item"><a href="#" target="_blank" title="vimeo"><i class="ri-vimeo-line"></i></a></li>
+            </ul>
           </div>
-          <ul class="list-inline mt-4">
-            <li class="list-inline-item"><a href="#" target="_blank" title="twitter"><i class="fa fa-twitter"></i></a></li>
-            <li class="list-inline-item"><a href="#" target="_blank" title="facebook"><i class="fa fa-facebook"></i></a></li>
-            <li class="list-inline-item"><a href="#" target="_blank" title="instagram"><i class="fa fa-instagram"></i></a></li>
-            <li class="list-inline-item"><a href="#" target="_blank" title="pinterest"><i class="fa fa-pinterest"></i></a></li>
-            <li class="list-inline-item"><a href="#" target="_blank" title="vimeo"><i class="fa fa-vimeo"></i></a></li>
-          </ul>
         </div>
+      </div>
+      <div class="row py-4">
         <div class="col-lg-2 col-md-6 mb-4 mb-lg-0">
           <h6 class="title">Sản phẩm</h6>
           <ul class="list-unstyled mb-0">
@@ -48,6 +50,10 @@
               <li class="mb-2"><a href="{{asset('/page/Doi_tra_va_hoan_tien')}}" class="text-muted">Đổi trả và hoàn tiền</a></li>
             </ul>
           </div>
+          <div class="col-lg-6 col-md-6 mb-4 mb-lg-0">
+            <h6 class="title">Từ khóa</h6>
+            <p>in catalogue, in brochure, in tờ rơi, in tờ gấp, letter head, in decal nhựa, in poster, in túi xách, in vỏ hộp, in hộp giấy giá rẻ, in phun uv, xưởng in offset giá rẻ, uv định hình, bao bì cà phê, bao bì thực phẩm, in tem nhãn, bạt quảng cáo, in hiflex, thiết kế in ấn, in pp ngoài trời, decal cuộn, tem cuộn, in túi giấy giá rẻ tphcm, bao bì pp, in bao bì</p>
+          </div>
       </div>
     </div>
 
@@ -55,7 +61,7 @@
     <div class="bg-light py-4">
       <div class="container text-center">
         <p class="text-muted mb-0 py-2">© 2021 {{getSetting('company_name')}}. All rights reserved.</p>
-        <p class="text-muted mb-0 py-2">Made by CMSNT.CO.</p>
+        <p class="text-muted mb-0 py-2">Made by Nguyễn Xuân Khoa.</p>
       </div>
     </div>
   </footer>

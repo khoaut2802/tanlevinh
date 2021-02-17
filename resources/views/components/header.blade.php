@@ -1,5 +1,5 @@
 <!-- Page Heading -->
-<header class="bg-white w-100 shadow">
+<header class="bg-white w-100">
 
     @if(getSetting('enable_top_banner') == 'on')
     <div class="top-banner">
@@ -79,7 +79,7 @@
             </ul>
         </div>
     </nav>
-    <nav class="navbar navbar-expand-sm navbar-light bg-light border-top border-bottom border-dark p-0">
+    <nav class="navbar navbar-expand-sm navbar-light bg-light border-top border-bottom p-0">
         <button class="navbar-toggler my-2 mx-2" type="button" data-toggle="collapse" data-target="#navbarSubMenu"
             aria-controls="navbarSubMenu" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>

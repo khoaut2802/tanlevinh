@@ -24,7 +24,7 @@
         <link rel="stylesheet" href="{{ asset('assets/css/sweetalert2.min.css') }}">
         <link rel="stylesheet" href="{{ asset('assets/css/styles.css') }}">
     </head>
-    <body class="bg-gray">
+    <body class="bg-white">
         <div class="container p-0">
             @include('components.header')
             
