@@ -419,6 +419,11 @@ footer .title {
     background: transparent;
 }
 .dropdown-toggle:after { content: none }
+.select2-selection, .select2-selection__rendered {
+    height: calc(1.5em + .75rem + 2px) !important;
+    font-size: 1rem;
+    line-height: 34px !important;
+}
 @media (max-width: 992px) {
     .table-shopping-cart .itemside .info {
         padding: 0;

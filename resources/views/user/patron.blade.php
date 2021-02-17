@@ -17,7 +17,7 @@
                             <div class="col-12 col-sm-6">
                                 <div class="form-group">
                                     <label for="paper_type">Loại giấy:</label>
-                                    <select class="form-control" name="paper_type" required>
+                                    <select class="form-control tags" name="paper_type" required>
                                         @foreach($paper_types as $type)
                                             <option value="{{$type->name}}">{{$type->name}}</option>
                                         @endforeach
@@ -27,7 +27,7 @@
                             <div class="col-12 col-sm-6">
                                 <div class="form-group">
                                     <label for="paper_size">Khổ giấy:</label>
-                                    <select class="form-control" name="paper_size" required>
+                                    <select class="form-control tags" name="paper_size" required>
                                         @foreach($paper_sizes as $size)
                                             <option value="{{$size->name}}">{{$size->name}}</option>
                                         @endforeach
@@ -37,13 +37,19 @@
                             <div class="col-12 col-sm-6">
                                 <div class="form-group">
                                     <label for="print_size">Khổ in:</label>
-                                    <input class="form-control" name="print_size" placeholder="VD: 54 x 79" required>
+                                    <select class="form-control tags" name="print_size" required>
+                                        <option value="54 x 79cm">54 x 79cm</option>
+                                    </select>
                                 </div>
                             </div>
                             <div class="col-12 col-sm-6">
                                 <div class="form-group">
                                     <label for="zinc_quantity">Số kẽm:</label>
-                                    <input class="form-control" name="zinc_quantity" placeholder="VD: 4" required>
+                                    <select class="form-control tags" name="zinc_quantity" required>
+                                        @for($i = 1; $i <= 20; $i++)
+                                            <option value="{{$i}}">{{$i}}</option>
+                                        @endfor
+                                    </select>
                                 </div>
                             </div>
                             <div class="col-12 col-sm-6">
@@ -89,6 +95,11 @@
 
     <x-slot name="script">
         <script>
+            $('.tags').select2({
+                placeholder: "Chọn giá trị hoặc nhập giá trị mới",
+                tags: true
+            })
+
             refreshPrintQuantity()
             
             $('input[name="quantity"]').on('input', function() {

@@ -12,6 +12,7 @@
         @if(session('cart'))
         <aside class="col-lg-9">
             <div class="card">
+                <div class="table-responsive">
                 <table class="table table-borderless table-shopping-cart">
                     <thead class="text-muted">
                         <tr class="small text-uppercase">
@@ -27,9 +28,9 @@
                             $provisional = $provisional + $item['total_amount'] * $item['quantity'];
                         @endphp
                         <tr>
-                            <td>
+                            <td style="min-width: 200px">
                                 <figure class="itemside align-items-center">
-                                    <div class="aside">
+                                    <div class="aside d-md-block d-none">
                                         <img src="{{asset($item['image'])}}"
                                           class="img-sm">
                                     </div>
@@ -61,6 +62,7 @@
                         @endforeach
                     </tbody>
                 </table>
+                </div>
 
                 <div class="card-body border-top">
                     <p class="icontext"><i class="icon text-success fa fa-truck"></i> Tổng cộng {{count(session('cart')) ?? 0}} sản phẩm trong giỏ hàng.</p>

@@ -21,6 +21,7 @@
         <link rel="stylesheet" href="{{ asset('assets/css/owl-carousel/owl.carousel.min.css') }}">
         <link rel="stylesheet" href="{{ asset('assets/css/owl-carousel/owl.theme.default.css') }}">
         <link rel="stylesheet" href="{{ asset('assets/css/datatable/dataTables.bootstrap4.min.css') }}">
+        <link rel="stylesheet" href="{{ asset('assets/css/select2/select2.min.css') }}">
         <link rel="stylesheet" href="{{ asset('assets/css/sweetalert2.min.css') }}">
         <link rel="stylesheet" href="{{ asset('assets/css/styles.css') }}">
     </head>
@@ -110,6 +111,7 @@
         <script src="{{ asset('assets/js/owl-carousel/owl.carousel.min.js') }}"></script>
         <script src="{{ asset('assets/js/datatable/jquery.dataTables.min.js') }}"></script>
         <script src="{{ asset('assets/js/datatable/dataTables.bootstrap4.js') }}"></script>
+        <script src="{{ asset('assets/js/select2/select2.min.js') }}"></script>
         <script src="{{ asset('assets/js/sweetalert2.min.js') }}"></script>
         {{$script ?? ''}}
         <script>
