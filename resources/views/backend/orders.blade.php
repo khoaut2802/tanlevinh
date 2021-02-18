@@ -35,11 +35,11 @@
                                         name="status"
                                         class="appearance-none h-full rounded-r border-t sm:rounded-r-none sm:border-r-0 border-r border-b block appearance-none w-full bg-white border-gray-400 text-gray-700 py-2 px-4 pr-8 leading-tight focus:outline-none focus:border-l focus:border-r focus:bg-white focus:border-gray-500" id="orderFilterStatus">
                                         
-                                        <option value="">Tất cả</option>
-                                        <option value="pending">Đang chờ</option>
-                                        <option value="canceled">Đã hủy</option>
-                                        <option value="processing">Đang xử lý</option>
-                                        <option value="completed">Hoàn tất</option>
+                                        <option value="" @if(!request()->query('status'))selected @endif>Tất cả</option>
+                                        <option value="pending" @if(request()->query('status') == 'pending')selected @endif>Đang chờ</option>
+                                        <option value="canceled"@if(request()->query('status') == 'canceled')selected @endif>Đã hủy</option>
+                                        <option value="processing"@if(request()->query('status') == 'processing')selected @endif>Đang xử lý</option>
+                                        <option value="completed"@if(request()->query('status') == 'completed')selected @endif>Hoàn tất</option>
                                     </select>
                                 </div>
                             </div>
@@ -56,8 +56,8 @@
                             </div>
                             </form>
                         </div>
-                        <div class="-mx-4 sm:-mx-8 px-4 sm:px-8 py-4 overflow-x-auto">
-                            <div class="inline-block min-w-full shadow rounded-lg overflow-hidden">
+                        <div class="-mx-4 sm:-mx-8 px-4 sm:px-8 py-4 overflow-auto">
+                            <div class="inline-block min-w-full shadow rounded-lg">
                                 <table class="min-w-full leading-normal">
                                     <thead>
                                         <tr>
@@ -152,13 +152,13 @@
                                             </td>
                                             <td class="px-5 py-5 border-b border-gray-200 bg-white text-sm">
                                                 @if($order['status'] == 'completed')
-                                                    <span class="rounded text-white bg-green-700 py-2 px-2">Hoàn tất</span>
+                                                    <span class="block rounded text-white bg-green-700 py-2 px-2">Hoàn tất</span>
                                                 @elseif($order['status'] == 'pending')
-                                                    <span class="rounded text-white bg-blue-700 py-2 px-2">Đang chờ xác nhận</span>
+                                                    <span class="block rounded text-white bg-blue-700 py-2 px-2">Đang chờ xác nhận</span>
                                                 @elseif($order['status'] == 'processing')
-                                                    <span class="rounded text-white bg-yellow-700 py-2 px-2">Đang xử lý</span>                        
+                                                    <span class="block rounded text-white bg-yellow-700 py-2 px-2">Đang xử lý</span>                        
                                                 @else
-                                                    <span class="rounded text-white bg-red-700 py-2 px-2">Đã hủy</span>
+                                                    <span class="block rounded text-white bg-red-700 py-2 px-2">Đã hủy</span>
                                                 @endif
                                             </td>                                            
                                             <td class="px-5 py-5 border-b border-gray-200 bg-white text-sm">

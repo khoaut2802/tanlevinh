@@ -24,10 +24,11 @@
         <script src="{{ asset('assets/js/select2/select2.min.js') }}" defer></script>
         <script src="{{ asset('assets/js/sweetalert2.min.js') }}" defer></script>
         <script src="{{ asset('assets/js/spectrum/spectrum.min.js') }}" defer></script>
+        <script src="{{ asset('assets/js/printThis.js') }}" defer></script>
         <script src="{{ asset('assets/js/custom.js') }}" defer></script>
         <script>
             window.web_url = '{{asset("/".getSetting('admin_prefix'))}}';
-            @if(request()->route()->id) window.slug = {{request()->route()->id}}; @endif
+            @if(request()->route()->id) window.slug = '{{request()->route()->id}}' @endif
         </script>
         {{$script ?? ''}}
     </head>
