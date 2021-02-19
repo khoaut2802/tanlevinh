@@ -3,13 +3,13 @@
         <h2 class="font-semibold text-xl text-gray-800 leading-tight">
             {{ __('Đơn hàng #'.$order->code) }}
             @if($order['status'] == 'completed')
-                <span class="rounded text-white bg-green-700 py-2 px-2">Hoàn tất</span>
+                <span class="block rounded text-white bg-green-700 py-2 px-2">Hoàn tất</span>
             @elseif($order['status'] == 'pending')
-                <span class="rounded text-white bg-blue-700 py-2 px-2">Đang chờ xác nhận</span>
+                <span class="block rounded text-white bg-blue-700 py-2 px-2">Đang chờ xác nhận</span>
             @elseif($order['status'] == 'processing')
-                <span class="rounded text-white bg-yellow-700 py-2 px-2">Đang xử lý</span>                        
+                <span class="block rounded text-white bg-yellow-700 py-2 px-2">Đang xử lý</span>                        
             @else
-                <span class="rounded text-white bg-red-700 py-2 px-2">Đã hủy</span>
+                <span class="block rounded text-white bg-red-700 py-2 px-2">Đã hủy</span>
             @endif            
         </h2>
     </x-slot>

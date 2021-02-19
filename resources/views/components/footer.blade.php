@@ -62,7 +62,7 @@
     <div class="bg-light py-4">
       <div class="container text-center">
         <p class="text-muted mb-0 py-2">© 2021 {{getSetting('company_name')}}. All rights reserved.</p>
-        <p class="text-muted mb-0 py-2">Made by Nguyễn Xuân Khoa.</p>
+        <p class="text-muted mb-0 py-2">Made by NXK.</p>
       </div>
     </div>
   </footer>
