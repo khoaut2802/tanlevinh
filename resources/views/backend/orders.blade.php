@@ -162,19 +162,22 @@
                                                 @endif
                                             </td>                                            
                                             <td class="px-5 py-5 border-b border-gray-200 bg-white text-sm">
-                                                <div class="group inline-block">
+                                                <div class="group inline-block" x-data="{show: false}">
                                                     <button
+                                                        type="button"
                                                       class="outline-none focus:outline-none border px-3 py-1 bg-white rounded-sm flex items-center min-w-32"
+                                                      x-on:click="show = !show"
                                                     >
                                                       <span class="pr-1 font-semibold flex-1">Menu</span>
-                                                      <span class="fill-current transform group-hover:-rotate-180
+                                                      <span class="fill-current transform
                                                       transition duration-150 ease-in-out">
                                                        <i class="ri-arrow-drop-down-line" style="font-size:24px"></i>
                                                       </span>
                                                     </button>
                                                     <ul
-                                                      class="bg-white border rounded-sm transform scale-0 group-hover:scale-100 absolute 
-                                                    transition duration-150 ease-in-out origin-top min-w-32 z-10"
+                                                      class="bg-white border rounded-sm relative 
+                                                    ease-in-out min-w-32 z-10"
+                                                    x-show="show"
                                                     >
                                                     @if(strpos($order['code'], 'PATRON') === false)
                                                       <li class="rounded-sm px-3 py-1 hover:bg-gray-100 cursor-pointer "><a href="{{route('orders_detail', ['id' => $order['code']])}}">Chi tiết</a></li>

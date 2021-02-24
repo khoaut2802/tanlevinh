@@ -49,6 +49,9 @@
                         </div>
                     </div>
                     <div class="py-8" id="print-area">
+                        <div class="flex text-center my-2">
+                            <img src="{{asset('assets/images/logo.png')}}" width="48">
+                        </div>
                         <h6 class="text-muted">Giao tới</h6>
                         <p class="mb-2"><b>{{$order->user->name}}</b> <br>
                             Điện thoại: <b>{{$order->user->phone}}</b> <br>
