@@ -115,6 +115,12 @@ class UsersController extends Controller
             if($user->user_type == 'admin' && User::where('user_type', 'admin')->count() == 1)
                 return redirect()->back()->withErrors('Không thể xóa tài khoản Admin này.');
 
+            $orders = Orders::where('user_id', $user->id)->get();
+            foreach($orders as $order) {
+                OrderDetails::where('order_id', $order->code)->delete();
+            }
+
+            Orders::where('user_id', $user->id)->delete();
             User::where('id', $id)->delete();
 
             return redirect()->back()->withSuccess('Xóa người dùng thành công.');
