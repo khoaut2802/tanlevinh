@@ -67,6 +67,10 @@
                                             </th>
                                             <th
                                                 class="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
+                                                Người đặt
+                                            </th>                                            
+                                            <th
+                                                class="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
                                                 Sản phẩm
                                             </th>
                                             <th
@@ -117,12 +121,12 @@
                                             </td>
                                             <td class="px-5 py-5 border-b border-gray-200 bg-white text-sm">
                                                 <p class="text-gray-900 whitespace-no-wrap">
+                                                    {{$order['user']['name']}}<br>
+                                                    {{$order['user']['email']}}<br>
+                                                    {{$order['user']['phone']}}<br>
+                                                    {{$order['user']['address']}}<br>
+                                                    <hr>                                                    
                                                     @if(strpos($order['code'], 'PATRON') !== false)
-                                                        {{$order['user']['name']}}<br>
-                                                        {{$order['user']['email']}}<br>
-                                                        {{$order['user']['phone']}}<br>
-                                                        {{$order['user']['address']}}<br>
-                                                        <hr>
                                                         @foreach($order['detail'] as $detail)
                                                             @foreach(json_decode($detail['product_attrs']) as $key => $value)
                                                                 {{__($key)}}: {{$value}}<br>
