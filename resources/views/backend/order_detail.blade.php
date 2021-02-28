@@ -63,7 +63,9 @@
                             <thead>
                               <tr class="rounded-lg text-sm font-medium text-gray-700 text-left" style="font-size: 0.9674rem">
                                 <th class="px-4 py-2 bg-gray-200 " style="background-color:#f8f8f8">#</th>
+                                @if($item->product_id != 0)
                                 <th class="px-4 py-2 bg-gray-200 " style="background-color:#f8f8f8">Hình ảnh</th>
+                                @endif
                                 <th class="px-4 py-2 bg-gray-200 " style="background-color:#f8f8f8">Sản phẩm</th>
                                 <th class="px-4 py-2 " style="background-color:#f8f8f8">Số lượng</th>
                                 <th class="px-4 py-2 " style="background-color:#f8f8f8">Giá</th>
@@ -75,11 +77,11 @@
                                     <td width="150">
                                         {{$order->code}}
                                     </td>
-                                    <td width="150">
-                                        @if($item->product_id != 0)
+                                    @if($item->product_id != 0)
+                                        <td width="150">
                                             <img src="{{asset($item->product->image)}}" class="border" width="64px">
-                                        @endif
-                                    </td>
+                                        </td>
+                                    @endif
                                     <td>
                                         @php
                                             $attrs = json_decode($item->product_attrs);
@@ -93,7 +95,7 @@
                                             @endforeach
                                         </span>
                                         @else
-                                            <p class="title mb-0">{{$attrs->name}}</p>
+                                            <p class="title mb-0">Tên: {{$attrs->name}}</p>
                                             <span class="price text-muted small">
                                                 Loại giấy: {{$attrs->paper_type}}</br>
                                                 Khổ giấy: {{$attrs->paper_size}}</br>
