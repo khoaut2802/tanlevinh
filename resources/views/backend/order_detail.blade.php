@@ -76,7 +76,7 @@
                                         {{$order->code}}
                                     </td>
                                     <td width="150">
-                                        @if($item->product->image)
+                                        @if($item->product)
                                             <img src="{{asset($item->product->image)}}" class="border" width="64px">
                                         @endif
                                     </td>
@@ -86,7 +86,6 @@
                                             @foreach(json_decode($item->product_attrs) as $attr)
                                                 {{$attr->name}}: {{$attr->values->name}} ({{number_format($attr->values->price)}}đ)<br>
                                             @endforeach
-                                            
                                         </span>
                                     </td>
                                     <td> SL: {{$item->quantity}} </td>
