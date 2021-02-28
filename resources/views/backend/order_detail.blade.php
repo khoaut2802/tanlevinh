@@ -76,7 +76,9 @@
                                         {{$order->code}}
                                     </td>
                                     <td width="150">
-                                        <img src="{{asset($item->product->image)}}" class="border" width="64px">
+                                        @if($item->product->image)
+                                            <img src="{{asset($item->product->image)}}" class="border" width="64px">
+                                        @endif
                                     </td>
                                     <td>
                                         <p class="title mb-0">{{$item->product->name}}</p>
