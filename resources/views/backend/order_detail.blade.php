@@ -76,17 +76,35 @@
                                         {{$order->code}}
                                     </td>
                                     <td width="150">
-                                        @if($item->product)
+                                        @if($item->product_id != 0)
                                             <img src="{{asset($item->product->image)}}" class="border" width="64px">
                                         @endif
                                     </td>
                                     <td>
+                                        @php
+                                            $attrs = json_decode($item->product_attrs);
+                                        @endphp
+
+                                        @if($item->product_id != 0)
                                         <p class="title mb-0">{{$item->product->name}}</p>
                                         <span class="price text-muted small">
                                             @foreach(json_decode($item->product_attrs) as $attr)
                                                 {{$attr->name}}: {{$attr->values->name}} ({{number_format($attr->values->price)}}đ)<br>
                                             @endforeach
                                         </span>
+                                        @else
+                                            <p class="title mb-0">{{$attrs->name}}</p>
+                                            <span class="price text-muted small">
+                                                Loại giấy: {{$attrs->paper_type}}</br>
+                                                Khổ giấy: {{$attrs->paper_size}}</br>
+                                                Khổ in: {{$attrs->print_size}}</br>
+                                                Số kẽm: {{$attrs->zinc_quantity}}</br>
+                                                Màu sắc: {{$attrs->color}}</br>
+                                                Số lượng: {{$attrs->quantity}}</br>
+                                                Bù hao: {{$attrs->compensate}}</br>
+                                                Cắt: {{$attrs->cut}}</br>
+                                            </span>
+                                        @endif
                                     </td>
                                     <td> SL: {{$item->quantity}} </td>
                                     <td>{{number_format($price)}}đ</td>
