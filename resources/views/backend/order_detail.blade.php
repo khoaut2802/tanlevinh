@@ -91,40 +91,40 @@
                                         @if($item->product_id != 0)
                                         <p class="title mb-0">{{$item->product->name}}</p>
                                             @foreach(json_decode($item->product_attrs) as $attr)
-                                            <p class="title mb-0">Tên: {{$attrs->name}}</p>
+                                            <p class="title mb-0">Tên: {{$attr->name}}</p>
                                             <table>
                                                 <tbody>
                                                     <tr>
                                                         <th>Loại giấy:</th>
-                                                        <td>{{$attrs->paper_type}}</td>
+                                                        <td>{{$attr->paper_type}}</td>
                                                     </tr>
                                                     <tr>
                                                         <th>Khổ giấy:</th>
-                                                        <td>{{$attrs->paper_size}}</td>
+                                                        <td>{{$attr->paper_size}}</td>
                                                     </tr>
                                                     <tr>
                                                         <th>Khổ in:</th>
-                                                        <td>{{$attrs->print_size}}</td>
+                                                        <td>{{$attr->print_size}}</td>
                                                     </tr>
                                                     <tr>
                                                         <th>Số kẽm:</th>
-                                                        <td>{{$attrs->zinc_quantity}}</td>
+                                                        <td>{{$attr->zinc_quantity}}</td>
                                                     </tr>
                                                     <tr>
                                                         <th>Màu sắc:</th>
-                                                        <td>{{$attrs->quantity}}</td>
+                                                        <td>{{$attr->quantity}}</td>
                                                     </tr>
                                                     <tr>
                                                         <th>Số lượng:</th>
-                                                        <td>{{$attrs->zinc_quantity}}</td>
+                                                        <td>{{$attr->zinc_quantity}}</td>
                                                     </tr>
                                                     <tr>
                                                         <th>Bù hao:</th>
-                                                        <td>{{$attrs->compensate}}</td>
+                                                        <td>{{$attr->compensate}}</td>
                                                     </tr>
                                                     <tr>
                                                         <th>Cắt:</th>
-                                                        <td>{{$attrs->cut}}</td>
+                                                        <td>{{$attr->cut}}</td>
                                                     </tr>
                                                 </tbody>
                                             </table>
