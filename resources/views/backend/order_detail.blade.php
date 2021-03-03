@@ -93,7 +93,7 @@
                                         <table>
                                             <tbody>
                                             @foreach(json_decode($item->product_attrs) as $attr)
-                                                <tr>
+                                                <tr class="text-left">
                                                     <th>{{$attr->name}}:</th>
                                                     <td>{{$attr->values->name}} ({{number_format($attr->values->price)}}đ)</td>
                                                 </tr>
