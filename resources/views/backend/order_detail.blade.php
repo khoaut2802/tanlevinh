@@ -96,6 +96,11 @@
                                             @endforeach
                                         </span>
                                         @else
+                                        @if(strpos($order['code'], 'PATRON') !== false)
+                                            @foreach(json_decode($item['product_attrs']) as $key => $value)
+                                                {{__($key)}}: {{$value}}<br>
+                                            @endforeach                                                       
+                                        @else        
                                             <p class="title mb-0">Tên: {{$attrs->name}}</p>
                                             <table>
                                                 <tbody>
@@ -133,6 +138,7 @@
                                                     </tr>
                                                 </tbody>
                                             </table>
+                                            @endif
                                         @endif
                                     </td>
                                     <td> SL: {{$item->quantity}} </td>
