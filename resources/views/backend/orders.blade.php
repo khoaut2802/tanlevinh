@@ -190,9 +190,7 @@
                                                     ease-in-out min-w-32 z-10"
                                                     x-show="show"
                                                     >
-                                                    @if(strpos($order['code'], 'PATRON') === false)
                                                       <li class="rounded-sm px-3 py-1 hover:bg-gray-100 cursor-pointer "><a href="{{route('orders_detail', ['id' => $order['code']])}}">Chi tiết</a></li>
-                                                    @endif
                                                       <li class="rounded-sm px-3 py-1 hover:bg-gray-100 cursor-pointer text-green-500 changeOrderStauts" data-action="completed" data-id="{{$order['code']}}">Duyệt</li>
                                                       <li class="rounded-sm px-3 py-1 hover:bg-gray-100 cursor-pointer text-yellow-500 changeOrderStauts" data-action="processing" data-id="{{$order['code']}}">Xử lý</li>
                                                       <li class="rounded-sm px-3 py-1 hover:bg-gray-100 cursor-pointer text-red-500 changeOrderStauts" data-action="canceled" data-id="{{$order['code']}}">Hủy</li>
