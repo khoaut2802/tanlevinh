@@ -20,7 +20,11 @@ class OrdersController extends Controller
         $orders = Orders::where('status', 'LIKE', "%{$status}%")
         ->where('code', 'LIKE', "%{$search}%")
         ->with(['user' => function($query) use ($search) {
-            $query->where([['email', 'LIKE', "%{$search}%"], ['name', 'LIKE', "%{$search}%"]]);
+            if($search != '') {
+                $query->where([['email', 'LIKE', "%{$search}%"], ['name', 'LIKE', "%{$search}%"]]);
+            }
+
+            return $query;
         }, 'detail', 'detail.product'])->paginate($per_page, $columns = ['*'], $pageName = 'page', $page)->toArray();
         
         // dd($products);
