@@ -90,45 +90,16 @@
 
                                         @if($item->product_id != 0)
                                         <p class="title mb-0">{{$item->product->name}}</p>
+                                        <table>
+                                            <tbody>
                                             @foreach(json_decode($item->product_attrs) as $attr)
-                                                <p class="title mb-0">Tên: {{$attr->name}}</p>
-                                                <table>
-                                                    <tbody>
-                                                        <tr>
-                                                            <th>Loại giấy:</th>
-                                                            <td>{{$attr->paper_type}}</td>
-                                                        </tr>
-                                                        <tr>
-                                                            <th>Khổ giấy:</th>
-                                                            <td>{{$attr->paper_size}}</td>
-                                                        </tr>
-                                                        <tr>
-                                                            <th>Khổ in:</th>
-                                                            <td>{{$attr->print_size}}</td>
-                                                        </tr>
-                                                        <tr>
-                                                            <th>Số kẽm:</th>
-                                                            <td>{{$attr->zinc_quantity}}</td>
-                                                        </tr>
-                                                        <tr>
-                                                            <th>Màu sắc:</th>
-                                                            <td>{{$attr->quantity}}</td>
-                                                        </tr>
-                                                        <tr>
-                                                            <th>Số lượng:</th>
-                                                            <td>{{$attr->zinc_quantity}}</td>
-                                                        </tr>
-                                                        <tr>
-                                                            <th>Bù hao:</th>
-                                                            <td>{{$attr->compensate}}</td>
-                                                        </tr>
-                                                        <tr>
-                                                            <th>Cắt:</th>
-                                                            <td>{{$attr->cut}}</td>
-                                                        </tr>
-                                                    </tbody>
-                                                </table>
+                                                <tr>
+                                                    <th>{{$attr->name}}:</th>
+                                                    <td>{{$attr->values->name}} ({{number_format($attr->values->price)}}đ)</td>
+                                                </tr>
                                             @endforeach
+                                            </tbody>
+                                        </table>
                                         @else
                                             @if(strpos($order['code'], 'PATRON') !== false)
                                                 @foreach(json_decode($item['product_attrs']) as $key => $value)
