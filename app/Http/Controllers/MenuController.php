@@ -11,7 +11,7 @@ class MenuController extends Controller
     public function index(Request $request)
     {
         try {
-            $menus = Menus::where('parent_id', 0)->orderBy('order', 'ASC')->limit(5)->get();
+            $menus = Menus::where('parent_id', 0)->orderBy('order', 'ASC')->get();
             $pages = Pages::get();
             $data = [];
 
