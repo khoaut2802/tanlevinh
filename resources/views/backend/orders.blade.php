@@ -121,10 +121,10 @@
                                             </td>
                                             <td class="px-5 py-5 border-b border-gray-200 bg-white text-sm">
                                                 <p class="text-gray-900 whitespace-no-wrap">
-                                                    {{$order['user']['name']}}<br>
-                                                    {{$order['user']['email']}}<br>
-                                                    {{$order['user']['phone']}}<br>
-                                                    {{$order['user']['address']}}<br>
+                                                    {{$order['user']['name'] ?? ''}}<br>
+                                                    {{$order['user']['email'] ?? ''}}<br>
+                                                    {{$order['user']['phone'] ?? ''}}<br>
+                                                    {{$order['user']['address'] ?? ''}}<br>
                                                     <hr>                                                    
                                                     @if(strpos($order['code'], 'PATRON') !== false)
                                                         @foreach($order['detail'] as $detail)
