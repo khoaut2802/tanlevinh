@@ -53,6 +53,7 @@
                             <img src="{{asset('assets/images/logo.png')}}" width="48">
                         </div>
                         <h6 class="text-muted">Số phiếu: <strong>{{\Carbon\Carbon::now()->format('dmYhis')}}</strong></h6>
+                        <h6 class="text-muted">Mã đơn hàng: <strong>{{$order->code}}</strong></h6>
                         <h6 class="text-muted">Giao tới</h6>
                         <p class="mb-2"><b>{{$order->user->name}}</b> <br>
                             Điện thoại: <b>{{$order->user->phone}}</b> <br>
