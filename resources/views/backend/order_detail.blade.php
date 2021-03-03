@@ -91,43 +91,43 @@
                                         @if($item->product_id != 0)
                                         <p class="title mb-0">{{$item->product->name}}</p>
                                             @foreach(json_decode($item->product_attrs) as $attr)
-                                            <p class="title mb-0">Tên: {{$attr->name}}</p>
-                                            <table>
-                                                <tbody>
-                                                    <tr>
-                                                        <th>Loại giấy:</th>
-                                                        <td>{{$attr->paper_type}}</td>
-                                                    </tr>
-                                                    <tr>
-                                                        <th>Khổ giấy:</th>
-                                                        <td>{{$attr->paper_size}}</td>
-                                                    </tr>
-                                                    <tr>
-                                                        <th>Khổ in:</th>
-                                                        <td>{{$attr->print_size}}</td>
-                                                    </tr>
-                                                    <tr>
-                                                        <th>Số kẽm:</th>
-                                                        <td>{{$attr->zinc_quantity}}</td>
-                                                    </tr>
-                                                    <tr>
-                                                        <th>Màu sắc:</th>
-                                                        <td>{{$attr->quantity}}</td>
-                                                    </tr>
-                                                    <tr>
-                                                        <th>Số lượng:</th>
-                                                        <td>{{$attr->zinc_quantity}}</td>
-                                                    </tr>
-                                                    <tr>
-                                                        <th>Bù hao:</th>
-                                                        <td>{{$attr->compensate}}</td>
-                                                    </tr>
-                                                    <tr>
-                                                        <th>Cắt:</th>
-                                                        <td>{{$attr->cut}}</td>
-                                                    </tr>
-                                                </tbody>
-                                            </table>
+                                                <p class="title mb-0">Tên: {{$attr->name}}</p>
+                                                <table>
+                                                    <tbody>
+                                                        <tr>
+                                                            <th>Loại giấy:</th>
+                                                            <td>{{$attr->paper_type}}</td>
+                                                        </tr>
+                                                        <tr>
+                                                            <th>Khổ giấy:</th>
+                                                            <td>{{$attr->paper_size}}</td>
+                                                        </tr>
+                                                        <tr>
+                                                            <th>Khổ in:</th>
+                                                            <td>{{$attr->print_size}}</td>
+                                                        </tr>
+                                                        <tr>
+                                                            <th>Số kẽm:</th>
+                                                            <td>{{$attr->zinc_quantity}}</td>
+                                                        </tr>
+                                                        <tr>
+                                                            <th>Màu sắc:</th>
+                                                            <td>{{$attr->quantity}}</td>
+                                                        </tr>
+                                                        <tr>
+                                                            <th>Số lượng:</th>
+                                                            <td>{{$attr->zinc_quantity}}</td>
+                                                        </tr>
+                                                        <tr>
+                                                            <th>Bù hao:</th>
+                                                            <td>{{$attr->compensate}}</td>
+                                                        </tr>
+                                                        <tr>
+                                                            <th>Cắt:</th>
+                                                            <td>{{$attr->cut}}</td>
+                                                        </tr>
+                                                    </tbody>
+                                                </table>
                                             @endforeach
                                         @else
                                             @if(strpos($order['code'], 'PATRON') !== false)
@@ -135,7 +135,7 @@
                                                     {{__($key)}}: {{$value}}<br>
                                                 @endforeach                                                       
                                             @endif
-                                        @endforeach
+                                        @endif
                                     </td>
                                     <td> SL: {{$item->quantity}} </td>
                                     <td>{{number_format($price)}}đ</td>
