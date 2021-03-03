@@ -24,7 +24,7 @@ if(!function_exists('getBanner')) {
 if(!function_exists('getMenus')) {
     function getMenus() {
         $menus = new \App\Models\Menus;
-        $list = $menus->where('parent_id', 0)->orderBy('order', 'ASC')->limit(5)->get();
+        $list = $menus->where('parent_id', 0)->orderBy('order', 'ASC')->limit(6)->get();
         $ar = [];
 
         foreach($list as $menu) {
