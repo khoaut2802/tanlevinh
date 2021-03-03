@@ -169,7 +169,7 @@
                                                 @if($order['file'] == null)
                                                     Chưa có
                                                 @else
-                                                    <a href="{{asset($order['file'])}}" target="_blank">Tải về</a>
+                                                    <a href="{{asset($order['file'])}}" class="text-blue-700" target="_blank">Tải về</a>
                                                 @endif
                                             </td>
                                             <td class="px-5 py-5 border-b border-gray-200 bg-white text-sm">
