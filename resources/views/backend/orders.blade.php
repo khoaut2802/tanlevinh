@@ -24,10 +24,10 @@
                                     <select
                                         name="per_page"
                                         class="appearance-none h-full rounded-l border block appearance-none w-full bg-white border-gray-400 text-gray-700 py-2 px-4 pr-8 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" id="orderFilterLimit">
-                                        <option value="5">5</option>
-                                        <option value="10">10</option>
-                                        <option value="20">20</option>
-                                        <option value="20">20</option>
+                                        <option value="5" @if(request()->query('per_page') == 5)selected @endif>5</option>
+                                        <option value="10" @if(request()->query('per_page') == 10)selected @endif>10</option>
+                                        <option value="20" @if(request()->query('per_page') == 20)selected @endif>20</option>
+                                        <option value="50" @if(request()->query('per_page') == 50)selected @endif>20</option>
                                     </select>
                                 </div>
                                 <div class="relative">
@@ -64,14 +64,10 @@
                                             <th
                                                 class="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
                                                Mã đơn hàng
-                                            </th>
+                                            </th>                                          
                                             <th
                                                 class="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
-                                                Người đặt
-                                            </th>                                            
-                                            <th
-                                                class="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
-                                                Sản phẩm
+                                                Thông tin
                                             </th>
                                             <th
                                                 class="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
@@ -89,6 +85,10 @@
                                                 class="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
                                                 Trạng thái
                                             </th>
+                                            <th
+                                                class="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
+                                                Tệp tin
+                                            </th>                                           
                                             <th
                                                 class="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
                                                 Hành động
@@ -164,7 +164,14 @@
                                                 @else
                                                     <span class="block rounded text-white bg-red-700 py-2 px-2">Đã hủy</span>
                                                 @endif
-                                            </td>                                            
+                                            </td>   
+                                            <td class="px-5 py-5 border-b border-gray-200 bg-white text-sm">
+                                                @if($order['file'] == null)
+                                                    Chưa có
+                                                @else
+                                                    <a href="{{asset($order['file'])}}" target="_blank">Tải về</a>
+                                                @endif
+                                            </td>
                                             <td class="px-5 py-5 border-b border-gray-200 bg-white text-sm">
                                                 <div class="group inline-block" x-data="{show: false}">
                                                     <button

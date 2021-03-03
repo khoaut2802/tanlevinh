@@ -17,7 +17,11 @@ class OrdersController extends Controller
         $status = $request->get('status', '');
         $search = $request->get('search', '');
         
-        $orders = Orders::where('status', 'LIKE', "%{$status}%")->where('code', 'LIKE', "%{$search}%")->with('user', 'detail', 'detail.product')->paginate($per_page, $columns = ['*'], $pageName = 'page', $page)->toArray();
+        $orders = Orders::where('status', 'LIKE', "%{$status}%")
+        ->where('code', 'LIKE', "%{$search}%")
+        ->with(['user' => function($query) use ($search) {
+            $query->where([['email', 'LIKE', "%{$search}%"], ['name', 'LIKE', "%{$search}%"]]);
+        }, 'detail', 'detail.product'])->paginate($per_page, $columns = ['*'], $pageName = 'page', $page)->toArray();
         
         // dd($products);
         return view('backend.orders', compact('orders'));

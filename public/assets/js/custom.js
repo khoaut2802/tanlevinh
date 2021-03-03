@@ -363,6 +363,14 @@ $(document).ready(function() {
         window.location.href = window.web_url + '/orders?status=' + $(this).val();
     })
 
+    $('#productFilterLimit').on('change', function() {
+        window.location.href = window.web_url + '/products?per_page=' + $(this).val();
+    })
+
+    $('#productFilterGroup').on('change', function() {
+        window.location.href = window.web_url + '/products?group=' + $(this).val();
+    })    
+
     $('.editUser').on('click', function() {
         var id = $(this).attr('data-id');
         $('input[name="id"]').val(id);

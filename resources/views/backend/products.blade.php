@@ -23,21 +23,23 @@
                             <div class="flex flex-row mb-1 sm:mb-0">
                                 <div class="relative">
                                     <select
+                                        id="productFilterLimit"
                                         name="per_page"
                                         class="appearance-none h-full rounded-l border block appearance-none w-full bg-white border-gray-400 text-gray-700 py-2 px-4 pr-8 leading-tight focus:outline-none focus:bg-white focus:border-gray-500">
-                                        <option value="5">5</option>
-                                        <option value="10">10</option>
-                                        <option value="20">20</option>
-                                        <option value="20">20</option>
+                                        <option value="5" @if(request()->query('per_page') == 5)selected @endif>5</option>
+                                        <option value="10" @if(request()->query('per_page') == 10)selected @endif>10</option>
+                                        <option value="20" @if(request()->query('per_page') == 20)selected @endif>20</option>
+                                        <option value="50" @if(request()->query('per_page') == 50)selected @endif>20</option>
                                     </select>
                                 </div>
                                 <div class="relative">
                                     <select
+                                        id="productFilterGroup"
                                         name="group"
                                         class="appearance-none h-full rounded-r border-t sm:rounded-r-none sm:border-r-0 border-r border-b block appearance-none w-full bg-white border-gray-400 text-gray-700 py-2 px-4 pr-8 leading-tight focus:outline-none focus:border-l focus:border-r focus:bg-white focus:border-gray-500">
                                         <option value="">All</option>
                                         @foreach($groups as $group)
-                                            <option value="{{$group->id}}">{{$group->name}}</option>
+                                            <option value="{{$group->id}}" @if(request()->query('group') == $group->id)selected @endif>{{$group->name}}</option>
                                         @endforeach
                                     </select>
                                 </div>
