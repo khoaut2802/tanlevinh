@@ -90,17 +90,7 @@
 
                                         @if($item->product_id != 0)
                                         <p class="title mb-0">{{$item->product->name}}</p>
-                                        <span class="price text-muted small">
                                             @foreach(json_decode($item->product_attrs) as $attr)
-                                                {{$attr->name}}: {{$attr->values->name}} ({{number_format($attr->values->price)}}đ)<br>
-                                            @endforeach
-                                        </span>
-                                        @else
-                                        @if(strpos($order['code'], 'PATRON') !== false)
-                                            @foreach(json_decode($item['product_attrs']) as $key => $value)
-                                                {{__($key)}}: {{$value}}<br>
-                                            @endforeach                                                       
-                                        @else        
                                             <p class="title mb-0">Tên: {{$attrs->name}}</p>
                                             <table>
                                                 <tbody>
@@ -138,7 +128,12 @@
                                                     </tr>
                                                 </tbody>
                                             </table>
-                                            @endif
+                                            @endforeach
+                                        @else
+                                        @if(strpos($order['code'], 'PATRON') !== false)
+                                            @foreach(json_decode($item['product_attrs']) as $key => $value)
+                                                {{__($key)}}: {{$value}}<br>
+                                            @endforeach                                                       
                                         @endif
                                     </td>
                                     <td> SL: {{$item->quantity}} </td>
