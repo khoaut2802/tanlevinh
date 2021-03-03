@@ -130,11 +130,12 @@
                                             </table>
                                             @endforeach
                                         @else
-                                        @if(strpos($order['code'], 'PATRON') !== false)
-                                            @foreach(json_decode($item['product_attrs']) as $key => $value)
-                                                {{__($key)}}: {{$value}}<br>
-                                            @endforeach                                                       
-                                        @endif
+                                            @if(strpos($order['code'], 'PATRON') !== false)
+                                                @foreach(json_decode($item['product_attrs']) as $key => $value)
+                                                    {{__($key)}}: {{$value}}<br>
+                                                @endforeach                                                       
+                                            @endif
+                                        @endforeach
                                     </td>
                                     <td> SL: {{$item->quantity}} </td>
                                     <td>{{number_format($price)}}đ</td>
