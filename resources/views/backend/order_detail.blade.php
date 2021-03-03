@@ -97,16 +97,42 @@
                                         </span>
                                         @else
                                             <p class="title mb-0">Tên: {{$attrs->name}}</p>
-                                            <span class="price text-muted small">
-                                                Loại giấy: {{$attrs->paper_type}}</br>
-                                                Khổ giấy: {{$attrs->paper_size}}</br>
-                                                Khổ in: {{$attrs->print_size}}</br>
-                                                Số kẽm: {{$attrs->zinc_quantity}}</br>
-                                                Màu sắc: {{$attrs->color}}</br>
-                                                Số lượng: {{$attrs->quantity}}</br>
-                                                Bù hao: {{$attrs->compensate}}</br>
-                                                Cắt: {{$attrs->cut}}</br>
-                                            </span>
+                                            <table>
+                                                <tbody>
+                                                    <tr>
+                                                        <th>Loại giấy:</th>
+                                                        <td>{{$attrs->paper_type}}</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <th>Khổ giấy:</th>
+                                                        <td>{{$attrs->paper_size}}</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <th>Khổ in:</th>
+                                                        <td>{{$attrs->print_size}}</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <th>Số kẽm:</th>
+                                                        <td>{{$attrs->zinc_quantity}}</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <th>Màu sắc:</th>
+                                                        <td>{{$attrs->quantity}}</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <th>Số lượng:</th>
+                                                        <td>{{$attrs->zinc_quantity}}</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <th>Bù hao:</th>
+                                                        <td>{{$attrs->compensate}}</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <th>Cắt:</th>
+                                                        <td>{{$attrs->cut}}</td>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
                                         @endif
                                     </td>
                                     <td> SL: {{$item->quantity}} </td>
