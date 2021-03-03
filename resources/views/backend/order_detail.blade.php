@@ -73,10 +73,13 @@
                               </tr>
                             </thead>
                             <tbody class="text-sm font-normal text-gray-700 divide-y divide-gray-500">
+                                @php
+                                    $i = 1;
+                                @endphp
                                 @foreach($order->detail as $item)
                                 <tr>
                                     <td width="150">
-                                        {{$order->code}}
+                                        {{$i}}
                                     </td>
                                     @if($item->product_id != 0)
                                         <td width="150">
@@ -111,6 +114,9 @@
                                     <td> SL: {{$item->quantity}} </td>
                                     <td>{{number_format($price)}}đ</td>
                                 </tr>
+                                @php
+                                    $i++;
+                                @endphp
                                 @endforeach
                             </tbody>
                           </table>
