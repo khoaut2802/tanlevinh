@@ -67,7 +67,7 @@
                                             </th>                                          
                                             <th
                                                 class="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
-                                                Thông tin
+                                                Sản phẩm
                                             </th>
                                             <th
                                                 class="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
@@ -115,22 +115,17 @@
                                                         @if(strpos($order['code'], 'PATRON') !== false)
                                                             (Khách quen) <br>
                                                         @endif
-                                                        {{$order['code']}}
+                                                        <strong>{{$order['code']}}</strong><br>
+                                                        {{$order['user']['name'] ?? ''}}<br>
+                                                        {{$order['user']['email'] ?? ''}}
                                                     </p>
                                                 </div>
                                             </td>
                                             <td class="px-5 py-5 border-b border-gray-200 bg-white text-sm">
-                                                <p class="text-gray-900 whitespace-no-wrap">
-                                                    {{$order['user']['name'] ?? ''}}<br>
-                                                    {{$order['user']['email'] ?? ''}}<br>
-                                                    {{$order['user']['phone'] ?? ''}}<br>
-                                                    {{$order['user']['address'] ?? ''}}<br>
-                                                    <hr>                                                    
+                                                <p class="text-gray-900 whitespace-no-wrap">                                   
                                                     @if(strpos($order['code'], 'PATRON') !== false)
                                                         @foreach($order['detail'] as $detail)
-                                                            @foreach(json_decode($detail['product_attrs']) as $key => $value)
-                                                                {{__($key)}}: {{$value}}<br>
-                                                            @endforeach
+                                                           {{json_decode($detail['product_attrs'])->name}}
                                                         @endforeach                                                            
                                                     @else                                                    
                                                         @foreach($order['detail'] as $detail)

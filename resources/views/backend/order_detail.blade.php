@@ -49,75 +49,58 @@
                         </div>
                     </div>
                     <div class="py-8" id="print-area">
-                        <div class="flex text-center my-2">
+                        <div class="flex justify-center w-full my-2">
                             <img src="{{asset('assets/images/logo.png')}}" width="48">
                         </div>
-                        <h6 class="text-muted">Số phiếu: <strong>{{\Carbon\Carbon::now()->format('dmYhis')}}</strong></h6>
-                        <h6 class="text-muted">Mã đơn hàng: <strong>{{$order->code}}</strong></h6>
-                        <h6 class="text-muted">Giao tới</h6>
-                        <p class="mb-2"><b>{{$order->user->name}}</b> <br>
+                        <div class="flex justify-between w-full my-2">
+                            <h6 class="text-muted">Số phiếu: <strong>{{\Carbon\Carbon::now()->format('dmYhis')}}</strong></h6>
+                            <h6 class="text-muted">Mã đơn hàng: <strong>{{$order->code}}</strong></h6>
+                        </div>
+                        <h6 class="text-muted">Khách hàng: <b>{{$order->user->name}}</b></h6>
+                        <p class="mb-2">
                             Điện thoại: <b>{{$order->user->phone}}</b> <br>
                             Email: <b>{{$order->user->email}}</b> <br>
                             Địa chỉ: <b>{{$order->user->address}}</b>
                         </p>                        
                         <div class="overflow-x-auto">
-                        <table class="table-auto border-collapse w-full divide-y divide-gray-200">
-                            <thead>
-                              <tr class="rounded-lg text-sm font-medium text-gray-700 text-left" style="font-size: 0.9674rem">
-                                <th class="px-4 py-2 bg-gray-200 " style="background-color:#f8f8f8">#</th>
-                                @if($item->product_id != 0)
-                                <th class="px-4 py-2 bg-gray-200 " style="background-color:#f8f8f8">Hình ảnh</th>
-                                @endif
-                                <th class="px-4 py-2 bg-gray-200 " style="background-color:#f8f8f8">Sản phẩm</th>
-                                <th class="px-4 py-2 " style="background-color:#f8f8f8">Số lượng</th>
-                                <th class="px-4 py-2 " style="background-color:#f8f8f8">Giá</th>
-                              </tr>
-                            </thead>
-                            <tbody class="text-sm font-normal text-gray-700 divide-y divide-gray-500">
+                        <table class="table-auto border-collapse border border-green-900 w-full">
+                            <tbody class="text-gray-700">
                                 @php
                                     $i = 1;
                                 @endphp
+                                
                                 @foreach($order->detail as $item)
-                                <tr>
-                                    <td width="150">
-                                        {{$i}}
-                                    </td>
                                     @if($item->product_id != 0)
-                                        <td width="150">
-                                            <img src="{{asset($item->product->image)}}" class="border" width="64px">
-                                        </td>
-                                    @endif
-                                    <td>
-                                        @php
-                                            $attrs = json_decode($item->product_attrs);
-                                        @endphp
-
-                                        @if($item->product_id != 0)
-                                        <p class="title mb-0">{{$item->product->name}}</p>
-                                        <table>
-                                            <tbody>
-                                            @foreach(json_decode($item->product_attrs) as $attr)
-                                                <tr class="text-left">
-                                                    <th>{{$attr->name}}:</th>
-                                                    <td>{{$attr->values->name}} ({{number_format($attr->values->price)}}đ)</td>
-                                                </tr>
-                                            @endforeach
-                                            </tbody>
-                                        </table>
-                                        @else
-                                            @if(strpos($order['code'], 'PATRON') !== false)
-                                                @foreach(json_decode($item['product_attrs']) as $key => $value)
-                                                    {{__($key)}}: {{$value}}<br>
-                                                @endforeach                                                       
-                                            @endif
+                                    <tr class="text-center border border-green-900">
+                                        <th>
+                                            Tên sản phẩm:
+                                        </th>
+                                        <td>{{$item->product->name}}</td>
+                                        <td></td>
+                                        <td></td>
+                                    </tr>
+                                    @foreach(array_chunk(json_decode($item->product_attrs),2) as $attrs)
+                                    <tr class="text-center border border-green-900">
+                                        @foreach($attrs as $attr)
+                                                <th>{{$attr->name}}:</th>
+                                                <td>{{$attr->values->name}} ({{number_format($attr->values->price)}}đ)</td>
+                                        @endforeach
+                                        @if($loop->last)
+                                            <th>Số lượng</th> <td>{{$item->quantity}}</td>
                                         @endif
-                                    </td>
-                                    <td> SL: {{$item->quantity}} </td>
-                                    <td>{{number_format($price)}}đ</td>
-                                </tr>
-                                @php
-                                    $i++;
-                                @endphp
+                                    </tr>
+                                    @endforeach
+                                    <tr class="text-center border border-green-900"> <th>Giá</th> <td>{{number_format($price)}}đ</td> <td></td><td></td></tr>
+                                    @else
+                                        @if(strpos($order['code'], 'PATRON') !== false)
+                                            @foreach(json_decode($item['product_attrs']) as $key => $value)
+                                                <tr class="text-center border border-green-900">
+                                                    <th>{{__($key)}}</th>
+                                                    <td>{{$value}}</td>
+                                                </tr>
+                                            @endforeach                                                       
+                                        @endif
+                                    @endif
                                 @endforeach
                             </tbody>
                           </table>
