@@ -62,14 +62,10 @@
                             Email: <b>{{$order->user->email}}</b> <br>
                             Địa chỉ: <b>{{$order->user->address}}</b>
                         </p>                        
-                        <div class="overflow-x-auto">
-                        <table class="table-auto border-collapse border border-green-900 w-full">
-                            <tbody class="text-gray-700">
-                                @php
-                                    $i = 1;
-                                @endphp
-                                
-                                @foreach($order->detail as $item)
+                        <div class="overflow-x-auto">                           
+                            @foreach($order->detail as $item)
+                                <table class="table-auto border-collapse border border-green-900 w-full">
+                                    <tbody class="text-gray-700">                                    
                                     @if($item->product_id != 0)
                                     <tr class="text-center border border-green-900">
                                         <th>
@@ -101,9 +97,9 @@
                                             @endforeach                                                       
                                         @endif
                                     @endif
-                                @endforeach
-                            </tbody>
-                          </table>
+                                    </tbody>
+                                </table>                                    
+                            @endforeach
                         </div>
                     </div>   
                 </div>
