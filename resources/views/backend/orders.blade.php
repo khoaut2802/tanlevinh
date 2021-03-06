@@ -64,7 +64,11 @@
                                             <th
                                                 class="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
                                                Mã đơn hàng
-                                            </th>                                          
+                                            </th>         
+                                            <th
+                                            class="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
+                                                Người đặt
+                                            </th>                                     
                                             <th
                                                 class="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
                                                 Sản phẩm
@@ -116,11 +120,16 @@
                                                             (Khách quen) <br>
                                                         @endif
                                                         <strong>{{$order['code']}}</strong><br>
-                                                        {{$order['user']['name'] ?? ''}}<br>
-                                                        {{$order['user']['email'] ?? ''}}
                                                     </p>
                                                 </div>
                                             </td>
+                                            <td class="px-5 py-5 border-b border-gray-200 bg-white text-sm">
+                                                <p class="text-gray-900 whitespace-no-wrap">
+                                                    {{$order['user']['name'] ?? ''}}<br>
+                                                    {{$order['user']['email'] ?? ''}}
+                                                </p>
+                                            </td>
+
                                             <td class="px-5 py-5 border-b border-gray-200 bg-white text-sm">
                                                 <p class="text-gray-900 whitespace-no-wrap">                                   
                                                     @if(strpos($order['code'], 'PATRON') !== false)

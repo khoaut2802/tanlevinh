@@ -57,43 +57,48 @@
                             <h6 class="text-muted">Mã đơn hàng: <strong>{{$order->code}}</strong></h6>
                         </div>
                         <h6 class="text-muted">Khách hàng: <b>{{$order->user->name}}</b></h6>
-                        <p class="mb-2">
+                        {{-- <p class="mb-2">
                             Điện thoại: <b>{{$order->user->phone}}</b> <br>
                             Email: <b>{{$order->user->email}}</b> <br>
                             Địa chỉ: <b>{{$order->user->address}}</b>
-                        </p>                        
+                        </p>                         --}}
                         <div class="overflow-x-auto">                           
-                            @foreach($order->detail as $item)
+                            @foreach($order->detail as $key => $item)
+                                <p class="text-lg font-bold">STT: {{$key + 1}}</p>
                                 <table class="table-auto border-collapse border border-green-900 w-full mb-3">
                                     <tbody class="text-gray-700">                                    
                                     @if($item->product_id != 0)
-                                    <tr class="text-center border border-green-900">
+                                    <tr class="text-left border border-green-900">
                                         <th>
                                             Tên sản phẩm:
                                         </th>
-                                        <td>{{$item->product->name}}</td>
+                                        <td class="border-r-2 border-black">{{$item->product->name}}</td>
                                         <td></td>
                                         <td></td>
                                     </tr>
                                     @foreach(array_chunk(json_decode($item->product_attrs),2) as $attrs)
-                                    <tr class="text-center border border-green-900">
-                                        @foreach($attrs as $attr)
+                                    <tr class="text-left border border-green-900">
+                                        @foreach($attrs as $key => $attr)
                                                 <th>{{$attr->name}}:</th>
-                                                <td>{{$attr->values->name}} ({{number_format($attr->values->price)}}đ)</td>
+                                                <td @if($key % 2 == 0)class="border-r-2 border-black"@endif>{{$attr->values->name}} ({{number_format($attr->values->price)}}đ)</td>
                                         @endforeach
                                         @if($loop->last)
                                             <th>Số lượng</th> <td>{{$item->quantity}}</td>
                                         @endif
                                     </tr>
                                     @endforeach
-                                    <tr class="text-center border border-green-900"> <th>Giá</th> <td>{{number_format($price)}}đ</td> <td></td><td></td></tr>
+                                    <tr class="text-left border border-green-900"> <th>Giá</th> <td class="border-r-2 border-black">{{number_format($price)}}đ</td> <td></td><td></td></tr>
                                     @else
                                         @if(strpos($order['code'], 'PATRON') !== false)
+                                            @php
+                                                $i = 0;
+                                            @endphp
                                             @foreach(json_decode($item['product_attrs']) as $key => $value)
-                                                <tr class="text-center border border-green-900">
-                                                    <th>{{__($key)}}</th>
-                                                    <td>{{$value}}</td>
+                                                <tr class="text-left border border-green-900">
+                                                    <th class="border-r-2 border-black">{{__($key)}}</th>
+                                                    <td class="px-2">{{$value}}</td>
                                                 </tr>
+                                                @php $i++; @endphp
                                             @endforeach                                                       
                                         @endif
                                     @endif
