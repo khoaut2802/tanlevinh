@@ -125,7 +125,7 @@
                                                 <p class="text-gray-900 whitespace-no-wrap">                                   
                                                     @if(strpos($order['code'], 'PATRON') !== false)
                                                         @foreach($order['detail'] as $detail)
-                                                           {{json_decode($detail['product_attrs'])['name']}}
+                                                           {{json_decode($detail['product_attrs'])->name ?? ''}}
                                                         @endforeach                                                            
                                                     @else                                                    
                                                         @foreach($order['detail'] as $detail)
