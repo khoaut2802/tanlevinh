@@ -6,7 +6,7 @@
     </x-slot>
 
     <div class="py-12">
-        <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
+        <div class="max-w-full mx-auto sm:px-6 lg:px-8">
             <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
                 <div class="p-6 bg-white border-b border-gray-200">
                     @include('components.alert')
@@ -62,44 +62,51 @@
                                     <thead>
                                         <tr>
                                             <th
-                                                class="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
+                                                class="px-5 py-3 border-b-2 border-r-2 border-blue-200 bg-blue-700 text-left text-xs font-semibold text-white uppercase tracking-wider">
+                                            STT
+                                            </th>   
+                                            <th
+                                                class="px-5 py-3 border-b-2 border-r-2 border-blue-200 bg-blue-700 text-left text-xs font-semibold text-white uppercase tracking-wider">
                                                Mã đơn hàng
                                             </th>         
                                             <th
-                                            class="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
+                                            class="px-5 py-3 border-b-2 border-r-2 border-blue-200 bg-blue-700 text-left text-xs font-semibold text-white uppercase tracking-wider">
                                                 Người đặt
                                             </th>                                     
                                             <th
-                                                class="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
+                                                class="px-5 py-3 border-b-2 border-r-2 border-blue-200 bg-blue-700 text-left text-xs font-semibold text-white uppercase tracking-wider">
                                                 Sản phẩm
                                             </th>
                                             <th
-                                                class="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
+                                                class="px-5 py-3 border-b-2 border-r-2 border-blue-200 bg-blue-700 text-left text-xs font-semibold text-white uppercase tracking-wider">
                                                 Số lượng
                                             </th>
                                             <th
-                                                class="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
+                                                class="px-5 py-3 border-b-2 border-r-2 border-blue-200 bg-blue-700 text-left text-xs font-semibold text-white uppercase tracking-wider">
                                                 Số tiền
                                             </th>
                                             <th
-                                                class="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
+                                                class="px-5 py-3 border-b-2 border-r-2 border-blue-200 bg-blue-700 text-left text-xs font-semibold text-white uppercase tracking-wider">
                                                 Tạo lúc
                                             </th>
                                             <th
-                                                class="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
+                                                class="px-5 py-3 border-b-2 border-r-2 border-blue-200 bg-blue-700 text-left text-xs font-semibold text-white uppercase tracking-wider">
                                                 Trạng thái
                                             </th>
                                             <th
-                                                class="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
+                                                class="px-5 py-3 border-b-2 border-r-2 border-blue-200 bg-blue-700 text-left text-xs font-semibold text-white uppercase tracking-wider">
                                                 Tệp tin
                                             </th>                                           
                                             <th
-                                                class="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
+                                                class="px-5 py-3 border-b-2 border-r-2 border-blue-200 bg-blue-700 text-left text-xs font-semibold text-white uppercase tracking-wider">
                                                 Hành động
                                             </th>
                                         </tr>
                                     </thead>
                                     <tbody>
+                                        @php
+                                            $i = 0;
+                                        @endphp
                                         @forelse($orders['data'] as $order)
                                         @php
                                             $price = 0;
@@ -113,7 +120,12 @@
                                             }
                                         @endphp   
                                         <tr>
-                                            <td class="px-5 py-5 border-b border-gray-200 bg-white text-sm">
+                                            <td class="px-5 py-5 border-b border-r border-gray-200 bg-white text-sm">
+                                                <p class="text-gray-900 whitespace-no-wrap">
+                                                    {{$i}}
+                                                </p>
+                                            </td>
+                                            <td class="px-5 py-5 border-b border-r border-gray-200 bg-white text-sm">
                                                 <div class="flex items-center">
                                                     <p class="text-gray-900 whitespace-no-wrap">
                                                         @if(strpos($order['code'], 'PATRON') !== false)
@@ -123,14 +135,14 @@
                                                     </p>
                                                 </div>
                                             </td>
-                                            <td class="px-5 py-5 border-b border-gray-200 bg-white text-sm">
+                                            <td class="px-5 py-5 border-b border-r border-gray-200 bg-white text-sm">
                                                 <p class="text-gray-900 whitespace-no-wrap">
                                                     {{$order['user']['name'] ?? ''}}<br>
                                                     {{$order['user']['email'] ?? ''}}
                                                 </p>
                                             </td>
 
-                                            <td class="px-5 py-5 border-b border-gray-200 bg-white text-sm">
+                                            <td class="px-5 py-5 border-b border-r border-gray-200 bg-white text-sm">
                                                 <p class="text-gray-900 whitespace-no-wrap">                                   
                                                     @if(strpos($order['code'], 'PATRON') !== false)
                                                         @foreach($order['detail'] as $detail)
@@ -143,22 +155,22 @@
                                                     @endif
                                                 </p>
                                             </td>
-                                            <td class="px-5 py-5 border-b border-gray-200 bg-white text-sm">
+                                            <td class="px-5 py-5 border-b border-r border-gray-200 bg-white text-sm">
                                                 <p class="text-gray-900 whitespace-no-wrap">
                                                     {{$quantity}}
                                                 </p>
                                             </td>
-                                            <td class="px-5 py-5 border-b border-gray-200 bg-white text-sm">
+                                            <td class="px-5 py-5 border-b border-r border-gray-200 bg-white text-sm">
                                                 <p class="text-gray-900 whitespace-no-wrap">
                                                     {{$price - $discount}}
                                                 </p>
                                             </td>
-                                            <td class="px-5 py-5 border-b border-gray-200 bg-white text-sm">
+                                            <td class="px-5 py-5 border-b border-r border-gray-200 bg-white text-sm">
                                                 <p class="text-gray-900 whitespace-no-wrap">
                                                     {{formatDate($order['created_at'], 'd-m-Y H:i:s')}}
                                                 </p>
                                             </td>
-                                            <td class="px-5 py-5 border-b border-gray-200 bg-white text-sm">
+                                            <td class="px-5 py-5 border-b border-r border-gray-200 bg-white text-sm">
                                                 @if($order['status'] == 'completed')
                                                     <span class="block rounded text-white bg-green-700 py-2 px-2">Hoàn tất</span>
                                                 @elseif($order['status'] == 'pending')
@@ -169,14 +181,14 @@
                                                     <span class="block rounded text-white bg-red-700 py-2 px-2">Đã hủy</span>
                                                 @endif
                                             </td>   
-                                            <td class="px-5 py-5 border-b border-gray-200 bg-white text-sm">
+                                            <td class="px-5 py-5 border-b border-r border-gray-200 bg-white text-sm">
                                                 @if($order['file'] == null)
                                                     Chưa có
                                                 @else
                                                     <a href="{{asset($order['file'])}}" class="text-blue-700" target="_blank">Tải về</a>
                                                 @endif
                                             </td>
-                                            <td class="px-5 py-5 border-b border-gray-200 bg-white text-sm">
+                                            <td class="px-5 py-5 border-b border-r border-gray-200 bg-white text-sm">
                                                 <div class="group inline-block" x-data="{show: false}">
                                                     <button
                                                         type="button"
@@ -202,9 +214,12 @@
                                                   </div>
                                             </td>
                                         </tr>
+                                        @php
+                                            $i++;
+                                        @endphp
                                         @empty
                                         <tr>
-                                            <td class="px-5 py-5 border-b border-gray-200 bg-white text-sm">
+                                            <td class="px-5 py-5 border-b border-r border-gray-200 bg-white text-sm">
                                             <p>No product found.</p>
                                             </td>
                                         </tr>

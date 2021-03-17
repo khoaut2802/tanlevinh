@@ -15,7 +15,9 @@ class DashboardController extends Controller
         $from = $request->get('from', Carbon::now()->firstOfMonth());
         $to = $request->get('to', Carbon::now()->lastOfMonth());
         
-        $orders = Orders::where('status', 'completed')->whereBetween('created_at',[Carbon::parse($from), Carbon::parse($to)])->paginate($per_page, $columns = ['*'], $pageName = 'page', $page)->toArray();
+        $orders = Orders::where('status', 'completed')->whereBetween('created_at',[Carbon::parse($from), Carbon::parse($to)])
+        ->orderBy('id','DESC')
+        ->paginate($per_page, $columns = ['*'], $pageName = 'page', $page)->toArray();
 
         return view('backend.dashboard', compact('orders'));
     }

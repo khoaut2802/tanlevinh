@@ -9,6 +9,8 @@ class Orders extends Model
 {
     use HasFactory;
 
+    protected $fillable = ['print_machine'];
+
     public function detail()
     {
         return $this->hasMany(OrderDetails::class, 'order_id', 'code');
