@@ -14130,7 +14130,7 @@ select {
   max-width: 72rem;
 }
 
-.max-w-7xl {
+.max-w-full {
   max-width: 80rem;
 }
 
@@ -44812,7 +44812,7 @@ select {
     max-width: 72rem;
   }
 
-  .sm\:max-w-7xl {
+  .sm\:max-w-full {
     max-width: 80rem;
   }
 
@@ -75416,7 +75416,7 @@ select {
     max-width: 72rem;
   }
 
-  .md\:max-w-7xl {
+  .md\:max-w-full {
     max-width: 80rem;
   }
 
@@ -106020,7 +106020,7 @@ select {
     max-width: 72rem;
   }
 
-  .lg\:max-w-7xl {
+  .lg\:max-w-full {
     max-width: 80rem;
   }
 
@@ -136624,7 +136624,7 @@ select {
     max-width: 72rem;
   }
 
-  .xl\:max-w-7xl {
+  .xl\:max-w-full {
     max-width: 80rem;
   }
 
@@ -167228,7 +167228,7 @@ select {
     max-width: 72rem;
   }
 
-  .\32xl\:max-w-7xl {
+  .\32xl\:max-w-full {
     max-width: 80rem;
   }
 

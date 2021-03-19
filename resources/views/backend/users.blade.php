@@ -6,7 +6,7 @@
     </x-slot>
 
     <div class="py-12">
-        <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
+        <div class="max-w-full mx-auto sm:px-6 lg:px-8">
             <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
                 <div class="p-6 bg-white border-b border-gray-200">
                     @include('components.alert')
@@ -65,27 +65,27 @@
                                     <thead>
                                         <tr>
                                             <th
-                                                class="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
+                                                class="px-5 py-3 border-b-2 border-r-2 border-blue-200 bg-blue-700 text-left text-xs font-semibold text-white uppercase tracking-wider">
                                                 Tên người dùng
                                             </th>
                                             <th
-                                                class="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
+                                                class="px-5 py-3 border-b-2 border-r-2 border-blue-200 bg-blue-700 text-left text-xs font-semibold text-white uppercase tracking-wider">
                                                 Email
                                             </th>
                                             <th
-                                                class="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
+                                                class="px-5 py-3 border-b-2 border-r-2 border-blue-200 bg-blue-700 text-left text-xs font-semibold text-white uppercase tracking-wider">
                                                 Đơn hàng đã tạo
                                             </th>
                                             <th
-                                                class="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
+                                                class="px-5 py-3 border-b-2 border-r-2 border-blue-200 bg-blue-700 text-left text-xs font-semibold text-white uppercase tracking-wider">
                                                 Loại nguời dùng
                                             </th>
                                             <th
-                                                class="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
+                                                class="px-5 py-3 border-b-2 border-r-2 border-blue-200 bg-blue-700 text-left text-xs font-semibold text-white uppercase tracking-wider">
                                                 Ngày tạo tài khoản
                                             </th>
                                             <th
-                                            class="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
+                                            class="px-5 py-3 border-b-2 border-r-2 border-blue-200 bg-blue-700 text-left text-xs font-semibold text-white uppercase tracking-wider">
                                             Hành động
                                         </th>
                                         </tr>
@@ -93,32 +93,32 @@
                                     <tbody>
                                         @forelse($users['data'] as $user)
                                         <tr>
-                                            <td class="px-5 py-5 border-b border-gray-200 bg-white text-sm">
+                                            <td class="px-5 py-5 border-b border-r border-gray-200 bg-white text-sm">
                                                 <div class="flex items-center">
                                                     <p class="text-gray-900 whitespace-no-wrap">
                                                         {{$user['name']}}
                                                     </p>
                                                 </div>
                                             </td>
-                                            <td class="px-5 py-5 border-b border-gray-200 bg-white text-sm">
+                                            <td class="px-5 py-5 border-b border-r border-gray-200 bg-white text-sm">
                                                 <p class="text-gray-900 whitespace-no-wrap">{{$user['email']}}</p>
                                             </td>
-                                            <td class="px-5 py-5 border-b border-gray-200 bg-white text-sm">
+                                            <td class="px-5 py-5 border-b border-r border-gray-200 bg-white text-sm">
                                                 <p class="text-gray-900 whitespace-no-wrap">
                                                     {{$user['orders_count']}}
                                                 </p>
                                             </td>
-                                            <td class="px-5 py-5 border-b border-gray-200 bg-white text-sm">
+                                            <td class="px-5 py-5 border-b border-r border-gray-200 bg-white text-sm">
                                                 <p class="text-gray-900 whitespace-no-wrap">
                                                     {{$user['user_type']}}
                                                 </p>
                                             </td>
-                                            <td class="px-5 py-5 border-b border-gray-200 bg-white text-sm">
+                                            <td class="px-5 py-5 border-b border-r border-gray-200 bg-white text-sm">
                                                 <p class="text-gray-900 whitespace-no-wrap">
                                                     {{formatDate($user['created_at'])}}
                                                 </p>
                                             </td>
-                                            <td class="px-5 py-5 border-b border-gray-200 bg-white text-sm">
+                                            <td class="px-5 py-5 border-b border-r border-gray-200 bg-white text-sm">
                                                 <form method="POST" action="{{route('users_delete', ['id' => $user['id']])}}">
                                                     @csrf
                                                     <a href="javascript:;"
@@ -136,7 +136,7 @@
                                         </tr>
                                         @empty
                                         <tr>
-                                            <td class="px-5 py-5 border-b border-gray-200 bg-white text-sm">
+                                            <td class="px-5 py-5 border-b border-r border-gray-200 bg-white text-sm">
                                             <p>No product found.</p>
                                             </td>
                                         </tr>

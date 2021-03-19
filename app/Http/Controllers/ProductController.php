@@ -15,11 +15,15 @@ class ProductController extends Controller
     public function index(Request $request)
     {
         $page = $request->get('page', 1);
-        $per_page = $request->get('per_page', 5);
+        $per_page = $request->get('per_page', 20);
         $group = $request->get('group', '');
         $search = $request->get('search', '');
         
-        $products = Products::where('group_id', 'LIKE', "%{$group}%")->where('name', 'LIKE', "%{$search}%")->with('product_group')->paginate($per_page, $columns = ['*'], $pageName = 'page', $page)->toArray();
+        $products = Products::where('group_id', 'LIKE', "%{$group}%")
+        ->where('name', 'LIKE', "%{$search}%")
+        ->with('product_group')
+        ->orderBy('id','DESC')
+        ->paginate($per_page, $columns = ['*'], $pageName = 'page', $page)->toArray();
         
         $groups = ProductGroups::with('products')->get();
         $attrs = Attributes::get();

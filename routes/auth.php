@@ -70,7 +70,9 @@ Route::group(['prefix' => getSetting('admin_prefix')], function($router) {
             $router->get('/', 'OrdersController@index')->name('orders');
             $router->post('/', 'OrdersController@index')->name('orders_search');
 
+            $router->get('/print/{code}', 'OrdersController@print')->name('order_print');
             $router->get('/detail/{id}', 'OrdersController@detail')->name('orders_detail');
+            $router->post('/machine/{id}', 'OrdersController@updateMachine')->name('order.update_machine');
             $router->post('/update', 'OrdersController@update')->name('orders_update');
         });
 
@@ -90,6 +92,12 @@ Route::group(['prefix' => getSetting('admin_prefix')], function($router) {
             $router->post('/{id}/delete', 'UsersController@delete')->name('users_delete');
             $router->post('/update', 'UsersController@update')->name('users_update');
         });        
+
+        $router->group(['prefix' => 'machines'], function($router) {
+            $router->get('/', 'MachinesController@index')->name('machines');
+            $router->post('/', 'MachinesController@store')->name('machine.store');
+            $router->post('/delete/{id}', 'MachinesController@delete')->name('machine.delete');
+        });
     });                 
 
     // $router->get('/verify-email', [EmailVerificationPromptController::class, '__invoke'])

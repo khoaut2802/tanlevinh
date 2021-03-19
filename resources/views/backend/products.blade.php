@@ -6,7 +6,7 @@
     </x-slot>
 
     <div class="py-12">
-        <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
+        <div class="max-w-full mx-auto sm:px-6 lg:px-8">
             <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
                 <div class="p-6 bg-white border-b border-gray-200">
                     @include('components.alert')
@@ -69,19 +69,19 @@
                                     <thead>
                                         <tr>
                                             <th
-                                                class="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
+                                                class="px-5 py-3 border-b-2 border-r-2 border-blue-200 bg-blue-700 text-left text-xs font-semibold text-white uppercase tracking-wider">
                                                 Tên sản phẩm
                                             </th>
                                             <th
-                                                class="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
+                                                class="px-5 py-3 border-b-2 border-r-2 border-blue-200 bg-blue-700 text-left text-xs font-semibold text-white uppercase tracking-wider">
                                                 Nhóm
                                             </th>
                                             <th
-                                                class="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
+                                                class="px-5 py-3 border-b-2 border-r-2 border-blue-200 bg-blue-700 text-left text-xs font-semibold text-white uppercase tracking-wider">
                                                 Tạo lúc
                                             </th>
                                             <th
-                                                class="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
+                                                class="px-5 py-3 border-b-2 border-r-2 border-blue-200 bg-blue-700 text-left text-xs font-semibold text-white uppercase tracking-wider">
                                                 Trạng thái
                                             </th>
                                         </tr>
@@ -89,22 +89,22 @@
                                     <tbody>
                                         @forelse($products['data'] as $product)
                                         <tr>
-                                            <td class="px-5 py-5 border-b border-gray-200 bg-white text-sm">
+                                            <td class="px-5 py-5 border-b border-r border-gray-200 bg-white text-sm">
                                                 <div class="flex items-center">
                                                     <p class="text-gray-900 whitespace-no-wrap">
                                                         {{$product['name']}}
                                                     </p>
                                                 </div>
                                             </td>
-                                            <td class="px-5 py-5 border-b border-gray-200 bg-white text-sm">
+                                            <td class="px-5 py-5 border-b border-r border-gray-200 bg-white text-sm">
                                                 <p class="text-gray-900 whitespace-no-wrap">{{$product['product_group']['name']}}</p>
                                             </td>
-                                            <td class="px-5 py-5 border-b border-gray-200 bg-white text-sm">
+                                            <td class="px-5 py-5 border-b border-r border-gray-200 bg-white text-sm">
                                                 <p class="text-gray-900 whitespace-no-wrap">
                                                     {{formatDate($product['created_at'])}}
                                                 </p>
                                             </td>
-                                            <td class="px-5 py-5 border-b border-gray-200 bg-white text-sm">
+                                            <td class="px-5 py-5 border-b border-r border-gray-200 bg-white text-sm">
                                                 <a href="{{route('product_update', ['id' => $product['id']])}}"
                                                 class="bg-yellow-500 text-white active:bg-pink-600 font-bold uppercase text-xs px-4 py-2 rounded shadow hover:shadow-md outline-none focus:outline-none mr-1 mb-1"
                                                 >
@@ -120,7 +120,7 @@
                                         </tr>
                                         @empty
                                         <tr>
-                                            <td class="px-5 py-5 border-b border-gray-200 bg-white text-sm">
+                                            <td class="px-5 py-5 border-b border-r border-gray-200 bg-white text-sm">
                                             <p>No product found.</p>
                                             </td>
                                         </tr>
