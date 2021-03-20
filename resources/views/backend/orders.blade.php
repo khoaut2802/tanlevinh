@@ -1,7 +1,20 @@
 <x-app-layout>
     <x-slot name="header">
         <h2 class="font-semibold text-xl text-gray-800 leading-tight">
-            {{ __('Orders') }}
+            <form method="POST" action="{{route('orders_search')}}" class="w-100">
+                @csrf
+                <div class="block relative">
+                    <span class="h-full absolute inset-y-0 left-0 flex items-center pl-2">
+                        <svg viewBox="0 0 24 24" class="h-4 w-4 fill-current text-gray-500">
+                            <path
+                                d="M10 4a6 6 0 100 12 6 6 0 000-12zm-8 6a8 8 0 1114.32 4.906l5.387 5.387a1 1 0 01-1.414 1.414l-5.387-5.387A8 8 0 012 10z">
+                            </path>
+                        </svg>
+                    </span>
+                    <input placeholder="Nhập mã đơn hàng, email người đặt hoặc tên người đặt để tìm kiếm" name="search" class="appearance-none rounded-r rounded-l sm:rounded-l-none border border-gray-400 border-b block pl-8 pr-6 py-2 w-full bg-white text-sm placeholder-gray-400 text-gray-700 focus:bg-white focus:placeholder-gray-600 focus:text-gray-700 focus:outline-none" />
+                    <input type="submit" class="hidden" value="submit">
+                </div>
+            </form>
         </h2>
     </x-slot>
 
@@ -10,10 +23,11 @@
             <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
                 <div class="p-6 bg-white border-b border-gray-200">
                     @include('components.alert')
-                    <div style='border-bottom: 2px solid #eaeaea'>
-                        <ul class='flex cursor-pointer'>
-                          <li class='py-2 px-6 rounded-t-lg @if(request()->routeIs('products')) bg-gray-100 @else bg-white @endif'><a href="{{route('products')}}">Danh sách đơn hàng</a></li>
-                        </ul>
+                    <div class="flex justify-between items-center">
+                        <a href="{{route('orders')}}">Danh sách đơn hàng</a>
+                        <button type="button" class="bg-blue-500 text-white active:bg-pink-600 font-bold uppercase text-xs px-4 py-2 rounded shadow hover:shadow-md outline-none focus:outline-none mr-1 mb-1 modal" data-target="#create_order_modal">
+                            Tạo đơn hàng
+                        </button>
                     </div>
                     <div class="py-8">
                         <div class="my-2 flex sm:flex-row flex-col justify-between items-center">
@@ -27,13 +41,13 @@
                                         <option value="5" @if(request()->query('per_page') == 5)selected @endif>5</option>
                                         <option value="10" @if(request()->query('per_page') == 10)selected @endif>10</option>
                                         <option value="20" @if(request()->query('per_page') == 20)selected @endif>20</option>
-                                        <option value="50" @if(request()->query('per_page') == 50)selected @endif>20</option>
+                                        <option value="50" @if(request()->query('per_page') == 50)selected @endif>50</option>
                                     </select>
                                 </div>
                                 <div class="relative">
                                     <select
                                         name="status"
-                                        class="appearance-none h-full rounded-r border-t sm:rounded-r-none sm:border-r-0 border-r border-b block appearance-none w-full bg-white border-gray-400 text-gray-700 py-2 px-4 pr-8 leading-tight focus:outline-none focus:border-l focus:border-r focus:bg-white focus:border-gray-500" id="orderFilterStatus">
+                                        class="appearance-none h-full rounded-r border-t border-b block appearance-none w-full bg-white border-gray-400 text-gray-700 py-2 px-4 pr-8 leading-tight focus:outline-none focus:border-l focus:border-r focus:bg-white focus:border-gray-500" id="orderFilterStatus">
                                         
                                         <option value="" @if(!request()->query('status'))selected @endif>Tất cả</option>
                                         <option value="pending" @if(request()->query('status') == 'pending')selected @endif>Đang chờ</option>
@@ -42,17 +56,6 @@
                                         <option value="completed"@if(request()->query('status') == 'completed')selected @endif>Hoàn tất</option>
                                     </select>
                                 </div>
-                            </div>
-                            <div class="block relative">
-                                <span class="h-full absolute inset-y-0 left-0 flex items-center pl-2">
-                                    <svg viewBox="0 0 24 24" class="h-4 w-4 fill-current text-gray-500">
-                                        <path
-                                            d="M10 4a6 6 0 100 12 6 6 0 000-12zm-8 6a8 8 0 1114.32 4.906l5.387 5.387a1 1 0 01-1.414 1.414l-5.387-5.387A8 8 0 012 10z">
-                                        </path>
-                                    </svg>
-                                </span>
-                                <input placeholder="Search" name="search" class="appearance-none rounded-r rounded-l sm:rounded-l-none border border-gray-400 border-b block pl-8 pr-6 py-2 w-full bg-white text-sm placeholder-gray-400 text-gray-700 focus:bg-white focus:placeholder-gray-600 focus:text-gray-700 focus:outline-none" />
-                                <input type="submit" class="hidden" value="submit">
                             </div>
                             </form>
                         </div>
@@ -77,6 +80,10 @@
                                                 class="px-5 py-3 border-b-2 border-r-2 border-blue-200 bg-blue-700 text-left text-xs font-semibold text-white uppercase tracking-wider">
                                                 Sản phẩm
                                             </th>
+                                            <th
+                                                class="px-5 py-3 border-b-2 border-r-2 border-blue-200 bg-blue-700 text-left text-xs font-semibold text-white uppercase tracking-wider">
+                                                Máy sản xuất
+                                            </th>                                            
                                             <th
                                                 class="px-5 py-3 border-b-2 border-r-2 border-blue-200 bg-blue-700 text-left text-xs font-semibold text-white uppercase tracking-wider">
                                                 Số lượng
@@ -157,6 +164,11 @@
                                             </td>
                                             <td class="px-5 py-5 border-b border-r border-gray-200 bg-white text-sm">
                                                 <p class="text-gray-900 whitespace-no-wrap">
+                                                    {{$order['print_machine'] ?? 'Không có'}}
+                                                </p>
+                                            </td>                                            
+                                            <td class="px-5 py-5 border-b border-r border-gray-200 bg-white text-sm">
+                                                <p class="text-gray-900 whitespace-no-wrap">
                                                     {{$quantity}}
                                                 </p>
                                             </td>
@@ -206,7 +218,8 @@
                                                     ease-in-out min-w-32 z-10"
                                                     x-show="show"
                                                     >
-                                                      <li class="rounded-sm px-3 py-1 hover:bg-gray-100 cursor-pointer "><a href="{{route('orders_detail', ['id' => $order['code']])}}">Chi tiết</a></li>
+                                                      <li class="rounded-sm px-3 py-1 hover:bg-gray-100"><a class="block" href="{{route('orders_detail', ['id' => $order['code']])}}">Chi tiết</a></li>
+                                                      <li class="rounded-sm px-3 py-1 hover:bg-gray-100 cursor-pointer "><a class="block" href="{{route('order_print', ['code' => $order['code']])}}">In</a></li>
                                                       <li class="rounded-sm px-3 py-1 hover:bg-gray-100 cursor-pointer text-green-500 changeOrderStauts" data-action="completed" data-id="{{$order['code']}}">Duyệt</li>
                                                       <li class="rounded-sm px-3 py-1 hover:bg-gray-100 cursor-pointer text-yellow-500 changeOrderStauts" data-action="processing" data-id="{{$order['code']}}">Xử lý</li>
                                                       <li class="rounded-sm px-3 py-1 hover:bg-gray-100 cursor-pointer text-red-500 changeOrderStauts" data-action="canceled" data-id="{{$order['code']}}">Hủy</li>
@@ -220,7 +233,7 @@
                                         @empty
                                         <tr>
                                             <td class="px-5 py-5 border-b border-r border-gray-200 bg-white text-sm">
-                                            <p>No product found.</p>
+                                            <p>Không tìm thấy kết quả.</p>
                                             </td>
                                         </tr>
                                         @endforelse
@@ -249,4 +262,113 @@
             </div>
         </div>
     </div>
+    <div class="hidden fixed z-10 inset-0 overflow-y-auto" id="create_order_modal">
+        <div class="flex items-end justify-center min-h-screen pt-4 px-4 pb-20 text-center sm:block sm:p-0">
+          <div class="fixed inset-0 transition-opacity" aria-hidden="true">
+            <div class="absolute inset-0 bg-gray-500 opacity-75"></div>
+          </div>
+          <span class="hidden sm:inline-block sm:align-middle sm:h-screen" aria-hidden="true">&#8203;</span>
+    
+          <div class="inline-block align-bottom bg-white rounded-lg text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-lg sm:w-full" role="dialog" aria-modal="true" aria-labelledby="modal-headline">
+            <form method="post" action="{{route('users_update')}}">
+                @csrf
+                <input type="hidden" name="id">
+                <div class="bg-white px-4 pt-5 pb-4 sm:p-6 sm:pb-4">
+                    <h3 class="text-lg leading-6 font-medium text-gray-900" id="modal-headline">
+                        Tạo đơn hàng
+                    </h3>
+                    <div class="mt-2">
+                        <div class="relative flex w-full flex-wrap items-stretch mb-3">
+                            <input type="text" name="name" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50" placeholder="Nhập tên sản phẩm" required>
+                        </div>
+                        <label class="block">
+                            <span class="text-gray-700">Loại giấy:</span>
+                            <select name="paper_type" class="block w-full mt-1 rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50" required>
+                                @foreach($paper_types as $type)
+                                    <option value="{{$type->name}}">{{$type->name}}</option>
+                                @endforeach
+                            </select>
+                        </label>                          
+                        <label class="block mt-2">
+                            <span class="text-gray-700">Khổ giấy:</span>
+                            <select name="paper_size" class="block w-full mt-1 rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50" required>
+                                @foreach($paper_sizes as $size)
+                                    <option value="{{$size->name}}">{{$size->name}}</option>
+                                @endforeach
+                            </select>
+                        </label>  
+                        <div class="relative flex w-full flex-wrap items-stretch mb-3">
+                            <span class="text-gray-700">Khổ in:</span>
+                            <input type="text" name="print_size" min="0" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50" placeholder="VD: 54x79cm">
+                        </div>   
+                        <div class="relative flex w-full flex-wrap items-stretch mb-3">
+                            <span class="text-gray-700">Số kẽm:</span>
+                            <input type="number" name="zinc_quantity" min="1" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50" value="1" required>
+                        </div>             
+                        <div class="relative flex w-full flex-wrap items-stretch mb-3">
+                            <span class="text-gray-700">Màu sắc:</span>
+                            <input type="text" name="color" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50" value="CMYK" required>
+                        </div>  
+                        <div class="flex justify-between items-center">
+                            <div class="relative flex w-full flex-wrap items-stretch mb-3 px-2">
+                                <span class="text-gray-700">Số lượng:</span>
+                                <input type="number" name="quantity" min="1" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50" value="1" required>
+                            </div> 
+                            <div class="relative flex w-full flex-wrap items-stretch mb-3 px-2">
+                                <span class="text-gray-700">Bù hao:</span>
+                                <input type="number" name="compensate" min="1" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50" value="1" required>
+                            </div>      
+                            <div class="relative flex w-full flex-wrap items-stretch mb-3 px-2">
+                                <span class="text-gray-700">Cắt:</span>
+                                <input type="number" name="cut" min="1" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50" value="1" required>
+                            </div>                                                        
+                        </div>                                           
+                    </div>
+                </div>
+            <div class="bg-gray-50 px-4 py-3 sm:px-6 sm:flex sm:flex-row-reverse">
+              <button type="submit" class="w-full inline-flex justify-center rounded-md border border-transparent shadow-sm px-4 py-2 bg-green-600 text-base font-medium text-white hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500 sm:ml-3 sm:w-auto sm:text-sm">
+                Lưu thay đổi
+              </button>
+              <button type="button" 
+              class="mt-3 w-full inline-flex justify-center rounded-md border border-gray-300 shadow-sm px-4 py-2 bg-white text-base font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 sm:mt-0 sm:ml-3 sm:w-auto sm:text-sm modal-close" data-target="#create_order_modal">
+                Hủy bỏ
+              </button>
+            </div>
+            </form>
+          </div>
+          </div>
+        </div>
+      </div>   
+      <x-slot name="script">
+        <script>
+            $('.tags').select2({
+                placeholder: "Chọn giá trị hoặc nhập giá trị mới",
+                tags: true
+            })
+
+            refreshPrintQuantity()
+            
+            $('input[name="quantity"]').on('input', function() {
+                refreshPrintQuantity();
+            })
+
+            $('input[name="cut"]').on('input', function() {
+                refreshPrintQuantity();
+            })
+            
+            $('input[name="compensate"]').on('input', function() {
+                refreshPrintQuantity();
+            })
+
+            function refreshPrintQuantity() {
+                var quantity = parseInt($('input[name="quantity"]').val()) || 0;
+                var cut = parseInt($('input[name="cut"]').val()) || 0;
+                var compensate = parseInt($('input[name="compensate"]').val()) || 0;     
+                
+                var total = (quantity * cut) - compensate;
+
+                $('input[name="print_quantity"]').val(total);
+            }
+        </script>
+    </x-slot>        
 </x-app-layout>
