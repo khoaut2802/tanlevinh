@@ -68,12 +68,15 @@ Route::group(['prefix' => getSetting('admin_prefix')], function($router) {
         
         $router->group(['prefix' => 'orders'], function($router) {
             $router->get('/', 'OrdersController@index')->name('orders');
-            $router->post('/', 'OrdersController@index')->name('orders_search');
+            // $router->post('/', 'OrdersController@index')->name('orders_search');
 
             $router->get('/print/{code}', 'OrdersController@print')->name('order_print');
             $router->get('/detail/{id}', 'OrdersController@detail')->name('orders_detail');
             $router->post('/machine/{id}', 'OrdersController@updateMachine')->name('order.update_machine');
             $router->post('/update', 'OrdersController@update')->name('orders_update');
+            $router->post('/store', 'OrdersController@store')->name('orders.create');
+            $router->post('/{code}/update', 'OrdersController@updateV2')->name('orders.update.v2');
+            $router->get('/{code}/show', 'OrdersController@show')->name('orders.show');
         });
 
         $router->group(['prefix' => 'pages'], function($router) {

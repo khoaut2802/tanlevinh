@@ -86,6 +86,9 @@ class UsersController extends Controller
             if(strlen($password) > 0 && strlen($password) < 8)
                 return redirect()->back()->withErrors('Mật khẩu phải có độ dài tối thiểu 8 ký tự.');
 
+            if($request->id == 1 && $type != 'admin')
+                return redirect()->back()->withErrors('Bạn không thể thay đổi quyền cho người dùng này.');
+                
             $user = User::find($request->id);
             $user->name = $name;
             $user->email = $email;

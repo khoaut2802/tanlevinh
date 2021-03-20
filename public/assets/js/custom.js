@@ -397,4 +397,19 @@ $(document).ready(function() {
             }
         });            
     })     
+
+    $('.editOrder').on('click', function() {
+        var code = $(this).attr('data-code');
+
+        $.ajax({
+            url: window.web_url + '/orders/' + code + '/show',
+            data: {},
+            type: 'GET',
+            contentType: false, // NEEDED, DON'T OMIT THIS (requires jQuery 1.6+)
+            processData: false, // NEEDED, DON'T OMIT THIS
+            success: function(resp) {
+                document.getElementById('edit_order_modal').innerHTML = resp
+            }
+        });            
+    })    
 });

@@ -1,7 +1,7 @@
 <x-app-layout>
     <x-slot name="header">
         <h2 class="font-semibold text-xl text-gray-800 leading-tight">
-            <form method="POST" action="{{route('orders_search')}}" class="w-100">
+            <form method="GET" action="{{route('orders')}}" class="w-100">
                 @csrf
                 <div class="block relative">
                     <span class="h-full absolute inset-y-0 left-0 flex items-center pl-2">
@@ -25,13 +25,15 @@
                     @include('components.alert')
                     <div class="flex justify-between items-center">
                         <a href="{{route('orders')}}">Danh sách đơn hàng</a>
-                        <button type="button" class="bg-blue-500 text-white active:bg-pink-600 font-bold uppercase text-xs px-4 py-2 rounded shadow hover:shadow-md outline-none focus:outline-none mr-1 mb-1 modal" data-target="#create_order_modal">
-                            Tạo đơn hàng
-                        </button>
+                        @if(auth()->user()->user_type === 'admin')
+                            <button type="button" class="bg-blue-500 text-white active:bg-pink-600 font-bold uppercase text-xs px-4 py-2 rounded shadow hover:shadow-md outline-none focus:outline-none mr-1 mb-1 modal" data-target="#create_order_modal">
+                                Tạo đơn hàng
+                            </button>
+                        @endif
                     </div>
                     <div class="py-8">
                         <div class="my-2 flex sm:flex-row flex-col justify-between items-center">
-                            <form method="POST" action="{{route('orders_search')}}" class="flex">
+                            <form method="GET" action="{{route('orders')}}" class="flex">
                                 @csrf
                             <div class="flex flex-row mb-1 sm:mb-0">
                                 <div class="relative">
@@ -96,6 +98,10 @@
                                                 class="px-5 py-3 border-b-2 border-r-2 border-blue-200 bg-blue-700 text-left text-xs font-semibold text-white uppercase tracking-wider">
                                                 Tạo lúc
                                             </th>
+                                            {{-- <th
+                                                class="px-5 py-3 border-b-2 border-r-2 border-blue-200 bg-blue-700 text-left text-xs font-semibold text-white uppercase tracking-wider">
+                                                Ghi chú
+                                            </th>                                             --}}
                                             <th
                                                 class="px-5 py-3 border-b-2 border-r-2 border-blue-200 bg-blue-700 text-left text-xs font-semibold text-white uppercase tracking-wider">
                                                 Trạng thái
@@ -219,9 +225,8 @@
                                                     x-show="show"
                                                     >
                                                       <li class="rounded-sm px-3 py-1 hover:bg-gray-100"><a class="block" href="{{route('orders_detail', ['id' => $order['code']])}}">Chi tiết</a></li>
+                                                      <li class="rounded-sm px-3 py-1 hover:bg-gray-100"><a class="block editOrder" href="javascript:;" data-code="{{$order['code']}}">Chỉnh sửa</a></li>
                                                       <li class="rounded-sm px-3 py-1 hover:bg-gray-100 cursor-pointer "><a class="block" href="{{route('order_print', ['code' => $order['code']])}}">In</a></li>
-                                                      <li class="rounded-sm px-3 py-1 hover:bg-gray-100 cursor-pointer text-green-500 changeOrderStauts" data-action="completed" data-id="{{$order['code']}}">Duyệt</li>
-                                                      <li class="rounded-sm px-3 py-1 hover:bg-gray-100 cursor-pointer text-yellow-500 changeOrderStauts" data-action="processing" data-id="{{$order['code']}}">Xử lý</li>
                                                       <li class="rounded-sm px-3 py-1 hover:bg-gray-100 cursor-pointer text-red-500 changeOrderStauts" data-action="canceled" data-id="{{$order['code']}}">Hủy</li>
                                                     </ul>
                                                   </div>
@@ -262,6 +267,7 @@
             </div>
         </div>
     </div>
+    @if(auth()->user()->user_type === 'admin')
     <div class="hidden fixed z-10 inset-0 overflow-y-auto" id="create_order_modal">
         <div class="flex items-end justify-center min-h-screen pt-4 px-4 pb-20 text-center sm:block sm:p-0">
           <div class="fixed inset-0 transition-opacity" aria-hidden="true">
@@ -270,7 +276,7 @@
           <span class="hidden sm:inline-block sm:align-middle sm:h-screen" aria-hidden="true">&#8203;</span>
     
           <div class="inline-block align-bottom bg-white rounded-lg text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-lg sm:w-full" role="dialog" aria-modal="true" aria-labelledby="modal-headline">
-            <form method="post" action="{{route('users_update')}}">
+            <form method="post" action="{{route('orders.create')}}">
                 @csrf
                 <input type="hidden" name="id">
                 <div class="bg-white px-4 pt-5 pb-4 sm:p-6 sm:pb-4">
@@ -281,6 +287,14 @@
                         <div class="relative flex w-full flex-wrap items-stretch mb-3">
                             <input type="text" name="name" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50" placeholder="Nhập tên sản phẩm" required>
                         </div>
+                        <label class="block">
+                            <span class="text-gray-700">Khách hàng:</span>
+                            <select name="user_id" class="block w-full mt-1 rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50" required>
+                                @foreach(\App\Models\User::customer()->get() as $user)
+                                    <option value="{{$user->id}}">{{$user->name}} ({{$user->email}})</option>
+                                @endforeach
+                            </select>
+                        </label>                           
                         <label class="block">
                             <span class="text-gray-700">Loại giấy:</span>
                             <select name="paper_type" class="block w-full mt-1 rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50" required>
@@ -296,19 +310,21 @@
                                     <option value="{{$size->name}}">{{$size->name}}</option>
                                 @endforeach
                             </select>
-                        </label>  
-                        <div class="relative flex w-full flex-wrap items-stretch mb-3">
-                            <span class="text-gray-700">Khổ in:</span>
-                            <input type="text" name="print_size" min="0" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50" placeholder="VD: 54x79cm">
-                        </div>   
-                        <div class="relative flex w-full flex-wrap items-stretch mb-3">
-                            <span class="text-gray-700">Số kẽm:</span>
-                            <input type="number" name="zinc_quantity" min="1" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50" value="1" required>
-                        </div>             
-                        <div class="relative flex w-full flex-wrap items-stretch mb-3">
-                            <span class="text-gray-700">Màu sắc:</span>
-                            <input type="text" name="color" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50" value="CMYK" required>
-                        </div>  
+                        </label>
+                        <div class="flex justify-between items-center my-2">  
+                            <div class="relative flex w-full flex-wrap items-stretch mb-3 px-2">
+                                <span class="text-gray-700">Khổ in:</span>
+                                <input type="text" name="print_size" min="0" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50" placeholder="VD: 54x79cm">
+                            </div>
+                            <div class="relative flex w-full flex-wrap items-stretch mb-3 px-2">
+                                <span class="text-gray-700">Số kẽm:</span>
+                                <input type="number" name="zinc_quantity" min="1" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50" value="1" required>
+                            </div>             
+                            <div class="relative flex w-full flex-wrap items-stretch mb-3 px-2">
+                                <span class="text-gray-700">Màu sắc:</span>
+                                <input type="text" name="color" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50" value="CMYK" required>
+                            </div>
+                        </div>
                         <div class="flex justify-between items-center">
                             <div class="relative flex w-full flex-wrap items-stretch mb-3 px-2">
                                 <span class="text-gray-700">Số lượng:</span>
@@ -322,7 +338,26 @@
                                 <span class="text-gray-700">Cắt:</span>
                                 <input type="number" name="cut" min="1" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50" value="1" required>
                             </div>                                                        
-                        </div>                                           
+                        </div>
+                        <div class="flex justify-between items-center">
+                            <div class="relative flex w-full flex-wrap items-stretch mb-3 px-2">
+                                <span class="text-gray-700">Số tiền:</span>
+                                <input type="number" name="price" min="10000" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50" value="1" required>
+                            </div>
+                            <div class="relative flex w-full flex-wrap items-stretch mb-3 px-2">
+                                <span class="text-gray-700">Trạng thái:</span>
+                                <select name="status" class="block w-full mt-1 rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50" required>
+                                    <option value="pending">Chờ xác nhận</option>
+                                    <option value="processing">Đang xử lý</option>
+                                    <option value="completed">Hoàn tất</option>
+                                    <option value="canceled">Hủy bỏ</option>
+                                </select>                            
+                            </div>                                
+                        </div>
+                        <div class="relative flex w-full flex-wrap items-stretch mb-3 px-2">
+                            <span class="text-gray-700">Ghi chú:</span>
+                            <textarea name="note" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"></textarea>
+                        </div>                         
                     </div>
                 </div>
             <div class="bg-gray-50 px-4 py-3 sm:px-6 sm:flex sm:flex-row-reverse">
@@ -339,36 +374,6 @@
           </div>
         </div>
       </div>   
-      <x-slot name="script">
-        <script>
-            $('.tags').select2({
-                placeholder: "Chọn giá trị hoặc nhập giá trị mới",
-                tags: true
-            })
-
-            refreshPrintQuantity()
-            
-            $('input[name="quantity"]').on('input', function() {
-                refreshPrintQuantity();
-            })
-
-            $('input[name="cut"]').on('input', function() {
-                refreshPrintQuantity();
-            })
-            
-            $('input[name="compensate"]').on('input', function() {
-                refreshPrintQuantity();
-            })
-
-            function refreshPrintQuantity() {
-                var quantity = parseInt($('input[name="quantity"]').val()) || 0;
-                var cut = parseInt($('input[name="cut"]').val()) || 0;
-                var compensate = parseInt($('input[name="compensate"]').val()) || 0;     
-                
-                var total = (quantity * cut) - compensate;
-
-                $('input[name="print_quantity"]').val(total);
-            }
-        </script>
-    </x-slot>        
+      <div id="edit_order_modal"></div>
+      @endif
 </x-app-layout>
