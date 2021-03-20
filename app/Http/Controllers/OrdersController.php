@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Models\Orders;
 use Illuminate\Support\Facades\Mail;
 use App\Mail\OrderStatusMail;
+use App\Models\Attributes;
 use Auth;
 
 class OrdersController extends Controller
@@ -27,8 +28,10 @@ class OrdersController extends Controller
             return $query;
         }, 'detail', 'detail.product'])->orderBy('id','DESC')->paginate($per_page, $columns = ['*'], $pageName = 'page', $page)->toArray();
         
+        $paper_types = json_decode(Attributes::where('name', 'Chất liệu')->first()->options);
+        $paper_sizes = json_decode(Attributes::where('name', 'Kích thước')->first()->options);        
         // dd($products);
-        return view('backend.orders', compact('orders'));
+        return view('backend.orders', compact('orders', 'paper_types', 'paper_sizes'));
     }
 
 
@@ -84,5 +87,43 @@ class OrdersController extends Controller
         if($update) return redirect()->back()->withSuccess('Cập nhật máy sản xuất thành công.');
 
         return redirect()->back()->withError('Đã xảy ra lỗi.');
+    }
+
+    public function store(Request $request)
+    {
+        try {
+            $user = Auth::user();
+
+            if($user->is_patron == 'no')
+                return redirect()->route('user.dashboard');
+
+            $code = 'PATRON'.time();
+
+            $order = new Orders;
+            $order->code = $code;
+            $order->user_id = $user->id;
+            $order->ship_method = 'bank';
+            $order->status = 'pending';
+            $order->created_at = Carbon::now();
+            $order->save();
+
+            $data = $request->all();
+            unset($data['_token']);
+
+            $details[] = [
+                'order_id'      => $code,
+                'product_id'    => 0,
+                'product_attrs' => json_encode($data),
+                'quantity'      => $data['quantity'],
+                'price'         => 0,
+                'created_at'    => Carbon::now()
+            ];
+
+            OrderDetails::insert($details);
+
+            return redirect()->route('orders')->withSuccess('Tạo đơn hàng thành công.');
+        } catch(\Exception $e) {
+            return redirect()->back()->withErrors($e->getMessage());
+        }
     }
 }
