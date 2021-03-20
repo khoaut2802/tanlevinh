@@ -74,7 +74,7 @@
                     <div class="flex justify-between items-center">
                         <div class="relative flex w-full flex-wrap items-stretch mb-3 px-2">
                             <span class="text-gray-700">Số tiền:</span>
-                            <input type="number" name="price" min="10000" value="{{$order->detail[0]->price ?? 0}}" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50" required>
+                            <input type="number" name="price" min="0" value="{{$order->detail[0]->price ?? 0}}" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50" required>
                         </div>
                         <div class="relative flex w-full flex-wrap items-stretch mb-3 px-2">
                             <span class="text-gray-700">Trạng thái:</span>
