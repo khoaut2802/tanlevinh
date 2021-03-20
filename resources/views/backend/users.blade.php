@@ -36,6 +36,7 @@
                                         class="appearance-none h-full rounded-r border-t sm:rounded-r-none sm:border-r-0 border-r border-b block appearance-none w-full bg-white border-gray-400 text-gray-700 py-2 px-4 pr-8 leading-tight focus:outline-none focus:border-l focus:border-r focus:bg-white focus:border-gray-500">
                                         <option value="">All</option>
                                         <option value="admin">Admin</option>
+                                        <option value="staff">Nhân viên</option>
                                         <option value="user">Người dùng</option>
                                     </select>
                                 </div>
@@ -201,9 +202,18 @@
                         <span class="text-gray-700">Loại tài khoản:</span>
                         <select name="user_type" class="block w-full mt-1 rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
                           <option value="user">Người dùng</option>
+                          <option value="staff">Nhân viên</option>
                           <option value="admin">Admin</option>
                         </select>
                      </label> 
+                     <label class="block my-2">
+                        <span class="text-gray-700">Máy sản xuất:</span>
+                        <select name="print_machine" class="block w-full mt-1 rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50" required>
+                            @foreach(\App\Models\Machines::get() as $machine)
+                                <option value="{{$machine->name}}">{{$machine->name}}</option>
+                            @endforeach
+                        </select>
+                    </label>  
                      <label class="inline-flex items-center my-3">
                         <input type="checkbox" name="patron" class="rounded border-gray-300 text-indigo-600 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
                         <span class="ml-2">Khách quen</span>
@@ -259,13 +269,22 @@
                         <span class="text-gray-700">Loại tài khoản:</span>
                         <select name="user_type" class="block w-full mt-1 rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
                           <option value="user">Người dùng</option>
+                          <option value="staff">Nhân viên</option>
                           <option value="admin">Admin</option>
                         </select>
-                     </label>     
-                     <label class="inline-flex items-center my-3">
+                    </label>     
+                    <label class="block my-2">
+                        <span class="text-gray-700">Máy sản xuất:</span>
+                        <select name="print_machine" class="block w-full mt-1 rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50" required>
+                            @foreach(\App\Models\Machines::get() as $machine)
+                                <option value="{{$machine->name}}">{{$machine->name}}</option>
+                            @endforeach
+                        </select>
+                    </label>   
+                    <label class="inline-flex items-center my-3">
                         <input type="checkbox" name="patron" class="rounded border-gray-300 text-indigo-600 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
                         <span class="ml-2">Khách quen</span>
-                      </label>                     
+                    </label>                     
                 </div>
             </div>
         <div class="bg-gray-50 px-4 py-3 sm:px-6 sm:flex sm:flex-row-reverse">

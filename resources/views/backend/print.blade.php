@@ -167,6 +167,7 @@
                     <div class="d-flex flex-column">
                         <h4 class="font-weight-bold">PHIẾU SẢN XUẤT</h4>
                         <h5 class="font-weight-bold">MÁY SẢN XUẤT: {{$order->print_machine ?? 'Chưa có'}}</h5>
+                        <p class="small">Ngày: {{\Carbon\Carbon::now()->format('d-m-Y')}}</p>
                     </div>
                 </div>
                 <!-- end invoice-company -->

@@ -6,7 +6,7 @@ use Closure;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
-class IsUser
+class NotUser
 {
     /**
      * Handle an incoming request.
@@ -17,14 +17,10 @@ class IsUser
      */
     public function handle(Request $request, Closure $next)
     {
-        if(Auth::user()->user_type == 'user') {
+        if(Auth::user()->user_type != 'user') {
             return $next($request);
         } else {
-            if(Auth::user()->user_type == 'admin' || Auth::user()->user_type == 'staff') {
-                return redirect()->route('orders');
-            } else {
-                return redirect()->route('home');
-            }
+            return redirect()->route('home');
         }
-    }
+    }   
 }

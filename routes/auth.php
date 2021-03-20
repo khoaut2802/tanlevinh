@@ -12,10 +12,10 @@ use Illuminate\Support\Facades\Route;
 
 Route::group(['prefix' => getSetting('admin_prefix')], function($router) {
 
-    $router->group(['middleware' => ['auth', 'auth.admin']], function ($router) {
+    $router->group(['middleware' => ['auth', 'auth.not_user']], function ($router) {
         $router->get('/', 'DashboardController@index')->name('dashboard');
 
-        $router->group(['prefix' => 'products'], function($router) {
+        $router->group(['prefix' => 'products', 'middleware' => 'auth.admin'], function($router) {
             $router->get('/', 'ProductController@index')->name('products');
             $router->post('/', 'ProductController@index')->name('product_search');
 
@@ -27,7 +27,7 @@ Route::group(['prefix' => getSetting('admin_prefix')], function($router) {
             $router->post('/{id}/delete', 'ProductController@delete')->name('product_delete');
         });
 
-        $router->group(['prefix' => 'groups'], function($router) {
+        $router->group(['prefix' => 'groups', 'middleware' => 'auth.admin'], function($router) {
             $router->get('/', 'GroupController@index')->name('groups');
             $router->post('/', 'GroupController@index')->name('group_search');
         
@@ -38,7 +38,7 @@ Route::group(['prefix' => getSetting('admin_prefix')], function($router) {
             $router->post('/{id}/delete', 'GroupController@delete')->name('group_delete');
         });
 
-        $router->group(['prefix' => 'attributes'], function($router) {
+        $router->group(['prefix' => 'attributes', 'middleware' => 'auth.admin'], function($router) {
             $router->get('/', 'AttributesController@index')->name('attributes');
 
             $router->post('/add', 'AttributesController@store')->name('attributes_add');
@@ -46,21 +46,21 @@ Route::group(['prefix' => getSetting('admin_prefix')], function($router) {
             $router->post('/delete', 'AttributesController@delete')->name('attributes_delete');
         });
 
-        $router->group(['prefix' => 'menu'], function($router) {
+        $router->group(['prefix' => 'menu', 'middleware' => 'auth.admin'], function($router) {
             $router->get('/', 'MenuController@index')->name('menu');
 
             $router->post('/add', 'MenuController@store')->name('menu_add');
             $router->post('/{id}/delete', 'MenuController@delete')->name('menu_delete');
         });
 
-        $router->group(['prefix' => 'banners'], function($router) {
+        $router->group(['prefix' => 'banners', 'middleware' => 'auth.admin'], function($router) {
             $router->get('/', 'BannerController@index')->name('banners');
 
             $router->post('/add', 'BannerController@store')->name('banner_add');
             $router->post('/{id}/delete', 'BannerController@delete')->name('banner_delete');
         });
 
-        $router->group(['prefix' => 'settings'], function($router) {
+        $router->group(['prefix' => 'settings', 'middleware' => 'auth.admin'], function($router) {
             $router->get('/', 'SettingsController@index')->name('settings');
 
             $router->post('/update', 'SettingsController@update')->name('settings_update');
@@ -68,18 +68,19 @@ Route::group(['prefix' => getSetting('admin_prefix')], function($router) {
         
         $router->group(['prefix' => 'orders'], function($router) {
             $router->get('/', 'OrdersController@index')->name('orders');
-            // $router->post('/', 'OrdersController@index')->name('orders_search');
-
-            $router->get('/print/{code}', 'OrdersController@print')->name('order_print');
             $router->get('/detail/{id}', 'OrdersController@detail')->name('orders_detail');
-            $router->post('/machine/{id}', 'OrdersController@updateMachine')->name('order.update_machine');
-            $router->post('/update', 'OrdersController@update')->name('orders_update');
-            $router->post('/store', 'OrdersController@store')->name('orders.create');
-            $router->post('/{code}/update', 'OrdersController@updateV2')->name('orders.update.v2');
-            $router->get('/{code}/show', 'OrdersController@show')->name('orders.show');
+            // $router->post('/', 'OrdersController@index')->name('orders_search');
+            $router->group(['middleware' => 'auth.admin'], function($router) {
+                $router->get('/print/{code}', 'OrdersController@print')->name('order_print');
+                $router->post('/machine/{id}', 'OrdersController@updateMachine')->name('order.update_machine');
+                $router->post('/update', 'OrdersController@update')->name('orders_update');
+                $router->post('/store', 'OrdersController@store')->name('orders.create');
+                $router->post('/{code}/update', 'OrdersController@updateV2')->name('orders.update.v2');
+                $router->get('/{code}/show', 'OrdersController@show')->name('orders.show');
+            });
         });
 
-        $router->group(['prefix' => 'pages'], function($router) {
+        $router->group(['prefix' => 'pages', 'middleware' => 'auth.admin'], function($router) {
             $router->get('/', 'PagesController@index')->name('pages');
 
             $router->get('/page/{id?}', 'PagesController@detail')->name('pages.edit');
@@ -87,7 +88,7 @@ Route::group(['prefix' => getSetting('admin_prefix')], function($router) {
             $router->post('/page/{id?}/delete', 'PagesController@delete')->name('pages.delete');
         });
 
-        $router->group(['prefix' => 'users'], function($router) {
+        $router->group(['prefix' => 'users', 'middleware' => 'auth.admin'], function($router) {
             $router->get('/', 'UsersController@index')->name('users');
 
             $router->post('/store', 'UsersController@store')->name('users_create');
@@ -96,7 +97,7 @@ Route::group(['prefix' => getSetting('admin_prefix')], function($router) {
             $router->post('/update', 'UsersController@update')->name('users_update');
         });        
 
-        $router->group(['prefix' => 'machines'], function($router) {
+        $router->group(['prefix' => 'machines', 'middleware' => 'auth.admin'], function($router) {
             $router->get('/', 'MachinesController@index')->name('machines');
             $router->post('/', 'MachinesController@store')->name('machine.store');
             $router->post('/delete/{id}', 'MachinesController@delete')->name('machine.delete');

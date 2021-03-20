@@ -81,17 +81,8 @@ class UserController extends Controller
 
             $code = 'OD'.time();
 
-            $order = new Orders;
-            $order->code = $code;
-            $order->user_id = Auth::user()->id;
-            $order->ship_method = 'bank';
-            $order->status = 'pending';
-            $order->created_at = Carbon::now();
-            $order->save();
-
-            $details = [];
             foreach($items as $item) {
-                $details[] = [
+                $details = [
                     'order_id'      => $code,
                     'product_id'    => $item['product_id'],
                     'product_attrs' => json_encode($item['attrs']),
@@ -99,9 +90,17 @@ class UserController extends Controller
                     'price'         => $item['total_amount'],
                     'created_at'    => Carbon::now()
                 ];
-            }
 
-            OrderDetails::insert($details);
+                if(OrderDetails::insert($details)) {
+                    $order = new Orders;
+                    $order->code = $code;
+                    $order->user_id = Auth::user()->id;
+                    $order->ship_method = 'bank';
+                    $order->status = 'pending';
+                    $order->created_at = Carbon::now();
+                    $order->save();
+                }
+            }
 
             return redirect()->route('user.dashboard');
         } catch (\Exception $e) {

@@ -21,30 +21,58 @@ class OrdersController extends Controller
         $per_page = $request->get('per_page', 20);
         $status = $request->get('status', '');
         $search = $request->get('search', '');
+        $user = Auth::user();
         
-        if($search != '') {
-            $orders = Orders::where('status', 'LIKE', "%{$status}%")
-            ->where('code', 'LIKE', "%{$search}%")->with('user', 'detail', 'detail.product')->orderBy('id','DESC')->paginate($per_page, $columns = ['*'], $pageName = 'page', $page)->toArray();
-            // dd($orders);
-            if(empty($orders['data'])) {
-                $user = User::where('email', 'LIKE', "%{$search}%")->orWhere('name', 'LIKE', "%{$search}%")->first();
+        if($user->user_type == 'admin') {
+            if($search != '') {
+                $orders = Orders::where('status', 'LIKE', "%{$status}%")
+                ->where('code', 'LIKE', "%{$search}%")->with('user', 'detail', 'detail.product')->orderBy('id','DESC')->paginate($per_page, $columns = ['*'], $pageName = 'page', $page)->toArray();
+                // dd($orders);
+                if(empty($orders['data'])) {
+                    $user = User::where('email', 'LIKE', "%{$search}%")->orWhere('name', 'LIKE', "%{$search}%")->first();
 
-                if(!empty($user)) {
-                    $orders = Orders::where('user_id', $user->id)->with('user', 'detail', 'detail.product')->orderBy('id','DESC')->paginate($per_page, $columns = ['*'], $pageName = 'page', $page)->toArray();
-                } else {
-                    $orders = Orders::where('user_id', 'empty')->with('user', 'detail', 'detail.product')->orderBy('id','DESC')->paginate($per_page, $columns = ['*'], $pageName = 'page', $page)->toArray();         
+                    if(!empty($user)) {
+                        $orders = Orders::where('user_id', $user->id)->with('user', 'detail', 'detail.product')->orderBy('id','DESC')->paginate($per_page, $columns = ['*'], $pageName = 'page', $page)->toArray();
+                    } else {
+                        $orders = Orders::where('user_id', 'empty')->with('user', 'detail', 'detail.product')->orderBy('id','DESC')->paginate($per_page, $columns = ['*'], $pageName = 'page', $page)->toArray();         
+                    }
                 }
+            } else {
+                $orders = Orders::where('status', 'LIKE', "%{$status}%")
+                ->where('code', 'LIKE', "%{$search}%")
+                ->with(['user' => function($query) use ($search) {
+                    if($search != '') {
+                        $query->where([['email', 'LIKE', "%{$search}%"], ['name', 'LIKE', "%{$search}%"]]);
+                    }
+
+                    return $query;
+                }, 'detail', 'detail.product'])->orderBy('id','DESC')->paginate($per_page, $columns = ['*'], $pageName = 'page', $page)->toArray();
             }
         } else {
-            $orders = Orders::where('status', 'LIKE', "%{$status}%")
-            ->where('code', 'LIKE', "%{$search}%")
-            ->with(['user' => function($query) use ($search) {
-                if($search != '') {
-                    $query->where([['email', 'LIKE', "%{$search}%"], ['name', 'LIKE', "%{$search}%"]]);
-                }
+            if($search != '') {
+                $orders = Orders::where('print_machine', $user->print_machine ?? 'Unknown')->where('status', 'LIKE', "%{$status}%")
+                ->where('code', 'LIKE', "%{$search}%")->with('user', 'detail', 'detail.product')->orderBy('id','DESC')->paginate($per_page, $columns = ['*'], $pageName = 'page', $page)->toArray();
+                // dd($orders);
+                if(empty($orders['data'])) {
+                    $user = User::where('email', 'LIKE', "%{$search}%")->orWhere('name', 'LIKE', "%{$search}%")->first();
 
-                return $query;
-            }, 'detail', 'detail.product'])->orderBy('id','DESC')->paginate($per_page, $columns = ['*'], $pageName = 'page', $page)->toArray();
+                    if(!empty($user)) {
+                        $orders = Orders::where('print_machine', $user->print_machine ?? 'Unknown')->where('user_id', $user->id)->with('user', 'detail', 'detail.product')->orderBy('id','DESC')->paginate($per_page, $columns = ['*'], $pageName = 'page', $page)->toArray();
+                    } else {
+                        $orders = Orders::where('print_machine', $user->print_machine ?? 'Unknown')->where('user_id', 'empty')->with('user', 'detail', 'detail.product')->orderBy('id','DESC')->paginate($per_page, $columns = ['*'], $pageName = 'page', $page)->toArray();         
+                    }
+                }
+            } else {
+                $orders = Orders::where('print_machine', $user->print_machine ?? 'Unknown')->where('status', 'LIKE', "%{$status}%")
+                ->where('code', 'LIKE', "%{$search}%")
+                ->with(['user' => function($query) use ($search) {
+                    if($search != '') {
+                        $query->where([['email', 'LIKE', "%{$search}%"], ['name', 'LIKE', "%{$search}%"]]);
+                    }
+
+                    return $query;
+                }, 'detail', 'detail.product'])->orderBy('id','DESC')->paginate($per_page, $columns = ['*'], $pageName = 'page', $page)->toArray();
+            }      
         }
         
         $paper_types = json_decode(Attributes::where('name', 'Chất liệu')->first()->options);
@@ -118,6 +146,7 @@ class OrdersController extends Controller
             $order->user_id = $request->user_id;
             $order->ship_method = 'bank';
             $order->created_at = Carbon::now();
+            $order->print_machine = $request->print_machine;
             $order->status = $request->status ?? 'pending';
 
             if($order->save()) {
@@ -163,6 +192,7 @@ class OrdersController extends Controller
         try {
             $order = Orders::where('code', $code)->first();
             $order->user_id = $request->user_id;
+            $order->print_machine = $request->print_machine;
             $order->status = $request->status ?? 'pending';
 
             if($order->save()) {

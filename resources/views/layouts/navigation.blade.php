@@ -67,50 +67,51 @@
                 {{ __('Đơn hàng') }}
             </x-nav-link>
         </div> 
+        @if(auth()->user()->user_type === 'admin')
+            <div class="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex">
+                <x-nav-link :href="route('products')" :active="request()->routeIs('products')">
+                    {{ __('Sản phẩm') }}
+                </x-nav-link>
+            </div> 
 
-        <div class="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex">
-            <x-nav-link :href="route('products')" :active="request()->routeIs('products')">
-                {{ __('Sản phẩm') }}
-            </x-nav-link>
-        </div> 
+            <div class="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex">
+                <x-nav-link :href="route('attributes')" :active="request()->routeIs('attributes')">
+                    {{ __('Thuộc tính') }}
+                </x-nav-link>
+            </div>  
 
-        <div class="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex">
-            <x-nav-link :href="route('attributes')" :active="request()->routeIs('attributes')">
-                {{ __('Thuộc tính') }}
-            </x-nav-link>
-        </div>  
+            <div class="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex">
+                <x-nav-link :href="route('machines')" :active="request()->routeIs('machines')">
+                    {{ __('Máy sản xuất') }}
+                </x-nav-link>
+            </div> 
 
-        <div class="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex">
-            <x-nav-link :href="route('machines')" :active="request()->routeIs('machines')">
-                {{ __('Máy sản xuất') }}
-            </x-nav-link>
-        </div> 
-
-        <div class="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex">
-            <x-nav-link :href="route('menu')" :active="request()->routeIs('menu')">
-                {{ __('Menu') }}
-            </x-nav-link>
-        </div> 
-        <div class="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex">
-            <x-nav-link :href="route('banners')" :active="request()->routeIs('banners')">
-                {{ __('Banner') }}
-            </x-nav-link>
-        </div> 
-        <div class="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex">
-            <x-nav-link :href="route('pages')" :active="request()->routeIs('pages')">
-                {{ __('Trang') }}
-            </x-nav-link>
-        </div>      
-        <div class="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex">
-            <x-nav-link :href="route('users')" :active="request()->routeIs('users')">
-                {{ __('Người dùng') }}
-            </x-nav-link>
-        </div>    
-        <div class="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex">
-            <x-nav-link :href="route('settings')" :active="request()->routeIs('settings')">
-                {{ __('Cài đặt') }}
-            </x-nav-link>
-        </div>  
+            <div class="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex">
+                <x-nav-link :href="route('menu')" :active="request()->routeIs('menu')">
+                    {{ __('Menu') }}
+                </x-nav-link>
+            </div> 
+            <div class="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex">
+                <x-nav-link :href="route('banners')" :active="request()->routeIs('banners')">
+                    {{ __('Banner') }}
+                </x-nav-link>
+            </div> 
+            <div class="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex">
+                <x-nav-link :href="route('pages')" :active="request()->routeIs('pages')">
+                    {{ __('Trang') }}
+                </x-nav-link>
+            </div>      
+            <div class="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex">
+                <x-nav-link :href="route('users')" :active="request()->routeIs('users')">
+                    {{ __('Người dùng') }}
+                </x-nav-link>
+            </div>    
+            <div class="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex">
+                <x-nav-link :href="route('settings')" :active="request()->routeIs('settings')">
+                    {{ __('Cài đặt') }}
+                </x-nav-link>
+            </div>  
+        @endif
     </div>    
 
     <!-- Responsive Navigation Menu -->
@@ -123,34 +124,39 @@
             <x-responsive-nav-link :href="route('orders')" :active="request()->routeIs('orders')">
                 {{ __('Đơn hàng') }}
             </x-responsive-nav-link>
+            @if(auth()->user()->user_type === 'admin')
+                <x-responsive-nav-link :href="route('products')" :active="request()->routeIs('products')">
+                    {{ __('Sản phẩm') }}
+                </x-responsive-nav-link>
 
-            <x-responsive-nav-link :href="route('products')" :active="request()->routeIs('products')">
-                {{ __('Sản phẩm') }}
-            </x-responsive-nav-link>
+                <x-responsive-nav-link :href="route('attributes')" :active="request()->routeIs('attributes')">
+                    {{ __('Thuộc tính') }}
+                </x-responsive-nav-link>
 
-            <x-responsive-nav-link :href="route('attributes')" :active="request()->routeIs('attributes')">
-                {{ __('Thuộc tính') }}
-            </x-responsive-nav-link>
-            
-            <x-responsive-nav-link :href="route('menu')" :active="request()->routeIs('menu')">
-                {{ __('Menu') }}
-            </x-responsive-nav-link>
+                <x-responsive-nav-link :href="route('machines')" :active="request()->routeIs('machines')">
+                    {{ __('Máy sản xuất') }}
+                </x-responsive-nav-link>
+                
+                <x-responsive-nav-link :href="route('menu')" :active="request()->routeIs('menu')">
+                    {{ __('Menu') }}
+                </x-responsive-nav-link>
 
-            <x-responsive-nav-link :href="route('banners')" :active="request()->routeIs('banners')">
-                {{ __('Banner') }}
-            </x-responsive-nav-link>
+                <x-responsive-nav-link :href="route('banners')" :active="request()->routeIs('banners')">
+                    {{ __('Banner') }}
+                </x-responsive-nav-link>
 
-            <x-responsive-nav-link :href="route('pages')" :active="request()->routeIs('pages')">
-                {{ __('Trang') }}
-            </x-responsive-nav-link>
+                <x-responsive-nav-link :href="route('pages')" :active="request()->routeIs('pages')">
+                    {{ __('Trang') }}
+                </x-responsive-nav-link>
 
-            <x-responsive-nav-link :href="route('users')" :active="request()->routeIs('users')">
-                {{ __('Người dùng') }}
-            </x-responsive-nav-link>
+                <x-responsive-nav-link :href="route('users')" :active="request()->routeIs('users')">
+                    {{ __('Người dùng') }}
+                </x-responsive-nav-link>
 
-            <x-responsive-nav-link :href="route('settings')" :active="request()->routeIs('settings')">
-                {{ __('Cài đặt') }}
-            </x-responsive-nav-link>            
+                <x-responsive-nav-link :href="route('settings')" :active="request()->routeIs('settings')">
+                    {{ __('Cài đặt') }}
+                </x-responsive-nav-link>          
+            @endif  
         </div>
 
         <!-- Responsive Settings Options -->

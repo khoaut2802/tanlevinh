@@ -31,6 +31,7 @@
                         }
                     @endphp  
                     <div class="flex justify-between items-center">
+                        @if(auth()->user()->user_type === 'admin')
                         <div class="flex flex-row">
                             <button type="button" data-action="completed" data-id="{{$order['code']}}" class="changeOrderStauts bg-blue-500 text-white active:bg-pink-600 font-bold uppercase text-xs px-4 py-2 rounded shadow hover:shadow-md outline-none focus:outline-none mr-1 mb-1">
                                 Duyệt
@@ -44,14 +45,17 @@
                                 Hủy
                             </button>
                         </div>
+                        
                         <div class="flex flex-row">
                             <button type="button" class="bg-blue-500 text-white active:bg-pink-600 font-bold uppercase text-xs px-4 py-2 rounded shadow hover:shadow-md outline-none focus:outline-none mr-1 mb-1 modal" data-target="#select_machine_modal">
                                 Chọn máy sản xuất
-                            </button>                            
+                            </button>            
+                                        
                             <a href="{{route('order_print', ['code' => $order->code])}}" class="bg-gray-500 text-white active:bg-pink-600 font-bold uppercase text-xs px-4 py-2 rounded shadow hover:shadow-md outline-none focus:outline-none mr-1 mb-1 print">
                                 In
                             </a>                        
                         </div>
+                        @endif   
                     </div>
                     <div class="py-8" id="print-area">
                         <div class="flex justify-between w-full my-2">
@@ -66,7 +70,7 @@
                         </p>                         --}}
                         <div class="overflow-x-auto">                           
                             @foreach($order->detail as $key => $item)
-                                <p class="text-lg font-bold">STT: {{$key + 1}}</p>
+                                {{-- <p class="text-lg font-bold">STT: {{$key + 1}}</p> --}}
                                 <table class="table-auto border-collapse border border-green-900 w-full mb-3">
                                     <tbody class="text-gray-700">                                    
                                     @if($item->product_id != 0)
@@ -113,6 +117,7 @@
             </div>
         </div>
     </div>
+    @if(auth()->user()->user_type === 'admin')
     <div class="hidden fixed z-10 inset-0 overflow-y-auto" id="select_machine_modal">
         <div class="flex items-end justify-center min-h-screen pt-4 px-4 pb-20 text-center sm:block sm:p-0">
           <div class="fixed inset-0 transition-opacity" aria-hidden="true">
@@ -150,6 +155,7 @@
           </div>
         </div>
       </div>
+    @endif
     <x-slot name="script">
         <script>
             function PrintElem(divName) {

@@ -45,7 +45,7 @@ class UsersController extends Controller
             $phone = $request->phone;
             $address = $request->address;
             $type = $request->user_type;
-
+            $machine = $request->print_machine;
 
             if(User::where('email', $email)->exists())
                 return redirect()->back()->withErrors('Người dùng đã tồn tại.');
@@ -60,6 +60,7 @@ class UsersController extends Controller
             $user->password = Hash::make($password);
             $user->address = $address;
             $user->user_type = $type;
+            $user->print_machine = $machine;
 
             if($request->has('patron'))
                 $user->is_patron = 'yes';
@@ -82,6 +83,7 @@ class UsersController extends Controller
             $phone = $request->phone;
             $address = $request->address;
             $type = $request->user_type;
+            $machine = $request->print_machine;
 
             if(strlen($password) > 0 && strlen($password) < 8)
                 return redirect()->back()->withErrors('Mật khẩu phải có độ dài tối thiểu 8 ký tự.');
@@ -93,6 +95,7 @@ class UsersController extends Controller
             $user->name = $name;
             $user->email = $email;
             $user->phone = $phone;
+            $user->print_machine = $machine;
 
             if(strlen($password) >= 8) {
                 $user->password = Hash::make($password);

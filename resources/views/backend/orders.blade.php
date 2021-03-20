@@ -90,10 +90,12 @@
                                                 class="px-5 py-3 border-b-2 border-r-2 border-blue-200 bg-blue-700 text-left text-xs font-semibold text-white uppercase tracking-wider">
                                                 Số lượng
                                             </th>
+                                            @if(auth()->user()->user_type === 'admin')
                                             <th
                                                 class="px-5 py-3 border-b-2 border-r-2 border-blue-200 bg-blue-700 text-left text-xs font-semibold text-white uppercase tracking-wider">
                                                 Số tiền
                                             </th>
+                                            @endif
                                             <th
                                                 class="px-5 py-3 border-b-2 border-r-2 border-blue-200 bg-blue-700 text-left text-xs font-semibold text-white uppercase tracking-wider">
                                                 Tạo lúc
@@ -178,11 +180,13 @@
                                                     {{$quantity}}
                                                 </p>
                                             </td>
+                                            @if(auth()->user()->user_type === 'admin')
                                             <td class="px-5 py-5 border-b border-r border-gray-200 bg-white text-sm">
                                                 <p class="text-gray-900 whitespace-no-wrap">
                                                     {{$price - $discount}}
                                                 </p>
                                             </td>
+                                            @endif
                                             <td class="px-5 py-5 border-b border-r border-gray-200 bg-white text-sm">
                                                 <p class="text-gray-900 whitespace-no-wrap">
                                                     {{formatDate($order['created_at'], 'd-m-Y H:i:s')}}
@@ -225,9 +229,11 @@
                                                     x-show="show"
                                                     >
                                                       <li class="rounded-sm px-3 py-1 hover:bg-gray-100"><a class="block" href="{{route('orders_detail', ['id' => $order['code']])}}">Chi tiết</a></li>
-                                                      <li class="rounded-sm px-3 py-1 hover:bg-gray-100"><a class="block editOrder" href="javascript:;" data-code="{{$order['code']}}">Chỉnh sửa</a></li>
-                                                      <li class="rounded-sm px-3 py-1 hover:bg-gray-100 cursor-pointer "><a class="block" href="{{route('order_print', ['code' => $order['code']])}}">In</a></li>
-                                                      <li class="rounded-sm px-3 py-1 hover:bg-gray-100 cursor-pointer text-red-500 changeOrderStauts" data-action="canceled" data-id="{{$order['code']}}">Hủy</li>
+                                                      @if(auth()->user()->user_type === 'admin')
+                                                        <li class="rounded-sm px-3 py-1 hover:bg-gray-100"><a class="block editOrder" href="javascript:;" data-code="{{$order['code']}}">Chỉnh sửa</a></li>
+                                                        <li class="rounded-sm px-3 py-1 hover:bg-gray-100 cursor-pointer "><a class="block" href="{{route('order_print', ['code' => $order['code']])}}">In</a></li>
+                                                        <li class="rounded-sm px-3 py-1 hover:bg-gray-100 cursor-pointer text-red-500 changeOrderStauts" data-action="canceled" data-id="{{$order['code']}}">Hủy</li>
+                                                      @endif
                                                     </ul>
                                                   </div>
                                             </td>
