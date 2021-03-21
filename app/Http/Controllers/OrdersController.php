@@ -159,6 +159,7 @@ class OrdersController extends Controller
                 $order->status = $request->status;
                 $order->created_at = Carbon::now();
                 $order->note = $request->note ?? null;
+                $order->print_machine = $request->print_machine ?? null;
                 $order->save();
             }           
 
@@ -200,7 +201,7 @@ class OrdersController extends Controller
             $order->print_machine = $request->print_machine;
             $order->note = $request->note ?? null;
             $order->status = $request->status ?? 'pending';
-
+            
             if($order->save()) {
                 if($order->detail[0]->product_id == 0) {
                     $data = $request->only(['paper_type', 'paper_size', 'name', 'print_size', 'zinc_quantity', 'color', 'quantity', 'compensate', 'cut', 'note']);
