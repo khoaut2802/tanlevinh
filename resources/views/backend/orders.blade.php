@@ -100,10 +100,10 @@
                                                 class="px-5 py-3 border-b-2 border-r-2 border-blue-200 bg-blue-700 text-left text-xs font-semibold text-white uppercase tracking-wider">
                                                 Tạo lúc
                                             </th>
-                                            {{-- <th
-                                                class="px-5 py-3 border-b-2 border-r-2 border-blue-200 bg-blue-700 text-left text-xs font-semibold text-white uppercase tracking-wider">
+                                            <th
+                                                class="max-w-md px-5 py-3 border-b-2 border-r-2 border-blue-200 bg-blue-700 text-left text-xs font-semibold text-white uppercase tracking-wider">
                                                 Ghi chú
-                                            </th>                                             --}}
+                                            </th>                                            
                                             <th
                                                 class="px-5 py-3 border-b-2 border-r-2 border-blue-200 bg-blue-700 text-left text-xs font-semibold text-white uppercase tracking-wider">
                                                 Trạng thái
@@ -193,6 +193,11 @@
                                                     {{formatDate($order['created_at'], 'd-m-Y H:i:s')}}
                                                 </p>
                                             </td>
+                                            <td class="max-w-md px-5 py-5 border-b border-r border-gray-200 bg-white text-sm">
+                                                <p class="text-gray-900 whitespace-no-wrap">
+                                                    {{$order['note']}}
+                                                </p>
+                                            </td>                                            
                                             <td class="px-5 py-5 border-b border-r border-gray-200 bg-white text-sm">
                                                 @if($order['status'] == 'completed')
                                                     <span class="block rounded text-white bg-green-700 py-2 px-2">Hoàn tất</span>
