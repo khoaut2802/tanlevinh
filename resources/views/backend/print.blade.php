@@ -210,7 +210,7 @@
                             <tr class="text-center border border-green-900">
                                 @foreach($attrs as $key => $attr)
                                         <th class="border">{{$attr->name}}:</th>
-                                        <td @if($key % 2 == 0)class="border-right border-black"@endif>{{$attr->values->name}} ({{number_format($attr->values->price)}}đ)</td>
+                                        <td @if($key % 2 == 0)class="border-right border-black"@endif>{{$attr->values->name}} ({{is_numeric($attr->values->price) ? number_format($attr->values->price).'đ' : $attr->values->price}})</td>
                                 @endforeach
                                 @if($loop->last)
                                     <th class="border">Số lượng</th> <td>{{$item->quantity}}</td>

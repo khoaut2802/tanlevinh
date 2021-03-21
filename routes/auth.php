@@ -77,6 +77,7 @@ Route::group(['prefix' => getSetting('admin_prefix')], function($router) {
                 $router->post('/store', 'OrdersController@store')->name('orders.create');
                 $router->post('/{code}/update', 'OrdersController@updateV2')->name('orders.update.v2');
                 $router->get('/{code}/show', 'OrdersController@show')->name('orders.show');
+                $router->get('/show-create-modal', 'OrdersController@show')->name('orders.show');
             });
         });
 
@@ -101,6 +102,11 @@ Route::group(['prefix' => getSetting('admin_prefix')], function($router) {
             $router->get('/', 'MachinesController@index')->name('machines');
             $router->post('/', 'MachinesController@store')->name('machine.store');
             $router->post('/delete/{id}', 'MachinesController@delete')->name('machine.delete');
+        });
+
+        $router->group(['prefix' => 'ajax', 'middleware' => 'auth.admin'], function($router) {
+            $router->get('/groups/{id}', 'GroupController@getProducts');
+            $router->get('/product/{id}', 'ProductController@getAttrs');
         });
     });                 
 

@@ -398,18 +398,90 @@ $(document).ready(function() {
         });            
     })     
 
-    $('.editOrder').on('click', function() {
-        var code = $(this).attr('data-code');
-
+    $('#showCreateOrderModal').on('click', function() {
         $.ajax({
-            url: window.web_url + '/orders/' + code + '/show',
+            url: window.web_url + '/orders/show-create-modal',
             data: {},
             type: 'GET',
             contentType: false, // NEEDED, DON'T OMIT THIS (requires jQuery 1.6+)
             processData: false, // NEEDED, DON'T OMIT THIS
             success: function(resp) {
-                document.getElementById('edit_order_modal').innerHTML = resp
+                document.getElementById('order_modal').innerHTML = resp
+            }
+        });            
+    })
+
+    $('.editOrder').on('click', function() {
+        var code = $(this).attr('data-code');
+
+        $.ajax({
+            url: window.web_url + '/orders/' + code + '/show?action=edit',
+            data: {},
+            type: 'GET',
+            contentType: false, // NEEDED, DON'T OMIT THIS (requires jQuery 1.6+)
+            processData: false, // NEEDED, DON'T OMIT THIS
+            success: function(resp) {
+                document.getElementById('order_modal').innerHTML = resp
             }
         });            
     })    
+
+    function parseOptions(arr) {
+        var elem = ''
+        arr.forEach(function(item, key) {
+            elem += `<option value="${key}">${item.name}</option>`
+        })
+
+        return elem
+    }
+
+    function fetchProductAttr(id) {
+        $.ajax({
+            url: window.web_url + '/ajax/product/' + id,
+            data: {},
+            type: 'GET',
+            contentType: false, // NEEDED, DON'T OMIT THIS (requires jQuery 1.6+)
+            processData: false, // NEEDED, DON'T OMIT THIS
+            success: function(resp) {
+                document.getElementById('product_attrs_content').innerHTML = ''
+
+                resp.forEach(function(item, key) {          
+                    document.getElementById('product_attrs_content').innerHTML += `<label class="block my-2">
+                    <span class="text-gray-700">${item.name}:</span>
+                    <select name="attr_${item.id}" class="block w-full mt-1 rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50" required>
+                    ${parseOptions(item.options)}
+                    </select>
+                    </label>`
+                })
+            }
+        });           
+    }
+
+    
+    $(document).on('change', 'select[name="product_group"]', function() {
+        var id = $(this).val()
+
+        $.ajax({
+            url: window.web_url + '/ajax/groups/' + id,
+            data: {},
+            type: 'GET',
+            contentType: false, // NEEDED, DON'T OMIT THIS (requires jQuery 1.6+)
+            processData: false, // NEEDED, DON'T OMIT THIS
+            success: function(resp) {
+                document.getElementById('product_list').innerHTML = ''
+                resp.forEach(function(item, key) {
+                    if(key === 0)
+                        fetchProductAttr(item.id)
+
+                    document.getElementById('product_list').innerHTML += `<option value="${item.id}">${item.name}</option>`
+                })
+            }
+        });            
+    })
+
+    $(document).on('change', 'select[name="product"]', function() {
+        var id = $(this).val()
+
+        fetchProductAttr(id)
+    })
 });

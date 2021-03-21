@@ -187,4 +187,27 @@ class ProductController extends Controller
         }        
     }
 
+    public function getAttrs($id)
+    {
+        try {
+            $product_attrs = ProductAttrs::where('product_id', $id)->get();
+            $data = [];
+
+            foreach($product_attrs as $attr) {
+                $attribute = Attributes::where('id', $attr->attr_id)->first();
+                $values = json_decode($attr->values);
+                $options = [];
+
+                foreach($values as $value) {
+                    $options[] = getAttrValue($attr->attr_id, $value);
+                }
+
+                $data[] = ['id' => $attr->attr_id, 'name' => $attribute->name, 'options' => $options];
+            }
+
+            return response()->json($data);
+        } catch(\Exception $e) {
+            return response()->json($e->getMessage());
+        }
+    }
 }

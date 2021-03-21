@@ -139,30 +139,28 @@ class OrdersController extends Controller
     public function store(Request $request)
     {
         try {
-            $code = 'PATRON'.time();
+            // dd(getCartAttrs($request->all()));
+            $code = 'OD'.time();
 
-            $order = new Orders;
-            $order->code = $code;
-            $order->user_id = $request->user_id;
-            $order->ship_method = 'bank';
-            $order->created_at = Carbon::now();
-            $order->print_machine = $request->print_machine;
-            $order->status = $request->status ?? 'pending';
-
-            if($order->save()) {
-                $data = $request->only(['paper_type', 'paper_size', 'name', 'print_size', 'zinc_quantity', 'color', 'quantity', 'compensate', 'cut', 'note']);
-
-                $details[] = [
-                    'order_id'      => $code,
-                    'product_id'    => 0,
-                    'product_attrs' => json_encode($data),
-                    'quantity'      => $data['quantity'],
-                    'price'         => (float)$request->price,
-                    'created_at'    => Carbon::now()
-                ];
-
-                OrderDetails::insert($details);
-            }
+            $details = [
+                'order_id'      => $code,
+                'product_id'    => $request->product,
+                'product_attrs' => json_encode(getCartAttrs($request->all())),
+                'quantity'      => $request->quantity,
+                'price'         => $request->price,
+                'created_at'    => Carbon::now()
+            ];
+            
+            if(OrderDetails::insert($details)) {
+                $order = new Orders;
+                $order->code = $code;
+                $order->user_id = $request->user_id;
+                $order->ship_method = 'bank';
+                $order->status = $request->status;
+                $order->created_at = Carbon::now();
+                $order->note = $request->note ?? null;
+                $order->save();
+            }           
 
             return redirect()->route('orders')->withSuccess('Tạo đơn hàng thành công.');
         } catch(\Exception $e) {
@@ -170,18 +168,25 @@ class OrdersController extends Controller
         }
     }
 
-    public function show($code)
+    public function show(Request $request, $code = null)
     {
         try {
-            $order = Orders::where('code', $code)->first();
+            $action = $request->action;
+            $order = null;
+            $form_url = route('orders.create');
 
-            if(!$order)
-                return 'Không tìm thấy đơn hàng';
+            if($code) {
+                $form_url = route('orders.update.v2', ['code' => $code]);
+                $order = Orders::where('code', $code)->first();
+
+                if(!$order)
+                    return 'Không tìm thấy đơn hàng';
+            }
 
             $paper_types = json_decode(Attributes::where('name', 'Chất liệu')->first()->options);
             $paper_sizes = json_decode(Attributes::where('name', 'Kích thước')->first()->options);      
 
-            return view('components.order_edit_modal', compact('order', 'paper_types', 'paper_sizes'));
+            return view('components.order_edit_modal', compact('order', 'paper_types', 'paper_sizes', 'action', 'form_url'));
         } catch(\Exception $e) {
             return $e->getMessage();
         }
@@ -193,14 +198,20 @@ class OrdersController extends Controller
             $order = Orders::where('code', $code)->first();
             $order->user_id = $request->user_id;
             $order->print_machine = $request->print_machine;
+            $order->note = $request->note ?? null;
             $order->status = $request->status ?? 'pending';
 
             if($order->save()) {
-                $data = $request->only(['paper_type', 'paper_size', 'name', 'print_size', 'zinc_quantity', 'color', 'quantity', 'compensate', 'cut', 'note']);
-
+                if($order->detail[0]->product_id == 0) {
+                    $data = $request->only(['paper_type', 'paper_size', 'name', 'print_size', 'zinc_quantity', 'color', 'quantity', 'compensate', 'cut', 'note']);
+                } else {
+                    $data = getCartAttrs($request->all());
+                }
+                
                 $details = [
+                    'product_id'    => $request->product ?? 0,
                     'product_attrs' => json_encode($data),
-                    'quantity'      => $data['quantity'],
+                    'quantity'      => $request->quantity ?? 1,
                     'price'         => (float)$request->price,
                     'created_at'    => Carbon::now()
                 ];

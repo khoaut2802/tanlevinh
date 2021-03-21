@@ -133,4 +133,13 @@ class GroupController extends Controller
             return response()->json($e->getMessage());
         }
     }    
+
+    public function getProducts($id)
+    {
+        try {
+            return response()->json(Products::where('group_id', $id)->get());
+        } catch(\Exception $e) {
+            return response()->json($e->getMessage());
+        }
+    }
 }

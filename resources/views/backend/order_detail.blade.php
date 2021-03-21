@@ -86,14 +86,14 @@
                                     <tr class="text-left border border-green-900">
                                         @foreach($attrs as $key => $attr)
                                                 <th>{{$attr->name}}:</th>
-                                                <td @if($key % 2 == 0)class="border-r-2 border-black"@endif>{{$attr->values->name}} ({{number_format($attr->values->price)}}đ)</td>
+                                                <td @if($key % 2 == 0)class="border-r-2 border-black"@endif>{{$attr->values->name}} ({{is_numeric($attr->values->price) ? number_format($attr->values->price).'đ' : $attr->values->price}})</td>
                                         @endforeach
                                         @if($loop->last)
                                             <th>Số lượng</th> <td>{{$item->quantity}}</td>
                                         @endif
                                     </tr>
                                     @endforeach
-                                    <tr class="text-left border border-green-900"> <th>Giá</th> <td class="border-r-2 border-black">{{number_format($price)}}đ</td> <td></td><td></td></tr>
+                                    <tr class="text-left border border-green-900"> <th>Giá</th> <td class="border-r-2 border-black">{{is_numeric($price) ? number_format($price) : $price}}đ</td> <td></td><td></td></tr>
                                     @else
                                         @if(strpos($order['code'], 'PATRON') !== false)
                                             @php
