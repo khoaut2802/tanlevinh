@@ -259,7 +259,7 @@
                             <span class="text-gray-700">Máy sản xuất:</span>
                             <select name="print_machine" class="block w-full mt-1 rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50" required>
                                 @foreach(\App\Models\Machines::get() as $machine)
-                                    <option value="{{$machine->name}}" @if($order->print_machine == $machine->name)selected @endif>{{$machine->name}}</option>
+                                    <option value="{{$machine->name}}">{{$machine->name}}</option>
                                 @endforeach
                             </select>
                         </label>  
