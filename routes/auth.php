@@ -30,9 +30,9 @@ Route::group(['prefix' => getSetting('admin_prefix')], function($router) {
         $router->group(['prefix' => 'groups', 'middleware' => 'auth.admin'], function($router) {
             $router->get('/', 'GroupController@index')->name('groups');
             $router->post('/', 'GroupController@index')->name('group_search');
-        
-            $router->post('/add', 'GroupController@store')->name('add_group');  
-            
+
+            $router->post('/add', 'GroupController@store')->name('add_group');
+
             $router->get('/{id}', 'GroupController@detail')->name('group_detail');
             $router->post('/{id}/order', 'GroupController@order')->name('group_order');
             $router->post('/{id}/delete', 'GroupController@delete')->name('group_delete');
@@ -65,19 +65,23 @@ Route::group(['prefix' => getSetting('admin_prefix')], function($router) {
 
             $router->post('/update', 'SettingsController@update')->name('settings_update');
         });
-        
+
         $router->group(['prefix' => 'orders'], function($router) {
             $router->get('/', 'OrdersController@index')->name('orders');
             $router->get('/detail/{id}', 'OrdersController@detail')->name('orders_detail');
             // $router->post('/', 'OrdersController@index')->name('orders_search');
             $router->group(['middleware' => 'auth.admin'], function($router) {
                 $router->get('/print/{code}', 'OrdersController@print')->name('order_print');
-                $router->post('/machine/{id}', 'OrdersController@updateMachine')->name('order.update_machine');
+                $router->post('/machine/{id?}', 'OrdersController@updateMachine')->name('order.update_machine');
                 $router->post('/update', 'OrdersController@update')->name('orders_update');
                 $router->post('/store', 'OrdersController@store')->name('orders.create');
                 $router->post('/{code}/update', 'OrdersController@updateV2')->name('orders.update.v2');
                 $router->get('/{code}/show', 'OrdersController@show')->name('orders.show');
                 $router->get('/show-create-modal', 'OrdersController@show')->name('orders.show');
+            });
+
+            $router->group(['middleware' => 'auth.staff'], function($router) {
+                $router->post('/staff-update', 'OrdersController@staffUpdate')->name('order.staff.update');
             });
         });
 
@@ -96,7 +100,7 @@ Route::group(['prefix' => getSetting('admin_prefix')], function($router) {
             $router->get('/{id}/detail', 'UsersController@detail')->name('users_detail');
             $router->post('/{id}/delete', 'UsersController@delete')->name('users_delete');
             $router->post('/update', 'UsersController@update')->name('users_update');
-        });        
+        });
 
         $router->group(['prefix' => 'machines', 'middleware' => 'auth.admin'], function($router) {
             $router->get('/', 'MachinesController@index')->name('machines');
@@ -108,7 +112,7 @@ Route::group(['prefix' => getSetting('admin_prefix')], function($router) {
             $router->get('/groups/{id}', 'GroupController@getProducts');
             $router->get('/product/{id}', 'ProductController@getAttrs');
         });
-    });                 
+    });
 
     // $router->get('/verify-email', [EmailVerificationPromptController::class, '__invoke'])
     //                 ->middleware('auth')
@@ -141,7 +145,7 @@ Route::group(['prefix' => 'user', 'middleware' => 'auth.user', 'as' => 'user.'],
 
     $router->group(['prefix' => 'order'], function($router) {
         $router->get('/detail/{code}', 'UserController@detailOrder')->name('order.detail');
-        
+
         $router->post('/create', 'UserController@createOrder')->name('order.create');
 
         $router->post('/cancel', 'UserController@cancelOrder')->name('order.cancel');
@@ -169,7 +173,7 @@ $router->post('/login', [AuthenticatedSessionController::class, 'store'])
 
 $router->post('/logout', [AuthenticatedSessionController::class, 'destroy'])
 ->middleware('auth')
-->name('logout');   
+->name('logout');
 
 $router->get('/logout', [AuthenticatedSessionController::class, 'destroy'])->middleware('auth')
 ->name('logout2');

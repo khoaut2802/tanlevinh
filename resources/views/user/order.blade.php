@@ -9,7 +9,7 @@
             $quantity = $quantity + $item->quantity;
             $discount = $discount + $item->discount;
         }
-    @endphp   
+    @endphp
     <div class="my-2 row">
         <div class="col-12 col-sm-2">
             @include('user.navbar')
@@ -23,10 +23,10 @@
                         <span class="badge badge-success">Hoàn tất</span>
                     @elseif($order->status == 'pending')
                         <span class="badge badge-info">Đang chờ xác nhận</span>
-                    @elseif($order->status == 'processing')
-                        <span class="badge badge-warning">Đang xử lý</span>                        
-                    @else
+                    @elseif($order->status == 'canceled')
                         <span class="badge badge-danger">Đã hủy</span>
+                    @else
+                        <span class="badge badge-warning">Đang xử lý</span>
                     @endif
                 </header>
                 <div class="card-body">
@@ -85,7 +85,7 @@
                 headers: {
                     'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
                 }
-            });            
+            });
 
             $('#cancelOrder').on('click', function() {
                 var id = $(this).attr('data-id');
@@ -117,9 +117,9 @@
                                     }
                                 })
                             }
-                        });     
+                        });
                     }
-                })                   
+                })
             })
         </script>
     </x-slot>

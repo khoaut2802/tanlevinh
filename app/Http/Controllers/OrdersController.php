@@ -22,7 +22,7 @@ class OrdersController extends Controller
         $status = $request->get('status', '');
         $search = $request->get('search', '');
         $user = Auth::user();
-        
+
         if($user->user_type == 'admin') {
             if($search != '') {
                 $orders = Orders::where('status', 'LIKE', "%{$status}%")
@@ -34,7 +34,7 @@ class OrdersController extends Controller
                     if(!empty($user)) {
                         $orders = Orders::where('user_id', $user->id)->with('user', 'detail', 'detail.product')->orderBy('id','DESC')->paginate($per_page, $columns = ['*'], $pageName = 'page', $page)->toArray();
                     } else {
-                        $orders = Orders::where('user_id', 'empty')->with('user', 'detail', 'detail.product')->orderBy('id','DESC')->paginate($per_page, $columns = ['*'], $pageName = 'page', $page)->toArray();         
+                        $orders = Orders::where('user_id', 'empty')->with('user', 'detail', 'detail.product')->orderBy('id','DESC')->paginate($per_page, $columns = ['*'], $pageName = 'page', $page)->toArray();
                     }
                 }
             } else {
@@ -59,7 +59,7 @@ class OrdersController extends Controller
                     if(!empty($user)) {
                         $orders = Orders::where('print_machine', $user->print_machine ?? 'Unknown')->where('user_id', $user->id)->with('user', 'detail', 'detail.product')->orderBy('id','DESC')->paginate($per_page, $columns = ['*'], $pageName = 'page', $page)->toArray();
                     } else {
-                        $orders = Orders::where('print_machine', $user->print_machine ?? 'Unknown')->where('user_id', 'empty')->with('user', 'detail', 'detail.product')->orderBy('id','DESC')->paginate($per_page, $columns = ['*'], $pageName = 'page', $page)->toArray();         
+                        $orders = Orders::where('print_machine', $user->print_machine ?? 'Unknown')->where('user_id', 'empty')->with('user', 'detail', 'detail.product')->orderBy('id','DESC')->paginate($per_page, $columns = ['*'], $pageName = 'page', $page)->toArray();
                     }
                 }
             } else {
@@ -72,11 +72,11 @@ class OrdersController extends Controller
 
                     return $query;
                 }, 'detail', 'detail.product'])->orderBy('id','DESC')->paginate($per_page, $columns = ['*'], $pageName = 'page', $page)->toArray();
-            }      
+            }
         }
-        
+
         $paper_types = json_decode(Attributes::where('name', 'Chất liệu')->first()->options);
-        $paper_sizes = json_decode(Attributes::where('name', 'Kích thước')->first()->options);        
+        $paper_sizes = json_decode(Attributes::where('name', 'Kích thước')->first()->options);
         // dd($products);
         return view('backend.orders', compact('orders', 'paper_types', 'paper_sizes'));
     }
@@ -90,7 +90,7 @@ class OrdersController extends Controller
         }
 
         $order = Orders::where('code', $id)->first();
-        
+
         return view('backend.order_detail', compact('order'));
     }
 
@@ -110,7 +110,7 @@ class OrdersController extends Controller
         ]);
 
         $order = Orders::where('code', $id)->first();
-        
+
         if($send_mail == 'yes')
             Mail::to($order->user->email)->send(new OrderStatusMail($order));
 
@@ -127,8 +127,10 @@ class OrdersController extends Controller
         return view('backend.print', compact('order'));
     }
 
-    public function updateMachine(Request $request, $id)
+    public function updateMachine(Request $request, $id = null)
     {
+        if(!$id) $id = $request->id;
+
         $update = Orders::find($id)->update($request->only(['print_machine']));
 
         if($update) return redirect()->back()->withSuccess('Cập nhật máy sản xuất thành công.');
@@ -140,27 +142,30 @@ class OrdersController extends Controller
     {
         try {
             // dd(getCartAttrs($request->all()));
-            $code = 'OD'.time();
 
-            $details = [
-                'order_id'      => $code,
-                'product_id'    => $request->product,
-                'product_attrs' => json_encode(getCartAttrs($request->all())),
-                'quantity'      => $request->quantity,
-                'price'         => $request->price,
-                'created_at'    => Carbon::now()
-            ];
-            
-            if(OrderDetails::insert($details)) {
-                $order = new Orders;
-                $order->code = $code;
-                $order->user_id = $request->user_id;
-                $order->ship_method = 'bank';
-                $order->status = $request->status;
-                $order->created_at = Carbon::now();
-                $order->note = $request->note ?? null;
-                $order->save();
-            }           
+            $order = new Orders;
+            $order->code = 'empty';
+            $order->user_id = $request->user_id;
+            $order->ship_method = 'bank';
+            $order->status = $request->status;
+            $order->created_at = Carbon::now();
+            $order->note = $request->note ?? null;
+
+            if($order->save()) {
+                $order->code = generateOrderCode($order->id);
+                if($order->save()) {
+                    $details = [
+                        'order_id'      => generateOrderCode($order->id),
+                        'product_id'    => $request->product,
+                        'product_attrs' => json_encode(getCartAttrs($request->all())),
+                        'quantity'      => $request->quantity,
+                        'price'         => $request->price,
+                        'created_at'    => Carbon::now()
+                    ];
+
+                    OrderDetails::insert($details);
+                }
+            }
 
             return redirect()->route('orders')->withSuccess('Tạo đơn hàng thành công.');
         } catch(\Exception $e) {
@@ -184,7 +189,7 @@ class OrdersController extends Controller
             }
 
             $paper_types = json_decode(Attributes::where('name', 'Chất liệu')->first()->options);
-            $paper_sizes = json_decode(Attributes::where('name', 'Kích thước')->first()->options);      
+            $paper_sizes = json_decode(Attributes::where('name', 'Kích thước')->first()->options);
 
             return view('components.order_edit_modal', compact('order', 'paper_types', 'paper_sizes', 'action', 'form_url'));
         } catch(\Exception $e) {
@@ -207,7 +212,7 @@ class OrdersController extends Controller
                 } else {
                     $data = getCartAttrs($request->all());
                 }
-                
+
                 $details = [
                     'product_id'    => $request->product ?? 0,
                     'product_attrs' => json_encode($data),
@@ -223,5 +228,15 @@ class OrdersController extends Controller
         } catch(\Exception $e) {
             return redirect()->back()->withErrors($e->getMessage());
         }
-    }    
+    }
+
+    public function staffUpdate(Request $request)
+    {
+        $id = $request->id;
+        $status = $request->status;
+
+        Orders::where('id', $id)->update(['status' => $status]);
+
+        return redirect()->back()->withSuccess('Thay đổi trạng thái đơn hàng thành công');
+    }
 }

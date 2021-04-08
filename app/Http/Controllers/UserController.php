@@ -62,9 +62,9 @@ class UserController extends Controller
                 $user = User::find(Auth::user()->id);
                 $user->password = Hash::make($request->new_password);
                 $user->save();
-                
+
                 return redirect()->back()->withSuccess('Thay đổi thông tin thành công.');
-            }   
+            }
         } catch (\Exception $e) {
             return redirect()->back()->withErrors($e->getMessage());
         }
@@ -79,26 +79,29 @@ class UserController extends Controller
                 return redirect()->back();
             }
 
-            $code = 'OD'.time();
-
             foreach($items as $item) {
-                $details = [
-                    'order_id'      => $code,
-                    'product_id'    => $item['product_id'],
-                    'product_attrs' => json_encode($item['attrs']),
-                    'quantity'      => $item['quantity'],
-                    'price'         => $item['total_amount'],
-                    'created_at'    => Carbon::now()
-                ];
 
-                if(OrderDetails::insert($details)) {
-                    $order = new Orders;
-                    $order->code = $code;
-                    $order->user_id = Auth::user()->id;
-                    $order->ship_method = 'bank';
-                    $order->status = 'pending';
-                    $order->created_at = Carbon::now();
-                    $order->save();
+                $order = new Orders;
+                $order->code = time();
+                $order->user_id = Auth::user()->id;
+                $order->ship_method = 'bank';
+                $order->status = 'pending';
+                $order->created_at = Carbon::now();
+
+                if($order->save()) {
+                    $order->code = generateOrderCode($order->id);
+
+                    if($order->save()) {
+                        $details = [
+                            'order_id'      => generateOrderCode($order->id),
+                            'product_id'    => $item['product_id'],
+                            'product_attrs' => json_encode($item['attrs']),
+                            'quantity'      => $item['quantity'],
+                            'price'         => $item['total_amount'],
+                            'created_at'    => Carbon::now()
+                        ];
+                        OrderDetails::insert($details);
+                    }
                 }
             }
 
@@ -148,7 +151,7 @@ class UserController extends Controller
         try {
             $id = $request->get('order_id');
             if ($request->hasFile('orderFile') && Orders::where('user_id', Auth::user()->id)->where('code', $id)->exists()) {
-                if ($request->file('orderFile')->isValid()) {              
+                if ($request->file('orderFile')->isValid()) {
 
                     $file_name = 'FILE'.time();
                     $extension = $request->orderFile->extension();
@@ -174,7 +177,7 @@ class UserController extends Controller
 
     public function patrons(Request $request)
     {
-        $orders = Orders::where('user_id', Auth::user()->id)->where('code', 'LIKE', '%PATRON%')->get();
+        $orders = Orders::where('user_id', Auth::user()->id)->where('code', 'LIKE', '%IMP%')->get();
         return view('user.patrons', compact('orders'));
     }
 
@@ -193,7 +196,7 @@ class UserController extends Controller
             if($user->is_patron == 'no')
                 return redirect()->route('user.dashboard');
 
-            $code = 'PATRON'.time();
+            $code = 'IMP'.time();
 
             $order = new Orders;
             $order->code = $code;
@@ -201,21 +204,25 @@ class UserController extends Controller
             $order->ship_method = 'bank';
             $order->status = 'pending';
             $order->created_at = Carbon::now();
-            $order->save();
+            if($order->save()) {
+                $order->code = generateOrderCode($order->id, 'IMP');
+                if($order->save()) {
 
-            $data = $request->all();
-            unset($data['_token']);
+                    $data = $request->all();
+                    unset($data['_token']);
 
-            $details[] = [
-                'order_id'      => $code,
-                'product_id'    => 0,
-                'product_attrs' => json_encode($data),
-                'quantity'      => $data['quantity'],
-                'price'         => 0,
-                'created_at'    => Carbon::now()
-            ];
+                    $details[] = [
+                        'order_id'      => generateOrderCode($order->id, 'IMP'),
+                        'product_id'    => 0,
+                        'product_attrs' => json_encode($data),
+                        'quantity'      => $data['quantity'],
+                        'price'         => 0,
+                        'created_at'    => Carbon::now()
+                    ];
 
-            OrderDetails::insert($details);
+                    OrderDetails::insert($details);
+                }
+            }
 
             return redirect()->route('user.dashboard')->withSuccess('Đặt hàng thành công.');
         } catch(\Exception $e) {

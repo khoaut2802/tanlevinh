@@ -2,15 +2,7 @@
     <x-slot name="header">
         <h2 class="font-semibold text-xl text-gray-800 leading-tight">
             {{ __('Đơn hàng #'.$order->code) }}
-            @if($order['status'] == 'completed')
-                <span class="block rounded text-white bg-green-700 py-2 px-2">Hoàn tất</span>
-            @elseif($order['status'] == 'pending')
-                <span class="block rounded text-white bg-blue-700 py-2 px-2">Đang chờ xác nhận</span>
-            @elseif($order['status'] == 'processing')
-                <span class="block rounded text-white bg-yellow-700 py-2 px-2">Đang xử lý</span>                        
-            @else
-                <span class="block rounded text-white bg-red-700 py-2 px-2">Đã hủy</span>
-            @endif            
+            {!! formatStatus($order->status) !!}
         </h2>
     </x-slot>
 
@@ -23,13 +15,13 @@
                         $price = 0;
                         $quantity = 0;
                         $discount = 0;
-                
+
                         foreach($order['detail'] as $item) {
                             $price = $price + $item['price'] * $item['quantity'];
                             $quantity = $quantity + $item['quantity'];
                             $discount = $discount + $item['discount'];
                         }
-                    @endphp  
+                    @endphp
                     <div class="flex justify-between items-center">
                         @if(auth()->user()->user_type === 'admin')
                         <div class="flex flex-row">
@@ -45,17 +37,17 @@
                                 Hủy
                             </button>
                         </div>
-                        
+
                         <div class="flex flex-row">
                             <button type="button" class="bg-blue-500 text-white active:bg-pink-600 font-bold uppercase text-xs px-4 py-2 rounded shadow hover:shadow-md outline-none focus:outline-none mr-1 mb-1 modal" data-target="#select_machine_modal">
                                 Chọn máy sản xuất
-                            </button>            
-                                        
+                            </button>
+
                             <a href="{{route('order_print', ['code' => $order->code])}}" class="bg-gray-500 text-white active:bg-pink-600 font-bold uppercase text-xs px-4 py-2 rounded shadow hover:shadow-md outline-none focus:outline-none mr-1 mb-1 print">
                                 In
-                            </a>                        
+                            </a>
                         </div>
-                        @endif   
+                        @endif
                     </div>
                     <div class="py-8" id="print-area">
                         <div class="flex justify-between w-full my-2">
@@ -68,11 +60,11 @@
                             Email: <b>{{$order->user->email}}</b> <br>
                             Địa chỉ: <b>{{$order->user->address}}</b>
                         </p>                         --}}
-                        <div class="overflow-x-auto">                           
+                        <div class="overflow-x-auto">
                             @foreach($order->detail as $key => $item)
                                 {{-- <p class="text-lg font-bold">STT: {{$key + 1}}</p> --}}
                                 <table class="table-auto border-collapse border border-green-900 w-full mb-3">
-                                    <tbody class="text-gray-700">                                    
+                                    <tbody class="text-gray-700">
                                     @if($item->product_id != 0)
                                     <tr class="text-left border border-green-900">
                                         <th>
@@ -95,7 +87,7 @@
                                     @endforeach
                                     <tr class="text-left border border-green-900"> <th>Giá</th> <td class="border-r-2 border-black">{{is_numeric($price) ? number_format($price) : $price}}đ</td> <td></td><td></td></tr>
                                     @else
-                                        @if(strpos($order['code'], 'PATRON') !== false)
+                                        @if(strpos($order['code'], 'IMP') !== false || strpos($order['code'], 'PATRON') !== false)
                                             @php
                                                 $i = 0;
                                             @endphp
@@ -105,14 +97,14 @@
                                                     <td class="px-2">{{$value}}</td>
                                                 </tr>
                                                 @php $i++; @endphp
-                                            @endforeach                                                       
+                                            @endforeach
                                         @endif
                                     @endif
                                     </tbody>
-                                </table>                                    
+                                </table>
                             @endforeach
                         </div>
-                    </div>   
+                    </div>
                 </div>
             </div>
         </div>
@@ -124,7 +116,7 @@
             <div class="absolute inset-0 bg-gray-500 opacity-75"></div>
           </div>
           <span class="hidden sm:inline-block sm:align-middle sm:h-screen" aria-hidden="true">&#8203;</span>
-    
+
           <div class="inline-block align-bottom bg-white rounded-lg text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-lg sm:w-full" role="dialog" aria-modal="true" aria-labelledby="modal-headline">
             <form method="post" action="{{route('order.update_machine', ['id' => $order->id])}}">
                 @csrf
@@ -146,7 +138,7 @@
               <button type="submit" class="w-full inline-flex justify-center rounded-md border border-transparent shadow-sm px-4 py-2 bg-green-600 text-base font-medium text-white hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500 sm:ml-3 sm:w-auto sm:text-sm">
                 Lưu
               </button>
-              <button type="button" 
+              <button type="button"
               class="mt-3 w-full inline-flex justify-center rounded-md border border-gray-300 shadow-sm px-4 py-2 bg-white text-base font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 sm:mt-0 sm:ml-3 sm:w-auto sm:text-sm modal-close" data-target="#select_machine_modal">
                 Cancel
               </button>

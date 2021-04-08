@@ -15,7 +15,7 @@
                         <ul class="nav nav-tabs" role="tablist">
                           <li class="nav-item"><a class="nav-link active" href="#patron_orders" aria-controls="patron_orders" role="tab" data-toggle="tab">Danh sách đơn hàng</a></li>
                         </ul>
-                  
+
                         <!-- Tab panes -->
                         <div class="tab-content mt-3">
                           <div role="tabpanel" class="tab-pane active" id="patron_orders">
@@ -31,7 +31,7 @@
                                     </tr>
                                     </thead>
                                     <tbody>
-                                    @foreach($orders as $order)                                 
+                                    @foreach($orders as $order)
                                     <tr>
                                         <th scope="row" style="font-size: 12px;">{{$order->code}}</th>
                                         <td>
@@ -40,16 +40,16 @@
                                                     {{__($key)}}: {{$value}}<br>
                                                 @endforeach
                                             @endforeach
-                                        </td>          
+                                        </td>
                                         <td>
                                             @if($order->status == 'completed')
                                             <span class="badge badge-success">Hoàn tất</span>
                                             @elseif($order->status == 'pending')
                                                 <span class="badge badge-info">Đang chờ xác nhận</span>
-                                            @elseif($order->status == 'processing')
-                                                <span class="badge badge-warning">Đang xử lý</span>                        
-                                            @else
+                                            @elseif($order->status == 'canceled')
                                                 <span class="badge badge-danger">Đã hủy</span>
+                                            @else
+                                                <span class="badge badge-warning">Đang xử lý</span>
                                             @endif
                                         </td>
                                         <td>@if($order->file != null)<span class="badge badge-success">Đã tải lên</span>@else <button type="buttom" class="btn btn-info btn-sm uploadFile" data-id="{{$order->code}}">Tải lên tệp</button>@endif</td>
@@ -61,13 +61,13 @@
                                             <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
                                                 <a href="javascript:;" class="dropdown-item cancelOrder" data-id="{{$order->code}}">Hủy</a>
                                             </div>
-                                            </div>                                                
+                                            </div>
                                         </td>
                                     </tr>
                                     @endforeach
                                     </tbody>
-                                </table>   
-                              </div>                           
+                                </table>
+                              </div>
                           </div>
                         </div>
                       </div>
@@ -115,7 +115,7 @@
                 headers: {
                     'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
                 }
-            });            
+            });
 
             $('.cancelOrder').on('click', function() {
                 var id = $(this).attr('data-id');
@@ -147,9 +147,9 @@
                                     }
                                 })
                             }
-                        });     
+                        });
                     }
-                })                   
+                })
             })
 
             $('.custom-file-input').on('change', function() {
@@ -175,7 +175,7 @@
                 $.ajax({
                     url: '{{route('user.order.upload')}}',
                     data: data,
-                    type: 'POST', 
+                    type: 'POST',
                     contentType: false, // NEEDED, DON'T OMIT THIS (requires jQuery 1.6+)
                     processData: false, // NEEDED, DON'T OMIT THIS
                     success: function(msg) {
@@ -193,7 +193,7 @@
                             }
                         })
                     }
-                });                   
+                });
             })
         </script>
     </x-slot>

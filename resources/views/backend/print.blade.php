@@ -149,7 +149,7 @@
                 <span class="hidden-print">
                     <a href="javascript:;" onclick="window.print()" class="btn btn-sm btn-white m-b-10 p-l-5"><i
                             class="fa fa-print t-plus-1 fa-fw fa-lg"></i> In</a>
-                </span>                
+                </span>
             </div>
             <div class="invoice">
                 <!-- begin invoice-company -->
@@ -163,7 +163,7 @@
                             <span style="font-size: 14px"><i class="fa fa-paper-plane mr-2" style="font-size: 12px"></i> {{getSetting('company_email')}}</span>
                             <span style="font-size: 14px"><i class="fa fa-skype mr-2"></i> tanlevinh</span>
                         </div>
-                    </div>  
+                    </div>
                     <div class="d-flex flex-column">
                         <h4 class="font-weight-bold">PHIẾU SẢN XUẤT</h4>
                         <h5 class="font-weight-bold">MÁY SẢN XUẤT: {{$order->print_machine ?? 'Chưa có'}}</h5>
@@ -185,18 +185,18 @@
                         $price = 0;
                         $quantity = 0;
                         $discount = 0;
-                
+
                         foreach($order['detail'] as $item) {
                             $price = $price + $item['price'] * $item['quantity'];
                             $quantity = $quantity + $item['quantity'];
                             $discount = $discount + $item['discount'];
                         }
-                    @endphp                     
+                    @endphp
                     <!-- begin table-responsive -->
                     <div class="table-responsive">
-                        @foreach($order->detail as $key => $item)   
+                        @foreach($order->detail as $key => $item)
                         <table class="table">
-                            <tbody class="text-gray-700">                                    
+                            <tbody class="text-gray-700">
                             @if($item->product_id != 0)
                             <tr class="text-center border">
                                 <th class="border">
@@ -219,7 +219,7 @@
                             @endforeach
                             <tr class="text-center border border-green-900"> <th class="border">Giá</th> <td class="border-right border-black">{{number_format($price)}}đ</td> <td></td><td></td></tr>
                             @else
-                                @if(strpos($order['code'], 'PATRON') !== false)
+                                @if(strpos($order['code'], 'IMP') !== false || strpos($order['code'], 'PATRON') !== false)
                                     @php
                                         $i = 0;
                                     @endphp
@@ -229,11 +229,11 @@
                                             <td class="px-2">{{$value}}</td>
                                         </tr>
                                         @php $i++; @endphp
-                                    @endforeach                                                       
+                                    @endforeach
                                 @endif
                             @endif
                             </tbody>
-                        </table>                                    
+                        </table>
                     @endforeach
                     </div>
                     <!-- end table-responsive -->

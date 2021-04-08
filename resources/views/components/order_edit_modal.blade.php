@@ -33,7 +33,7 @@
                                         <option value="{{$user->id}}" @if($action == 'edit' && $user->id == $order->user_id)selected @endif>{{$user->name}} ({{$user->email}})</option>
                                     @endforeach
                                 </select>
-                            </label>                           
+                            </label>
                             <label class="block">
                                 <span class="text-gray-700">Loại giấy:</span>
                                 <select name="paper_type" class="block w-full mt-1 rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50" required>
@@ -41,7 +41,7 @@
                                         <option value="{{$type->name}}" @if($action == 'edit' && $type->name == $detail->paper_type)selected @endif>{{$type->name}}</option>
                                     @endforeach
                                 </select>
-                            </label>                          
+                            </label>
                             <label class="block mt-2">
                                 <span class="text-gray-700">Khổ giấy:</span>
                                 <select name="paper_size" class="block w-full mt-1 rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50" required>
@@ -50,7 +50,7 @@
                                     @endforeach
                                 </select>
                             </label>
-                            <div class="flex justify-between items-center my-2">  
+                            <div class="flex justify-between items-center my-2">
                                 <div class="relative flex w-full flex-wrap items-stretch mb-3 px-2">
                                     <span class="text-gray-700">Khổ in:</span>
                                     <input type="text" name="print_size" min="0" value="{{$action == 'edit' ? $detail->print_size : ''}}" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50" placeholder="VD: 54x79cm" required>
@@ -58,7 +58,7 @@
                                 <div class="relative flex w-full flex-wrap items-stretch mb-3 px-2">
                                     <span class="text-gray-700">Số kẽm:</span>
                                     <input type="number" name="zinc_quantity" min="1" value="{{$action == 'edit' ? $detail->zinc_quantity : ''}}" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50" required>
-                                </div>             
+                                </div>
                                 <div class="relative flex w-full flex-wrap items-stretch mb-3 px-2">
                                     <span class="text-gray-700">Màu sắc:</span>
                                     <input type="text" name="color"  value="{{$action == 'edit' ? $detail->color : ''}}"class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50" required>
@@ -68,15 +68,15 @@
                                 <div class="relative flex w-full flex-wrap items-stretch mb-3 px-2">
                                     <span class="text-gray-700">Số lượng:</span>
                                     <input type="number" name="quantity" min="1" value="{{$action == 'edit' ? $detail->quantity : ''}}" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50" required>
-                                </div> 
+                                </div>
                                 <div class="relative flex w-full flex-wrap items-stretch mb-3 px-2">
                                     <span class="text-gray-700">Bù hao:</span>
                                     <input type="number" name="compensate" min="1" value="{{$action == 'edit' ? $detail->compensate : ''}}"class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50" required>
-                                </div>      
+                                </div>
                                 <div class="relative flex w-full flex-wrap items-stretch mb-3 px-2">
                                     <span class="text-gray-700">Cắt:</span>
                                     <input type="number" name="cut" min="1" value="{{$action == 'edit' ? $detail->cut : ''}}" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50" required>
-                                </div>                                                        
+                                </div>
                             </div>
 
                             <div class="flex justify-between items-center">
@@ -87,22 +87,24 @@
                                 <div class="relative flex w-full flex-wrap items-stretch mb-3 px-2">
                                     <span class="text-gray-700">Số lượng:</span>
                                     <input type="number" name="quantity" min="1" value="{{$order_detail->quantity}}" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50" required>
-                                </div>                                                          
+                                </div>
                             </div>
                             <div class="relative flex w-full flex-wrap items-stretch mb-3 px-2">
                                 <span class="text-gray-700">Trạng thái:</span>
                                 <select name="status" class="block w-full mt-1 rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50" required>
                                     <option value="pending" @if($order->status == 'pending')selected @endif>Chờ xác nhận</option>
+                                    <option value="staff_received" @if($order->status == 'staff_received')selected @endif>Nhân viên nhận đơn</option>
                                     <option value="processing" @if($order->status == 'processing')selected @endif>Đang xử lý</option>
+                                    <option value="waiting" @if($order->status == 'waiting')selected @endif>Chờ giấy kẽm</option>
                                     <option value="completed" @if($order->status == 'completed')selected @endif>Hoàn tất</option>
                                     <option value="canceled" @if($order->status == 'canceled')selected @endif>Hủy bỏ</option>
-                                </select>                            
-                            </div> 
+                                </select>
+                            </div>
 
                             <div class="relative flex w-full flex-wrap items-stretch mb-3 px-2">
                                 <span class="text-gray-700">Ghi chú:</span>
                                 <textarea name="note" value="{{$order->note}}" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"></textarea>
-                            </div>   
+                            </div>
                         @else
                             <label class="block">
                                 <span class="text-gray-700">Khách hàng:</span>
@@ -111,7 +113,7 @@
                                         <option value="{{$user->id}}" @if($action == 'edit' && $user->id == $order->user_id)selected @endif>{{$user->name}} ({{$user->email}})</option>
                                     @endforeach
                                 </select>
-                            </label>           
+                            </label>
                             @php
                                 $order_product_group = \App\Models\Products::where('id', $order_detail->product_id)->first()->group_id ?? 0;
                             @endphp
@@ -124,7 +126,7 @@
                                         </option>
                                     @endforeach
                                 </select>
-                            </label> 
+                            </label>
                             <label class="block my-2">
                                 <span class="text-gray-700">Sản phẩm:</span>
                                 <select id="product_list" name="product" class="block w-full mt-1 rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50" required>
@@ -134,7 +136,7 @@
                                         </option>
                                     @endforeach
                                 </select>
-                            </label> 
+                            </label>
                             <div id="product_attrs_content" class="grid grid-flow-col grid-cols-3 grid-rows-3 gap-4">
                             @foreach($detail as $attr)
                                 <div class="flex items-center">
@@ -146,7 +148,7 @@
                                                     <option value="{{$key}}" data-price="{{$option->price ?? 0}}">{{$option->name}}</option>
                                                 @endforeach
                                             </select>
-                                        </label>                                      
+                                        </label>
                                     </div>
                                 </div>
                             @endforeach
@@ -159,21 +161,23 @@
                                 <div class="relative flex w-full flex-wrap items-stretch mb-3 px-2">
                                     <span class="text-gray-700">Số lượng:</span>
                                     <input type="number" name="quantity" min="1" value="{{$order_detail->quantity}}" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50" required>
-                                </div>                                                          
+                                </div>
                             </div>
                             <div class="relative flex w-full flex-wrap items-stretch mb-3 px-2">
                                 <span class="text-gray-700">Trạng thái:</span>
                                 <select name="status" class="block w-full mt-1 rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50" required>
                                     <option value="pending" @if($order->status == 'pending')selected @endif>Chờ xác nhận</option>
+                                    <option value="staff_received" @if($order->status == 'staff_received')selected @endif>Nhân viên nhận đơn</option>
                                     <option value="processing" @if($order->status == 'processing')selected @endif>Đang xử lý</option>
+                                    <option value="waiting" @if($order->status == 'waiting')selected @endif>Chờ giấy kẽm</option>
                                     <option value="completed" @if($order->status == 'completed')selected @endif>Hoàn tất</option>
                                     <option value="canceled" @if($order->status == 'canceled')selected @endif>Hủy bỏ</option>
-                                </select>                            
-                            </div> 
+                                </select>
+                            </div>
                             <div class="relative flex w-full flex-wrap items-stretch mb-3 px-2">
                                 <span class="text-gray-700">Ghi chú:</span>
                                 <textarea name="note" value="{{$order->note}}" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"></textarea>
-                            </div> 
+                            </div>
                         @endif
                     @else
                         <label class="block">
@@ -183,8 +187,8 @@
                                     <option value="{{$user->id}}" @if($action == 'edit' && $user->id == $order->user_id)selected @endif>{{$user->name}} ({{$user->email}})</option>
                                 @endforeach
                             </select>
-                        </label>  
-                        
+                        </label>
+
                         <label class="block my-2">
                             <span class="text-gray-700">Nhóm sản phẩm:</span>
                             <select name="product_group" class="block w-full mt-1 rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50" required>
@@ -194,7 +198,7 @@
                                     </option>
                                 @endforeach
                             </select>
-                        </label> 
+                        </label>
 
                         <label class="block my-2">
                             <span class="text-gray-700">Sản phẩm:</span>
@@ -205,8 +209,8 @@
                                     </option>
                                 @endforeach
                             </select>
-                        </label>   
-                        
+                        </label>
+
                         <div id="product_attrs_content" class="grid grid-flow-col grid-cols-3 grid-rows-3 gap-4">
                         @foreach(\App\Models\Products::get()[0]->attributes as $attr)
                             <div class="flex items-center">
@@ -223,10 +227,10 @@
                                                 <option value="{{$value}}" data-price="{{$attrDetail->price ?? 0}}">{{$attrDetail->name}}</option>
                                             @endforeach
                                         </select>
-                                    </label>                                      
+                                    </label>
                                 </div>
                             </div>
-                        @endforeach          
+                        @endforeach
                         </div>
 
                         <div class="flex justify-between items-center">
@@ -237,21 +241,23 @@
                             <div class="relative flex w-full flex-wrap items-stretch mb-3 px-2">
                                 <span class="text-gray-700">Số lượng:</span>
                                 <input type="number" name="quantity" min="1" value="1" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50" required>
-                            </div>                                                          
+                            </div>
                         </div>
                         <div class="relative flex w-full flex-wrap items-stretch mb-3 px-2">
                             <span class="text-gray-700">Trạng thái:</span>
                             <select name="status" class="block w-full mt-1 rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50" required>
                                 <option value="pending" selected>Chờ xác nhận</option>
+                                <option value="staff_received">Nhân viên nhận đơn</option>
                                 <option value="processing">Đang xử lý</option>
+                                <option value="waiting">Chờ giấy kẽm</option>
                                 <option value="completed">Hoàn tất</option>
                                 <option value="canceled">Hủy bỏ</option>
-                            </select>                            
-                        </div>                          
+                            </select>
+                        </div>
                         <div class="relative flex w-full flex-wrap items-stretch mb-3 px-2">
                             <span class="text-gray-700">Ghi chú:</span>
                             <textarea name="note" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"></textarea>
-                        </div>                         
+                        </div>
                     @endif
                 </div>
             </div>
@@ -259,7 +265,7 @@
           <button type="submit" class="w-full inline-flex justify-center rounded-md border border-transparent shadow-sm px-4 py-2 bg-green-600 text-base font-medium text-white hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500 sm:ml-3 sm:w-auto sm:text-sm">
             Lưu thay đổi
           </button>
-          <button type="button" 
+          <button type="button"
           class="mt-3 w-full inline-flex justify-center rounded-md border border-gray-300 shadow-sm px-4 py-2 bg-white text-base font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 sm:mt-0 sm:ml-3 sm:w-auto sm:text-sm" onclick="document.getElementById('order_modal').innerHTML = ''">
             Hủy bỏ
           </button>

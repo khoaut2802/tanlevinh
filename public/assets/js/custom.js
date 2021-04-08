@@ -6,7 +6,7 @@ $(document).ready(function() {
             'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
         }
     });
-    
+
     $("#colorpicker").spectrum({
         color: "#f00"
     });
@@ -19,7 +19,7 @@ $(document).ready(function() {
     $("select").on("select2:select", function (evt) {
         var element = evt.params.data.element;
         var $element = $(element);
-        
+
         $element.detach();
         $(this).append($element);
         $(this).trigger("change");
@@ -33,7 +33,7 @@ $(document).ready(function() {
     $('.select2-tags').select2({
         placeholder: "Chọn các thuộc tính",
         allowClear: true
-    });    
+    });
 
     $('.select2-color').select2({
         placeholder: "Chọn các màu sắc",
@@ -41,8 +41,8 @@ $(document).ready(function() {
         templateSelection: function (data, container) {
             $(container).css("background-color", data.title);
             return data.text;
-        },        
-    });    
+        },
+    });
 
     $('.modal').on('click', function() {
         const target = $(this).attr('data-target');
@@ -55,7 +55,7 @@ $(document).ready(function() {
 
         $('input[name="name"]').val('')
         $('textarea[name="description"]').val('')
-        
+
         $(target).addClass('hidden');
     });
 
@@ -67,7 +67,7 @@ $(document).ready(function() {
         $.ajax({
             url: window.web_url + '/products/add',
             data: data,
-            type: 'POST', 
+            type: 'POST',
             contentType: false, // NEEDED, DON'T OMIT THIS (requires jQuery 1.6+)
             processData: false, // NEEDED, DON'T OMIT THIS
             success: function(msg) {
@@ -85,7 +85,7 @@ $(document).ready(function() {
                     }
                   })
             }
-        });        
+        });
     })
 
     $('form#updateProductForm').on('submit', function(e) {
@@ -126,10 +126,10 @@ $(document).ready(function() {
                         showCloseButton: false,
                         showConfirmButton: false,
                         showLoaderOnConfirm: true
-                    })                    
+                    })
                 }
-            } 
-        });        
+            }
+        });
     })
 
     $('.deleteModal').on('click', function() {
@@ -164,10 +164,10 @@ $(document).ready(function() {
                             }
                         })
                     }
-                });     
+                });
             }
-        })        
-    }) 
+        })
+    })
 
     $('form#add_group_form').on('submit', function(e) {
         e.preventDefault();
@@ -195,7 +195,7 @@ $(document).ready(function() {
                     }
                 })
             }
-        });        
+        });
     })
 
     $('.groupEdit').on('click', function() {
@@ -214,8 +214,8 @@ $(document).ready(function() {
                 $('select[name="image_type"]').val(resp.image_type)
                 $('#add_group_modal').toggleClass('hidden');
             }
-        });            
-    })     
+        });
+    })
 
     $('.groupDelete').on('click', function() {
         var id = $(this).attr('data-id');
@@ -249,10 +249,10 @@ $(document).ready(function() {
                             }
                         })
                     }
-                });     
+                });
             }
-        })        
-    })     
+        })
+    })
 
     $('form#addBannerForm').on('submit', function(e) {
         e.preventDefault();
@@ -292,10 +292,10 @@ $(document).ready(function() {
                         showCloseButton: false,
                         showConfirmButton: false,
                         showLoaderOnConfirm: true
-                    })                    
+                    })
                 }
-            } 
-        });        
+            }
+        });
     })
 
     $('.changeOrderStauts').on('click', function() {
@@ -329,7 +329,7 @@ $(document).ready(function() {
 
             if(result)
                 send_mail = 'yes';
-            
+
             if(result || result === 0) {
                 $.ajax({
                     url: window.web_url + '/orders/update',
@@ -350,9 +350,9 @@ $(document).ready(function() {
                             }
                         })
                     }
-                });     
+                });
             }
-        })                 
+        })
     })
 
     $('#orderFilterLimit').on('change', function() {
@@ -369,7 +369,7 @@ $(document).ready(function() {
 
     $('#productFilterGroup').on('change', function() {
         window.location.href = window.web_url + '/products?group=' + $(this).val();
-    })    
+    })
 
     $('.editUser').on('click', function() {
         var id = $(this).attr('data-id');
@@ -395,8 +395,8 @@ $(document).ready(function() {
 
                 $('#edit_user_modal').toggleClass('hidden');
             }
-        });            
-    })     
+        });
+    })
 
     $('#showCreateOrderModal').on('click', function() {
         $.ajax({
@@ -408,7 +408,7 @@ $(document).ready(function() {
             success: function(resp) {
                 document.getElementById('order_modal').innerHTML = resp
             }
-        });            
+        });
     })
 
     $('.editOrder').on('click', function() {
@@ -423,8 +423,8 @@ $(document).ready(function() {
             success: function(resp) {
                 document.getElementById('order_modal').innerHTML = resp
             }
-        });            
-    })    
+        });
+    })
 
     function parseOptions(arr) {
         var elem = ''
@@ -445,7 +445,7 @@ $(document).ready(function() {
             success: function(resp) {
                 document.getElementById('product_attrs_content').innerHTML = ''
 
-                resp.forEach(function(item, key) {          
+                resp.forEach(function(item, key) {
                     document.getElementById('product_attrs_content').innerHTML += `<label class="block my-2">
                     <span class="text-gray-700">${item.name}:</span>
                     <select name="attr_${item.id}" class="block w-full mt-1 rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50" required>
@@ -454,10 +454,10 @@ $(document).ready(function() {
                     </label>`
                 })
             }
-        });           
+        });
     }
 
-    
+
     $(document).on('change', 'select[name="product_group"]', function() {
         var id = $(this).val()
 
@@ -476,12 +476,17 @@ $(document).ready(function() {
                     document.getElementById('product_list').innerHTML += `<option value="${item.id}">${item.name}</option>`
                 })
             }
-        });            
+        });
     })
 
     $(document).on('change', 'select[name="product"]', function() {
         var id = $(this).val()
 
         fetchProductAttr(id)
+    })
+
+    $(document).on('click', '.updateMachineModal', function() {
+        var id = $(this).attr('data-code')
+        $('input[name="id"]').val(id)
     })
 });

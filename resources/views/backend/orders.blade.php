@@ -50,7 +50,7 @@
                                     <select
                                         name="status"
                                         class="appearance-none h-full rounded-r border-t border-b block appearance-none w-full bg-white border-gray-400 text-gray-700 py-2 px-4 pr-8 leading-tight focus:outline-none focus:border-l focus:border-r focus:bg-white focus:border-gray-500" id="orderFilterStatus">
-                                        
+
                                         <option value="" @if(!request()->query('status'))selected @endif>Tất cả</option>
                                         <option value="pending" @if(request()->query('status') == 'pending')selected @endif>Đang chờ</option>
                                         <option value="canceled"@if(request()->query('status') == 'canceled')selected @endif>Đã hủy</option>
@@ -69,15 +69,15 @@
                                             <th
                                                 class="px-5 py-3 border-b-2 border-r-2 border-blue-200 bg-blue-700 text-left text-xs font-semibold text-white uppercase tracking-wider">
                                             STT
-                                            </th>   
+                                            </th>
                                             <th
                                                 class="px-5 py-3 border-b-2 border-r-2 border-blue-200 bg-blue-700 text-left text-xs font-semibold text-white uppercase tracking-wider">
                                                Mã đơn hàng
-                                            </th>         
+                                            </th>
                                             <th
                                             class="px-5 py-3 border-b-2 border-r-2 border-blue-200 bg-blue-700 text-left text-xs font-semibold text-white uppercase tracking-wider">
                                                 Người đặt
-                                            </th>                                     
+                                            </th>
                                             <th
                                                 class="px-5 py-3 border-b-2 border-r-2 border-blue-200 bg-blue-700 text-left text-xs font-semibold text-white uppercase tracking-wider">
                                                 Sản phẩm
@@ -85,7 +85,7 @@
                                             <th
                                                 class="px-5 py-3 border-b-2 border-r-2 border-blue-200 bg-blue-700 text-left text-xs font-semibold text-white uppercase tracking-wider">
                                                 Máy sản xuất
-                                            </th>                                            
+                                            </th>
                                             <th
                                                 class="px-5 py-3 border-b-2 border-r-2 border-blue-200 bg-blue-700 text-left text-xs font-semibold text-white uppercase tracking-wider">
                                                 Số lượng
@@ -103,7 +103,7 @@
                                             <th
                                                 class="max-w-md px-5 py-3 border-b-2 border-r-2 border-blue-200 bg-blue-700 text-left text-xs font-semibold text-white uppercase tracking-wider">
                                                 Ghi chú
-                                            </th>                                            
+                                            </th>
                                             <th
                                                 class="px-5 py-3 border-b-2 border-r-2 border-blue-200 bg-blue-700 text-left text-xs font-semibold text-white uppercase tracking-wider">
                                                 Trạng thái
@@ -111,7 +111,7 @@
                                             <th
                                                 class="px-5 py-3 border-b-2 border-r-2 border-blue-200 bg-blue-700 text-left text-xs font-semibold text-white uppercase tracking-wider">
                                                 Tệp tin
-                                            </th>                                           
+                                            </th>
                                             <th
                                                 class="px-5 py-3 border-b-2 border-r-2 border-blue-200 bg-blue-700 text-left text-xs font-semibold text-white uppercase tracking-wider">
                                                 Hành động
@@ -127,13 +127,13 @@
                                             $price = 0;
                                             $quantity = 0;
                                             $discount = 0;
-                                    
+
                                             foreach($order['detail'] as $item) {
                                                 $price = $price + $item['price'] * $item['quantity'];
                                                 $quantity = $quantity + $item['quantity'];
                                                 $discount = $discount + $item['discount'];
                                             }
-                                        @endphp   
+                                        @endphp
                                         <tr>
                                             <td class="px-5 py-5 border-b border-r border-gray-200 bg-white text-sm">
                                                 <p class="text-gray-900 whitespace-no-wrap">
@@ -143,7 +143,7 @@
                                             <td class="px-5 py-5 border-b border-r border-gray-200 bg-white text-sm">
                                                 <div class="flex items-center">
                                                     <p class="text-gray-900 whitespace-no-wrap">
-                                                        @if(strpos($order['code'], 'PATRON') !== false)
+                                                        @if(strpos($order['code'], 'IMP') !== false || strpos($order['code'], 'PATRON') !== false)
                                                             (Khách quen) <br>
                                                         @endif
                                                         <strong>{{$order['code']}}</strong><br>
@@ -158,12 +158,12 @@
                                             </td>
 
                                             <td class="px-5 py-5 border-b border-r border-gray-200 bg-white text-sm">
-                                                <p class="text-gray-900 whitespace-no-wrap">                                   
-                                                    @if(strpos($order['code'], 'PATRON') !== false)
+                                                <p class="text-gray-900 whitespace-no-wrap">
+                                                    @if(strpos($order['code'], 'IMP') !== false || strpos($order['code'], 'PATRON') !== false)
                                                         @foreach($order['detail'] as $detail)
                                                            {{json_decode($detail['product_attrs'])->name ?? ''}}
-                                                        @endforeach                                                            
-                                                    @else                                                    
+                                                        @endforeach
+                                                    @else
                                                         @foreach($order['detail'] as $detail)
                                                         {{-- {{dd($detail)}} --}}
                                                                 {{$detail['product']['name']}}</br>
@@ -175,7 +175,7 @@
                                                 <p class="text-gray-900 whitespace-no-wrap">
                                                     {{$order['print_machine'] ?? 'Không có'}}
                                                 </p>
-                                            </td>                                            
+                                            </td>
                                             <td class="px-5 py-5 border-b border-r border-gray-200 bg-white text-sm">
                                                 <p class="text-gray-900 whitespace-no-wrap">
                                                     {{$quantity}}
@@ -197,18 +197,10 @@
                                                 <p class="text-gray-900 whitespace-no-wrap">
                                                     {{$order['note']}}
                                                 </p>
-                                            </td>                                            
+                                            </td>
                                             <td class="px-5 py-5 border-b border-r border-gray-200 bg-white text-sm">
-                                                @if($order['status'] == 'completed')
-                                                    <span class="block rounded text-white bg-green-700 py-2 px-2">Hoàn tất</span>
-                                                @elseif($order['status'] == 'pending')
-                                                    <span class="block rounded text-white bg-blue-700 py-2 px-2">Đang chờ xác nhận</span>
-                                                @elseif($order['status'] == 'processing')
-                                                    <span class="block rounded text-white bg-yellow-700 py-2 px-2">Đang xử lý</span>                        
-                                                @else
-                                                    <span class="block rounded text-white bg-red-700 py-2 px-2">Đã hủy</span>
-                                                @endif
-                                            </td>   
+                                                {!! formatStatus($order['status']) !!}
+                                            </td>
                                             <td class="px-5 py-5 border-b border-r border-gray-200 bg-white text-sm">
                                                 @if($order['file'] == null)
                                                     Chưa có
@@ -230,12 +222,16 @@
                                                       </span>
                                                     </button>
                                                     <ul
-                                                      class="bg-white border rounded-sm relative 
+                                                      class="bg-white border rounded-sm relative
                                                     ease-in-out min-w-32 z-10"
                                                     x-show="show"
                                                     >
+                                                      @if(auth()->user()->user_type === 'staff')
+                                                        <li class="rounded-sm px-3 py-1 hover:bg-gray-100"><a class="block updateMachineModal modal" href="javascript:;" data-code="{{$order['id']}}" data-target="#staff_update_modal">Đổi trạng thái</a></li>
+                                                      @endif
                                                       <li class="rounded-sm px-3 py-1 hover:bg-gray-100"><a class="block" href="{{route('orders_detail', ['id' => $order['code']])}}">Chi tiết</a></li>
                                                       @if(auth()->user()->user_type === 'admin')
+                                                        <li class="rounded-sm px-3 py-1 hover:bg-gray-100"><a class="block updateMachineModal modal" href="javascript:;" data-code="{{$order['id']}}" data-target="#select_machine_modal">Máy sản xuất</a></li>
                                                         <li class="rounded-sm px-3 py-1 hover:bg-gray-100"><a class="block editOrder" href="javascript:;" data-code="{{$order['code']}}">Chỉnh sửa</a></li>
                                                         <li class="rounded-sm px-3 py-1 hover:bg-gray-100 cursor-pointer "><a class="block" href="{{route('order_print', ['code' => $order['code']])}}">In</a></li>
                                                         <li class="rounded-sm px-3 py-1 hover:bg-gray-100 cursor-pointer text-red-500 changeOrderStauts" data-action="canceled" data-id="{{$order['code']}}">Hủy</li>
@@ -274,12 +270,89 @@
                                 </div>
                             </div>
                         </div>
-                    </div>                    
+                    </div>
                 </div>
             </div>
         </div>
     </div>
     @if(auth()->user()->user_type === 'admin')
       <div id="order_modal"></div>
+      <div class="hidden fixed z-10 inset-0 overflow-y-auto" id="select_machine_modal">
+          <div class="flex items-end justify-center min-h-screen pt-4 px-4 pb-20 text-center sm:block sm:p-0">
+            <div class="fixed inset-0 transition-opacity" aria-hidden="true">
+              <div class="absolute inset-0 bg-gray-500 opacity-75"></div>
+            </div>
+            <span class="hidden sm:inline-block sm:align-middle sm:h-screen" aria-hidden="true">&#8203;</span>
+
+            <div class="inline-block align-bottom bg-white rounded-lg text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-lg sm:w-full" role="dialog" aria-modal="true" aria-labelledby="modal-headline">
+              <form method="post" action="{{route('order.update_machine')}}">
+                  @csrf
+                  <input type="hidden" name="id">
+              <div class="bg-white px-4 pt-5 pb-4 sm:p-6 sm:pb-4">
+                  <h3 class="text-lg leading-6 font-medium text-gray-900" id="modal-headline">
+                      Chọn Máy sản xuất
+                    </h3>
+                    <div class="mt-2">
+                      <div class="relative flex w-full flex-wrap items-stretch mb-3">
+                          <select name="print_machine" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50" required>
+                              @foreach(\App\Models\Machines::get() as $machine)
+                                  <option value="{{$machine->name}}">{{$machine->name}}</option>
+                              @endforeach
+                          </select>
+                      </div>
+                    </div>
+              </div>
+              <div class="bg-gray-50 px-4 py-3 sm:px-6 sm:flex sm:flex-row-reverse">
+                <button type="submit" class="w-full inline-flex justify-center rounded-md border border-transparent shadow-sm px-4 py-2 bg-green-600 text-base font-medium text-white hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500 sm:ml-3 sm:w-auto sm:text-sm">
+                  Lưu
+                </button>
+                <button type="button"
+                class="mt-3 w-full inline-flex justify-center rounded-md border border-gray-300 shadow-sm px-4 py-2 bg-white text-base font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 sm:mt-0 sm:ml-3 sm:w-auto sm:text-sm modal-close" data-target="#select_machine_modal">
+                  Cancel
+                </button>
+              </div>
+              </form>
+            </div>
+          </div>
+        </div>
     @endif
+    <div class="hidden fixed z-10 inset-0 overflow-y-auto" id="staff_update_modal">
+        <div class="flex items-end justify-center min-h-screen pt-4 px-4 pb-20 text-center sm:block sm:p-0">
+          <div class="fixed inset-0 transition-opacity" aria-hidden="true">
+            <div class="absolute inset-0 bg-gray-500 opacity-75"></div>
+          </div>
+          <span class="hidden sm:inline-block sm:align-middle sm:h-screen" aria-hidden="true">&#8203;</span>
+
+          <div class="inline-block align-bottom bg-white rounded-lg text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-lg sm:w-full" role="dialog" aria-modal="true" aria-labelledby="modal-headline">
+            <form method="post" action="{{route('order.staff.update')}}">
+                @csrf
+                <input type="hidden" name="id">
+                <div class="bg-white px-4 pt-5 pb-4 sm:p-6 sm:pb-4">
+                    <h3 class="text-lg leading-6 font-medium text-gray-900" id="modal-headline">
+                        Thay đổi trạng thái đơn hàng
+                    </h3>
+                    <div class="mt-2">
+                        <div class="relative flex w-full flex-wrap items-stretch mb-3">
+                            <select name="status" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50" required>
+                                <option value="staff_received">Nhân viên nhận đơn</option>
+                                <option value="waiting">Chờ giấy kẽm</option>
+                                <option value="processing">Đang xử lý</option>
+                                <option value="completed">Hoàn tất</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                <div class="bg-gray-50 px-4 py-3 sm:px-6 sm:flex sm:flex-row-reverse">
+                <button type="submit" class="w-full inline-flex justify-center rounded-md border border-transparent shadow-sm px-4 py-2 bg-green-600 text-base font-medium text-white hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500 sm:ml-3 sm:w-auto sm:text-sm">
+                    Lưu
+                </button>
+                <button type="button"
+                class="mt-3 w-full inline-flex justify-center rounded-md border border-gray-300 shadow-sm px-4 py-2 bg-white text-base font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 sm:mt-0 sm:ml-3 sm:w-auto sm:text-sm modal-close" data-target="#staff_update_modal">
+                    Cancel
+                </button>
+                </div>
+            </form>
+          </div>
+        </div>
+      </div>
 </x-app-layout>
