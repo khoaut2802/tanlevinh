@@ -89,6 +89,14 @@
                                     <input type="number" name="quantity" min="1" value="{{$order_detail->quantity}}" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50" required>
                                 </div>
                             </div>
+                            <label class="block px-2 my-2">
+                                <span class="text-gray-700">Máy sản xuất:</span>
+                                <select name="print_machine" class="block w-full mt-1 rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50" required>
+                                    @foreach(\App\Models\Machines::get() as $machine)
+                                        <option value="{{$machine->name}}" @if($order->print_machine == $machine->name)selected @endif>{{$machine->name}}</option>
+                                    @endforeach
+                                </select>
+                            </label>                             
                             <div class="relative flex w-full flex-wrap items-stretch mb-3 px-2">
                                 <span class="text-gray-700">Trạng thái:</span>
                                 <select name="status" class="block w-full mt-1 rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50" required>
@@ -163,6 +171,14 @@
                                     <input type="number" name="quantity" min="1" value="{{$order_detail->quantity}}" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50" required>
                                 </div>
                             </div>
+                            <label class="block px-2 my-2">
+                                <span class="text-gray-700">Máy sản xuất:</span>
+                                <select name="print_machine" class="block w-full mt-1 rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50" required>
+                                    @foreach(\App\Models\Machines::get() as $machine)
+                                        <option value="{{$machine->name}}" @if($order->print_machine == $machine->name)selected @endif>{{$machine->name}}</option>
+                                    @endforeach
+                                </select>
+                            </label>                              
                             <div class="relative flex w-full flex-wrap items-stretch mb-3 px-2">
                                 <span class="text-gray-700">Trạng thái:</span>
                                 <select name="status" class="block w-full mt-1 rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50" required>
@@ -243,6 +259,14 @@
                                 <input type="number" name="quantity" min="1" value="1" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50" required>
                             </div>
                         </div>
+                        <label class="block px-2 my-2">
+                            <span class="text-gray-700">Máy sản xuất:</span>
+                            <select name="print_machine" class="block w-full mt-1 rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50" required>
+                                @foreach(\App\Models\Machines::get() as $machine)
+                                    <option value="{{$machine->name}}">{{$machine->name}}</option>
+                                @endforeach
+                            </select>
+                        </label>  
                         <div class="relative flex w-full flex-wrap items-stretch mb-3 px-2">
                             <span class="text-gray-700">Trạng thái:</span>
                             <select name="status" class="block w-full mt-1 rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50" required>
