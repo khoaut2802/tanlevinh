@@ -489,4 +489,25 @@ $(document).ready(function() {
         var id = $(this).attr('data-code')
         $('input[name="id"]').val(id)
     })
+
+    $(document).on('input', 'input[name="quantity"]', function() {
+        calcPrintQty()
+    })
+
+    $(document).on('input', 'input[name="compensate"]', function() {
+        calcPrintQty()
+    })
+
+    $(document).on('input', 'input[name="cut"]', function() {
+        calcPrintQty()
+    })
+
+    function calcPrintQty() {
+        var qty = $('input[name="quantity"]').val()
+        var compensate = $('input[name="compensate"]').val()
+        var cut = $('input[name="cut"]').val()
+        var print_quantity = $('input[name="print_quantity"]')
+
+        print_quantity.val(qty * cut - compensate)
+    }
 });

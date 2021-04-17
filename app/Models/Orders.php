@@ -20,4 +20,9 @@ class Orders extends Model
     {
         return $this->belongsTo(User::class, 'user_id', 'id');
     }
+
+    public function staff()
+    {
+        return $this->belongsTo(User::class, 'print_machine', 'print_machine');
+    }
 }

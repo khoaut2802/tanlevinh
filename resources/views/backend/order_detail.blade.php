@@ -82,10 +82,17 @@
                                         @endforeach
                                         @if($loop->last)
                                             <th>Số lượng</th> <td>{{$item->quantity}}</td>
+                                            <tr class="text-left border border-green-900">
+                                                <th>Cắt</th> <td class="border-r-2 border-black">{{$item->cut}}</td>
+                                                <th>Bù hao</th> <td>{{$item->compensate}}</td>
+                                            </tr>
                                         @endif
                                     </tr>
                                     @endforeach
-                                    <tr class="text-left border border-green-900"> <th>Giá</th> <td class="border-r-2 border-black">{{is_numeric($price) ? number_format($price) : $price}}đ</td> <td></td><td></td></tr>
+                                    <tr class="text-left border border-green-900">
+                                        <th>Giá</th> <td class="border-r-2 border-black">{{is_numeric($price) ? number_format($price) : $price}}đ</td>
+                                        <th>Số lượng in</th> <td>{{$item->print_quantity}}</td>
+                                    </tr>
                                     @else
                                         @if(strpos($order['code'], 'IMP') !== false || strpos($order['code'], 'PATRON') !== false)
                                             @php
@@ -98,6 +105,22 @@
                                                 </tr>
                                                 @php $i++; @endphp
                                             @endforeach
+                                            <tr class="text-left border border-green-900">
+                                                <th class="border-r-2 border-black">Số lượng</th>
+                                                <td class="px-2">{{$item->quantity}}</td>
+                                            </tr>
+                                            <tr class="text-left border border-green-900">
+                                                <th class="border-r-2 border-black">Cắt</th>
+                                                <td class="px-2">{{$item->cut}}</td>
+                                            </tr>
+                                            <tr class="text-left border border-green-900">
+                                                <th class="border-r-2 border-black">Bù hao</th>
+                                                <td class="px-2">{{$item->compensate}}</td>
+                                            </tr>
+                                            <tr class="text-left border border-green-900">
+                                                <th class="border-r-2 border-black">Số lượng in</th>
+                                                <td class="px-2">{{$item->print_quantity}}</td>
+                                            </tr>
                                         @endif
                                     @endif
                                     </tbody>

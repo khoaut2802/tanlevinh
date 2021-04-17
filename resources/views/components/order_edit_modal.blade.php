@@ -17,7 +17,7 @@
             @csrf
             <div class="bg-white px-4 pt-5 pb-4 sm:p-6 sm:pb-4">
                 <h3 class="text-lg leading-6 font-medium text-gray-900" id="modal-headline">
-                    Chỉnh sửa đơn hàng
+                    @if($action == 'edit') Chỉnh sửa đơn hàng @else Tạo đơn hàng @endif
                 </h3>
                 <div class="mt-2">
                     @if($action == 'edit')
@@ -89,6 +89,7 @@
                                     <input type="number" name="quantity" min="1" value="{{$order_detail->quantity}}" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50" required>
                                 </div>
                             </div>
+
                             <label class="block px-2 my-2">
                                 <span class="text-gray-700">Máy sản xuất:</span>
                                 <select name="print_machine" class="block w-full mt-1 rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50" required>
@@ -96,7 +97,7 @@
                                         <option value="{{$machine->name}}" @if($order->print_machine == $machine->name)selected @endif>{{$machine->name}}</option>
                                     @endforeach
                                 </select>
-                            </label>                             
+                            </label>
                             <div class="relative flex w-full flex-wrap items-stretch mb-3 px-2">
                                 <span class="text-gray-700">Trạng thái:</span>
                                 <select name="status" class="block w-full mt-1 rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50" required>
@@ -171,6 +172,20 @@
                                     <input type="number" name="quantity" min="1" value="{{$order_detail->quantity}}" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50" required>
                                 </div>
                             </div>
+                            <div class="flex justify-between items-center">
+                                <div class="relative flex w-full flex-wrap items-stretch mb-3 px-2">
+                                    <span class="text-gray-700">Bù Hao:</span>
+                                    <input type="number" name="compensate" min="0" value="{{$order_detail->compensate}}" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50" required>
+                                </div>
+                                <div class="relative flex w-full flex-wrap items-stretch mb-3 px-2">
+                                    <span class="text-gray-700">Cắt:</span>
+                                    <input type="number" name="cut" min="1" value="{{$order_detail->cut}}" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50" required>
+                                </div>
+                                <div class="relative flex w-full flex-wrap items-stretch mb-3 px-2">
+                                    <span class="text-gray-700">Số lượng in:</span>
+                                    <input type="number" name="print_quantity" min="1" value="{{$order_detail->print_quantity}}" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50" readonly>
+                                </div>
+                            </div>
                             <label class="block px-2 my-2">
                                 <span class="text-gray-700">Máy sản xuất:</span>
                                 <select name="print_machine" class="block w-full mt-1 rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50" required>
@@ -178,7 +193,7 @@
                                         <option value="{{$machine->name}}" @if($order->print_machine == $machine->name)selected @endif>{{$machine->name}}</option>
                                     @endforeach
                                 </select>
-                            </label>                              
+                            </label>
                             <div class="relative flex w-full flex-wrap items-stretch mb-3 px-2">
                                 <span class="text-gray-700">Trạng thái:</span>
                                 <select name="status" class="block w-full mt-1 rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50" required>
@@ -259,6 +274,20 @@
                                 <input type="number" name="quantity" min="1" value="1" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50" required>
                             </div>
                         </div>
+                        <div class="flex justify-between items-center">
+                            <div class="relative flex w-full flex-wrap items-stretch mb-3 px-2">
+                                <span class="text-gray-700">Bù Hao:</span>
+                                <input type="number" name="compensate" min="0" value="5" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50" required>
+                            </div>
+                            <div class="relative flex w-full flex-wrap items-stretch mb-3 px-2">
+                                <span class="text-gray-700">Cắt:</span>
+                                <input type="number" name="cut" min="1" value="2" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50" required>
+                            </div>
+                            <div class="relative flex w-full flex-wrap items-stretch mb-3 px-2">
+                                <span class="text-gray-700">Số lượng in:</span>
+                                <input type="number" name="print_quantity" min="1" value="15" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50" readonly>
+                            </div>
+                        </div>
                         <label class="block px-2 my-2">
                             <span class="text-gray-700">Máy sản xuất:</span>
                             <select name="print_machine" class="block w-full mt-1 rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50" required>
@@ -266,7 +295,7 @@
                                     <option value="{{$machine->name}}">{{$machine->name}}</option>
                                 @endforeach
                             </select>
-                        </label>  
+                        </label>
                         <div class="relative flex w-full flex-wrap items-stretch mb-3 px-2">
                             <span class="text-gray-700">Trạng thái:</span>
                             <select name="status" class="block w-full mt-1 rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50" required>

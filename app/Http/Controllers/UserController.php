@@ -210,12 +210,19 @@ class UserController extends Controller
 
                     $data = $request->all();
                     unset($data['_token']);
+                    unset($data['compensate']);
+                    unset($data['print_quantity']);
+                    unset($data['cut']);
+                    unset($data['quantity']);
 
                     $details[] = [
                         'order_id'      => generateOrderCode($order->id, 'IMP'),
                         'product_id'    => 0,
                         'product_attrs' => json_encode($data),
-                        'quantity'      => $data['quantity'],
+                        'quantity'      => $request->get('quantity'),
+                        'cut'           => $request->get('cut'),
+                        'compensate'    => $request->get('compensate'),
+                        'print_quantity'=> $request->get('print_quantity'),
                         'price'         => 0,
                         'created_at'    => Carbon::now()
                     ];

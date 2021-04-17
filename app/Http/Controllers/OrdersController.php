@@ -26,40 +26,41 @@ class OrdersController extends Controller
         if($user->user_type == 'admin') {
             if($search != '') {
                 $orders = Orders::where('status', 'LIKE', "%{$status}%")
-                ->where('code', 'LIKE', "%{$search}%")->with('user', 'detail', 'detail.product')->orderBy('id','DESC')->paginate($per_page, $columns = ['*'], $pageName = 'page', $page)->toArray();
-                // dd($orders);
-                if(empty($orders['data'])) {
-                    $user = User::where('email', 'LIKE', "%{$search}%")->orWhere('name', 'LIKE', "%{$search}%")->first();
+                ->orWhere('code', 'LIKE', "%{$search}%")->with([
+                'user' => function ($query) use($search) {
+                    $query->where('email', 'LIKE', "%{$search}");
+                    $query->orWhere('name', 'LIKE', "%{$search}");
 
-                    if(!empty($user)) {
-                        $orders = Orders::where('user_id', $user->id)->with('user', 'detail', 'detail.product')->orderBy('id','DESC')->paginate($per_page, $columns = ['*'], $pageName = 'page', $page)->toArray();
-                    } else {
-                        $orders = Orders::where('user_id', 'empty')->with('user', 'detail', 'detail.product')->orderBy('id','DESC')->paginate($per_page, $columns = ['*'], $pageName = 'page', $page)->toArray();
-                    }
-                }
+                    return $query;
+                }, 'staff' => function ($query) use($search) {
+                    $query->where('email', 'LIKE', "%{$search}");
+                    $query->orWhere('name', 'LIKE', "%{$search}");
+
+                    return $query;
+                }, 'detail', 'detail.product'])->orderBy('id','DESC')->paginate($per_page, $columns = ['*'], $pageName = 'page', $page)->toArray();
             } else {
                 $orders = Orders::where('status', 'LIKE', "%{$status}%")
-                ->where('code', 'LIKE', "%{$search}%")
+                ->orWhere('code', 'LIKE', "%{$search}%")
                 ->with(['user' => function($query) use ($search) {
                     if($search != '') {
                         $query->where([['email', 'LIKE', "%{$search}%"], ['name', 'LIKE', "%{$search}%"]]);
                     }
 
                     return $query;
-                }, 'detail', 'detail.product'])->orderBy('id','DESC')->paginate($per_page, $columns = ['*'], $pageName = 'page', $page)->toArray();
+                }, 'staff', 'detail', 'detail.product'])->orderBy('id','DESC')->paginate($per_page, $columns = ['*'], $pageName = 'page', $page)->toArray();
             }
         } else {
             if($search != '') {
                 $orders = Orders::where('print_machine', $user->print_machine ?? 'Unknown')->where('status', 'LIKE', "%{$status}%")
-                ->where('code', 'LIKE', "%{$search}%")->with('user', 'detail', 'detail.product')->orderBy('id','DESC')->paginate($per_page, $columns = ['*'], $pageName = 'page', $page)->toArray();
+                ->where('code', 'LIKE', "%{$search}%")->with('user', 'staff', 'detail', 'detail.product')->orderBy('id','DESC')->paginate($per_page, $columns = ['*'], $pageName = 'page', $page)->toArray();
                 // dd($orders);
                 if(empty($orders['data'])) {
                     $user = User::where('email', 'LIKE', "%{$search}%")->orWhere('name', 'LIKE', "%{$search}%")->first();
 
                     if(!empty($user)) {
-                        $orders = Orders::where('print_machine', $user->print_machine ?? 'Unknown')->where('user_id', $user->id)->with('user', 'detail', 'detail.product')->orderBy('id','DESC')->paginate($per_page, $columns = ['*'], $pageName = 'page', $page)->toArray();
+                        $orders = Orders::where('print_machine', $user->print_machine ?? 'Unknown')->where('user_id', $user->id)->with('user', 'staff', 'detail', 'detail.product')->orderBy('id','DESC')->paginate($per_page, $columns = ['*'], $pageName = 'page', $page)->toArray();
                     } else {
-                        $orders = Orders::where('print_machine', $user->print_machine ?? 'Unknown')->where('user_id', 'empty')->with('user', 'detail', 'detail.product')->orderBy('id','DESC')->paginate($per_page, $columns = ['*'], $pageName = 'page', $page)->toArray();
+                        $orders = Orders::where('print_machine', $user->print_machine ?? 'Unknown')->where('user_id', 'empty')->with('user', 'staff', 'detail', 'detail.product')->orderBy('id','DESC')->paginate($per_page, $columns = ['*'], $pageName = 'page', $page)->toArray();
                     }
                 }
             } else {
@@ -71,7 +72,7 @@ class OrdersController extends Controller
                     }
 
                     return $query;
-                }, 'detail', 'detail.product'])->orderBy('id','DESC')->paginate($per_page, $columns = ['*'], $pageName = 'page', $page)->toArray();
+                }, 'staff', 'detail', 'detail.product'])->orderBy('id','DESC')->paginate($per_page, $columns = ['*'], $pageName = 'page', $page)->toArray();
             }
         }
 
@@ -135,7 +136,7 @@ class OrdersController extends Controller
 
         if($update) return redirect()->back()->withSuccess('Cập nhật máy sản xuất thành công.');
 
-        return redirect()->back()->withError('Đã xảy ra lỗi.');
+        return redirect()->back()->withErrors('Đã xảy ra lỗi.');
     }
 
     public function store(Request $request)
@@ -160,6 +161,9 @@ class OrdersController extends Controller
                         'product_attrs' => json_encode(getCartAttrs($request->all())),
                         'quantity'      => $request->quantity,
                         'price'         => $request->price,
+                        'cut'           => $request->cut,
+                        'compensate'    => $request->compensate,
+                        'print_quantity'=> $request->print_quantity,
                         'created_at'    => Carbon::now()
                     ];
 
@@ -218,6 +222,9 @@ class OrdersController extends Controller
                     'product_attrs' => json_encode($data),
                     'quantity'      => $request->quantity ?? 1,
                     'price'         => (float)$request->price,
+                    'compensate'         => (float)$request->compensate,
+                    'cut'         => (float)$request->cut,
+                    'print_quantity'         => (float)$request->print_quantity,
                     'created_at'    => Carbon::now()
                 ];
 
