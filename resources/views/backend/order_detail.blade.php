@@ -90,7 +90,9 @@
                                     </tr>
                                     @endforeach
                                     <tr class="text-left border border-green-900">
-                                        <th>Giá</th> <td class="border-r-2 border-black">{{is_numeric($price) ? number_format($price) : $price}}đ</td>
+                                        @if(auth()->user()->user_type == 'admin')
+                                            <th>Giá</th> <td class="border-r-2 border-black">{{is_numeric($price) ? number_format($price) : $price}}đ</td>
+                                        @endif
                                         <th>Số lượng in</th> <td>{{$item->print_quantity}}</td>
                                     </tr>
                                     @else
