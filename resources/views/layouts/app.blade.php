@@ -20,6 +20,7 @@
         <!-- Scripts -->
         <script src="{{ asset('assets/js/app.js') }}" defer></script>
         <script src="{{ asset('assets/js/jquery-3.5.1.min.js') }}"></script>
+        <script src="{{ asset('assets/js/jquery.doubleScroll.js') }}"></script>
         <script src="https://cdn.jsdelivr.net/npm/chart.js@2.9.4/dist/Chart.min.js"></script>
         <script src="{{ asset('assets/js/select2/select2.min.js') }}" defer></script>
         <script src="{{ asset('assets/js/sweetalert2.min.js') }}" defer></script>
