@@ -69,17 +69,17 @@
                                     <label for="compensate">Bù hao:</label>
                                     <input class="form-control" name="compensate" type="number" value="5" required>
                                 </div>
-                            </div>      
+                            </div>
                             <div class="col-12 col-sm-6">
                                 <div class="form-group">
                                     <label for="cut">Cắt:</label>
                                     <input class="form-control" name="cut" type="number" value="2" required>
                                 </div>
-                            </div>                                                  
+                            </div>
                             <div class="col-12 col-sm-6">
                                 <div class="form-group">
                                     <label for="print_quantity">Số lượng in = (Số lượng * Cắt - Bù hao)</label>
-                                    <input type="number" class="form-control" name="print_quantity" value="0" disabled readonly>
+                                    <input type="number" class="form-control" name="print_quantity" value="0" readonly>
                                 </div>
                             </div>
                             <div class="col-12">
@@ -101,7 +101,7 @@
             })
 
             refreshPrintQuantity()
-            
+
             $('input[name="quantity"]').on('input', function() {
                 refreshPrintQuantity();
             })
@@ -109,7 +109,7 @@
             $('input[name="cut"]').on('input', function() {
                 refreshPrintQuantity();
             })
-            
+
             $('input[name="compensate"]').on('input', function() {
                 refreshPrintQuantity();
             })
@@ -117,8 +117,8 @@
             function refreshPrintQuantity() {
                 var quantity = parseInt($('input[name="quantity"]').val()) || 0;
                 var cut = parseInt($('input[name="cut"]').val()) || 0;
-                var compensate = parseInt($('input[name="compensate"]').val()) || 0;     
-                
+                var compensate = parseInt($('input[name="compensate"]').val()) || 0;
+
                 var total = (quantity * cut) - compensate;
 
                 $('input[name="print_quantity"]').val(total);
