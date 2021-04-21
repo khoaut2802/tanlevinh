@@ -81,7 +81,7 @@
                                                 <td @if($key % 2 == 0)class="border-r-2 border-black"@endif>{{$attr->values->name}} ({{is_numeric($attr->values->price) ? number_format($attr->values->price).'đ' : $attr->values->price}})</td>
                                         @endforeach
                                         @if($loop->last)
-                                            <th>Số lượng</th> <td>{{$item->quantity}}</td>
+                                            <tr><th>Số lượng</th> <td>{{$item->quantity}}</td></tr>
                                             <tr class="text-left border border-green-900">
                                                 <th>Cắt</th> <td class="border-r-2 border-black">{{$item->cut}}</td>
                                                 <th>Bù hao</th> <td>{{$item->compensate}}</td>
