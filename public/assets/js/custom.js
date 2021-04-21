@@ -510,4 +510,6 @@ $(document).ready(function() {
 
         print_quantity.val(qty * cut - compensate)
     }
+
+    $('#doublescroll').doubleScroll()
 });

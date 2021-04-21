@@ -61,7 +61,7 @@
                             </div>
                             </form>
                         </div>
-                        <div class="-mx-4 sm:-mx-8 px-4 sm:px-8 py-4 overflow-auto">
+                        <div id="doublescroll" class="-mx-4 sm:-mx-8 px-4 sm:px-8 py-4 overflow-auto">
                             <div class="inline-block min-w-full shadow rounded-lg">
                                 <table class="min-w-full leading-normal">
                                     <thead>
@@ -365,3 +365,4 @@
         </div>
       </div>
 </x-app-layout>
+
