@@ -28,7 +28,7 @@ class OrdersController extends Controller
 
         if($user->user_type == 'admin') {
             if($search != '') {
-                $orders = Orders::where(function($query) use ($month) {
+                $orders = Orders::where(function($query) use ($month, $status) {
                     $query->where('status', 'LIKE', "%{$status}%");
 
                     if($month != 'all') {
@@ -50,7 +50,7 @@ class OrdersController extends Controller
                     return $query;
                 }, 'detail', 'detail.product'])->orderBy('id','DESC')->paginate($per_page, $columns = ['*'], $pageName = 'page', $page)->toArray();
             } else {
-                $orders = Orders::where(function($query) use ($month) {
+                $orders = Orders::where(function($query) use ($month, $status) {
                     $query->where('status', 'LIKE', "%{$status}%");
 
                     if($month != 'all') {
@@ -70,7 +70,7 @@ class OrdersController extends Controller
             }
         } else {
             if($search != '') {
-                $orders = Orders::where('print_machine', $user->print_machine ?? 'Unknown')->where(function($query) use ($month) {
+                $orders = Orders::where('print_machine', $user->print_machine ?? 'Unknown')->where(function($query) use ($month, $status) {
                     $query->where('status', 'LIKE', "%{$status}%");
 
                     if($month != 'all') {
@@ -91,7 +91,7 @@ class OrdersController extends Controller
                     }
                 }
             } else {
-                $orders = Orders::where('print_machine', $user->print_machine ?? 'Unknown')->where(function($query) use ($month) {
+                $orders = Orders::where('print_machine', $user->print_machine ?? 'Unknown')->where(function($query) use ($month, $status) {
                     $query->where('status', 'LIKE', "%{$status}%");
 
                     if($month != 'all') {
