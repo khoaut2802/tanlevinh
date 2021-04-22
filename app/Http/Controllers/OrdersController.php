@@ -12,6 +12,8 @@ use Auth;
 use Carbon\Carbon;
 use DB;
 use App\Models\User;
+use App\Exports\OrdersExport;
+use Maatwebsite\Excel\Facades\Excel;
 
 class OrdersController extends Controller
 {
@@ -245,5 +247,12 @@ class OrdersController extends Controller
         Orders::where('id', $id)->update(['status' => $status]);
 
         return redirect()->back()->withSuccess('Thay đổi trạng thái đơn hàng thành công');
+    }
+
+    public function export(Request $request)
+    {
+        $month = $request->get('month', 'all');
+
+        return Excel::download(new OrdersExport($month), 'orders.xlsx');
     }
 }

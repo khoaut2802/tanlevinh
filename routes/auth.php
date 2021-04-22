@@ -78,6 +78,7 @@ Route::group(['prefix' => getSetting('admin_prefix')], function($router) {
                 $router->post('/{code}/update', 'OrdersController@updateV2')->name('orders.update.v2');
                 $router->get('/{code}/show', 'OrdersController@show')->name('orders.show');
                 $router->get('/show-create-modal', 'OrdersController@show')->name('orders.show');
+                $router->get('/export', 'OrdersController@export')->name('orders.export');
             });
 
             $router->group(['middleware' => 'auth.staff'], function($router) {
