@@ -23,11 +23,20 @@ class OrdersController extends Controller
         $per_page = $request->get('per_page', 20);
         $status = $request->get('status', '');
         $search = $request->get('search', '');
+        $month = $request->get('month', 'all');
         $user = Auth::user();
 
         if($user->user_type == 'admin') {
             if($search != '') {
-                $orders = Orders::where('status', 'LIKE', "%{$status}%")
+                $orders = Orders::where(function($query) use ($month) {
+                    $query->where('status', 'LIKE', "%{$status}%");
+
+                    if($month != 'all') {
+                        $query->whereMonth('created_at', $month);
+                    }
+
+                    return $query;
+                })
                 ->orWhere('code', 'LIKE', "%{$search}%")->with([
                 'user' => function ($query) use($search) {
                     $query->where('email', 'LIKE', "%{$search}");
@@ -41,7 +50,15 @@ class OrdersController extends Controller
                     return $query;
                 }, 'detail', 'detail.product'])->orderBy('id','DESC')->paginate($per_page, $columns = ['*'], $pageName = 'page', $page)->toArray();
             } else {
-                $orders = Orders::where('status', 'LIKE', "%{$status}%")
+                $orders = Orders::where(function($query) use ($month) {
+                    $query->where('status', 'LIKE', "%{$status}%");
+
+                    if($month != 'all') {
+                        $query->whereMonth('created_at', $month);
+                    }
+
+                    return $query;
+                })
                 ->orWhere('code', 'LIKE', "%{$search}%")
                 ->with(['user' => function($query) use ($search) {
                     if($search != '') {
@@ -53,7 +70,15 @@ class OrdersController extends Controller
             }
         } else {
             if($search != '') {
-                $orders = Orders::where('print_machine', $user->print_machine ?? 'Unknown')->where('status', 'LIKE', "%{$status}%")
+                $orders = Orders::where('print_machine', $user->print_machine ?? 'Unknown')->where(function($query) use ($month) {
+                    $query->where('status', 'LIKE', "%{$status}%");
+
+                    if($month != 'all') {
+                        $query->whereMonth('created_at', $month);
+                    }
+
+                    return $query;
+                })
                 ->where('code', 'LIKE', "%{$search}%")->with('user', 'staff', 'detail', 'detail.product')->orderBy('id','DESC')->paginate($per_page, $columns = ['*'], $pageName = 'page', $page)->toArray();
                 // dd($orders);
                 if(empty($orders['data'])) {
@@ -66,7 +91,15 @@ class OrdersController extends Controller
                     }
                 }
             } else {
-                $orders = Orders::where('print_machine', $user->print_machine ?? 'Unknown')->where('status', 'LIKE', "%{$status}%")
+                $orders = Orders::where('print_machine', $user->print_machine ?? 'Unknown')->where(function($query) use ($month) {
+                    $query->where('status', 'LIKE', "%{$status}%");
+
+                    if($month != 'all') {
+                        $query->whereMonth('created_at', $month);
+                    }
+
+                    return $query;
+                })
                 ->where('code', 'LIKE', "%{$search}%")
                 ->with(['user' => function($query) use ($search) {
                     if($search != '') {

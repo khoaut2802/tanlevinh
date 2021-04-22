@@ -362,6 +362,9 @@ $(document).ready(function() {
     $('#orderFilterStatus').on('change', function() {
         window.location.href = window.web_url + '/orders?status=' + $(this).val();
     })
+    $('#orderFilterMonth').on('change', function() {
+        window.location.href = window.web_url + '/orders?month=' + $(this).val();
+    })
 
     $('#productFilterLimit').on('change', function() {
         window.location.href = window.web_url + '/products?per_page=' + $(this).val();

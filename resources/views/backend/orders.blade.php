@@ -61,6 +61,14 @@
                                         <option value="completed"@if(request()->query('status') == 'completed')selected @endif>Hoàn tất</option>
                                     </select>
                                 </div>
+                                <div class="relative">
+                                    <select name="month" class="appearance-none h-full rounded-r border-t border-b block appearance-none w-full bg-white border-gray-400 text-gray-700 py-2 px-4 pr-8 leading-tight focus:outline-none focus:border-l focus:border-r focus:bg-white focus:border-gray-500" id="orderFilterMonth">
+                                        <option value="all">Tháng</option>
+                                        @for($i = 1; $i <= 12; $i++)
+                                            <option value="{{$i}}">Tháng {{$i}}</option>
+                                        @endfor
+                                    </select>
+                                </div>
                             </div>
                             </form>
                         </div>
