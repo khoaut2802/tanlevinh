@@ -67,11 +67,11 @@
                             <div class="flex justify-between items-center">
                                 <div class="relative flex w-full flex-wrap items-stretch mb-3 px-2">
                                     <span class="text-gray-700">Số lượng:</span>
-                                    <input type="number" name="quantity" min="1" value="{{$action == 'edit' ? $detail->quantity : ''}}" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50" required>
+                                    <input type="number" name="quantity" min="1" value="{{$action == 'edit' ? $order_detail->quantity : ''}}" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50" required>
                                 </div>
                                 <div class="relative flex w-full flex-wrap items-stretch mb-3 px-2">
                                     <span class="text-gray-700">Bù hao:</span>
-                                    <input type="number" name="compensate" min="1" value="{{$action == 'edit' ? $detail->compensate : ''}}"class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50" required>
+                                    <input type="number" name="compensate" min="1" value="{{$action == 'edit' ? $order_detail->compensate : ''}}"class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50" required>
                                 </div>
                                 <div class="relative flex w-full flex-wrap items-stretch mb-3 px-2">
                                     <span class="text-gray-700">Cắt:</span>

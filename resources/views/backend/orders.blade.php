@@ -11,7 +11,7 @@
                             </path>
                         </svg>
                     </span>
-                    <input placeholder="Nhập mã đơn hàng, email người đặt hoặc tên người đặt để tìm kiếm" name="search" class="appearance-none rounded-r rounded-l sm:rounded-l-none border border-gray-400 border-b block pl-8 pr-6 py-2 w-full bg-white text-sm placeholder-gray-400 text-gray-700 focus:bg-white focus:placeholder-gray-600 focus:text-gray-700 focus:outline-none" />
+                    <input placeholder="Nhập mã đơn hàng, email người đặt hoặc tên người đặt để tìm kiếm" name="search" class="appearance-none rounded-r rounded-l sm:rounded-l-none border border-gray-400 border-b block pl-8 pr-6 py-2 w-full bg-white text-xs placeholder-gray-400 text-gray-700 focus:bg-white focus:placeholder-gray-600 focus:text-gray-700 focus:outline-none" />
                     <input type="submit" class="hidden" value="submit">
                 </div>
             </form>
@@ -150,12 +150,12 @@
                                             }
                                         @endphp
                                         <tr>
-                                            <td class="px-5 py-5 border-b border-r border-gray-200 bg-white text-sm">
+                                            <td class="px-5 py-5 border-b border-r border-gray-200 bg-white text-xs">
                                                 <p class="text-gray-900 whitespace-no-wrap">
                                                     {{$i}}
                                                 </p>
                                             </td>
-                                            <td class="px-5 py-5 border-b border-r border-gray-200 bg-white text-sm">
+                                            <td class="px-5 py-5 border-b border-r border-gray-200 bg-white text-xs">
                                                 <div class="flex items-center">
                                                     <p class="text-gray-900 whitespace-no-wrap">
                                                         @if(strpos($order['code'], 'IMP') !== false || strpos($order['code'], 'PATRON') !== false)
@@ -165,14 +165,14 @@
                                                     </p>
                                                 </div>
                                             </td>
-                                            <td class="px-5 py-5 border-b border-r border-gray-200 bg-white text-sm">
+                                            <td class="px-5 py-5 border-b border-r border-gray-200 bg-white text-xs">
                                                 <p class="text-gray-900 whitespace-no-wrap">
                                                     {{$order['user']['name'] ?? ''}}<br>
                                                     {{$order['user']['email'] ?? ''}}
                                                 </p>
                                             </td>
 
-                                            <td class="px-5 py-5 border-b border-r border-gray-200 bg-white text-sm">
+                                            <td class="px-5 py-5 border-b border-r border-gray-200 bg-white text-xs">
                                                 <p class="text-gray-900 whitespace-no-wrap">
                                                     @if(strpos($order['code'], 'IMP') !== false || strpos($order['code'], 'PATRON') !== false)
                                                         @foreach($order['detail'] as $detail)
@@ -186,49 +186,49 @@
                                                     @endif
                                                 </p>
                                             </td>
-                                            <td class="px-5 py-5 border-b border-r border-gray-200 bg-white text-sm">
+                                            <td class="px-5 py-5 border-b border-r border-gray-200 bg-white text-xs">
                                                 <p class="text-gray-900 whitespace-no-wrap">
                                                     {{$order['print_machine'] ?? 'Không có'}}
                                                 </p>
                                             </td>
-                                            <td class="px-5 py-5 border-b border-r border-gray-200 bg-white text-sm">
+                                            <td class="px-5 py-5 border-b border-r border-gray-200 bg-white text-xs">
                                                 <p class="text-gray-900 whitespace-no-wrap">
                                                     {{$quantity}}
                                                 </p>
                                             </td>
                                             @if(auth()->user()->user_type === 'admin')
-                                            <td class="px-5 py-5 border-b border-r border-gray-200 bg-white text-sm">
+                                            <td class="px-5 py-5 border-b border-r border-gray-200 bg-white text-xs">
                                                 <p class="text-gray-900 whitespace-no-wrap">
                                                     {{$price - $discount}}
                                                 </p>
                                             </td>
                                             @endif
-                                            <td class="px-5 py-5 border-b border-r border-gray-200 bg-white text-sm">
+                                            <td class="px-5 py-5 border-b border-r border-gray-200 bg-white text-xs">
                                                 <p class="text-gray-900 whitespace-no-wrap">
                                                     {{formatDate($order['created_at'], 'd-m-Y H:i:s')}}
                                                 </p>
                                             </td>
-                                            <td class="max-w-md px-5 py-5 border-b border-r border-gray-200 bg-white text-sm">
+                                            <td class="max-w-md px-5 py-5 border-b border-r border-gray-200 bg-white text-xs">
                                                 <p class="text-gray-900 whitespace-no-wrap">
                                                     {{$order['note']}}
                                                 </p>
                                             </td>
-                                            <td class="max-w-md px-5 py-5 border-b border-r border-gray-200 bg-white text-sm">
+                                            <td class="max-w-md px-5 py-5 border-b border-r border-gray-200 bg-white text-xs">
                                                 <p class="text-gray-900 whitespace-no-wrap">
                                                     {{$order['staff'] ? $order['staff']['email'] : ''}}
                                                 </p>
                                             </td>
-                                            <td class="px-5 py-5 border-b border-r border-gray-200 bg-white text-sm">
+                                            <td class="px-5 py-5 border-b border-r border-gray-200 bg-white text-xs">
                                                 {!! formatStatus($order['status']) !!}
                                             </td>
-                                            <td class="px-5 py-5 border-b border-r border-gray-200 bg-white text-sm">
+                                            <td class="px-5 py-5 border-b border-r border-gray-200 bg-white text-xs">
                                                 @if($order['file'] == null)
                                                     Chưa có
                                                 @else
                                                     <a href="{{asset($order['file'])}}" class="text-blue-700" target="_blank">Tải về</a>
                                                 @endif
                                             </td>
-                                            <td class="px-5 py-5 border-b border-r border-gray-200 bg-white text-sm">
+                                            <td class="px-5 py-5 border-b border-r border-gray-200 bg-white text-xs">
                                                 <div class="group inline-block" x-data="{show: false}">
                                                     <button
                                                         type="button"
@@ -265,7 +265,7 @@
                                         @endphp
                                         @empty
                                         <tr>
-                                            <td class="px-5 py-5 border-b border-r border-gray-200 bg-white text-sm">
+                                            <td class="px-5 py-5 border-b border-r border-gray-200 bg-white text-xs">
                                             <p>Không tìm thấy kết quả.</p>
                                             </td>
                                         </tr>
@@ -274,16 +274,16 @@
                                 </table>
                                 <div
                                     class="px-5 py-5 bg-white border-t flex flex-col xs:flex-row items-center xs:justify-between ">
-                                    <span class="text-xs xs:text-sm text-gray-900">
+                                    <span class="text-xs xs:text-xs text-gray-900">
                                         Bạn đang ở trang {{$orders['current_page']}} / {{$orders['last_page']}} trên tổng số {{$orders['total']}} sản phẩm
                                     </span>
                                     <div class="inline-flex mt-2 xs:mt-0">
                                         <a  href="{{route('orders', ['page' => $orders['current_page'] - 1 <= 0 ? 1 : $orders['current_page'] - 1])}}"
-                                            class="text-sm bg-gray-300 hover:bg-gray-400 text-gray-800 font-semibold py-2 px-4 rounded-l">
+                                            class="text-xs bg-gray-300 hover:bg-gray-400 text-gray-800 font-semibold py-2 px-4 rounded-l">
                                             Trước
                                         </a>
                                         <a  href="{{route('orders', ['page' => $orders['current_page'] + 1 > $orders['last_page'] ? $orders['last_page'] : $orders['current_page'] + 1])}}"
-                                            class="text-sm bg-gray-300 hover:bg-gray-400 text-gray-800 font-semibold py-2 px-4 rounded-r">
+                                            class="text-xs bg-gray-300 hover:bg-gray-400 text-gray-800 font-semibold py-2 px-4 rounded-r">
                                             Sau
                                         </a>
                                     </div>
@@ -323,11 +323,11 @@
                     </div>
               </div>
               <div class="bg-gray-50 px-4 py-3 sm:px-6 sm:flex sm:flex-row-reverse">
-                <button type="submit" class="w-full inline-flex justify-center rounded-md border border-transparent shadow-sm px-4 py-2 bg-green-600 text-base font-medium text-white hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500 sm:ml-3 sm:w-auto sm:text-sm">
+                <button type="submit" class="w-full inline-flex justify-center rounded-md border border-transparent shadow-sm px-4 py-2 bg-green-600 text-base font-medium text-white hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500 sm:ml-3 sm:w-auto sm:text-xs">
                   Lưu
                 </button>
                 <button type="button"
-                class="mt-3 w-full inline-flex justify-center rounded-md border border-gray-300 shadow-sm px-4 py-2 bg-white text-base font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 sm:mt-0 sm:ml-3 sm:w-auto sm:text-sm modal-close" data-target="#select_machine_modal">
+                class="mt-3 w-full inline-flex justify-center rounded-md border border-gray-300 shadow-sm px-4 py-2 bg-white text-base font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 sm:mt-0 sm:ml-3 sm:w-auto sm:text-xs modal-close" data-target="#select_machine_modal">
                   Cancel
                 </button>
               </div>
@@ -362,11 +362,11 @@
                     </div>
               </div>
               <div class="bg-gray-50 px-4 py-3 sm:px-6 sm:flex sm:flex-row-reverse">
-                <button type="submit" class="w-full inline-flex justify-center rounded-md border border-transparent shadow-sm px-4 py-2 bg-green-600 text-base font-medium text-white hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500 sm:ml-3 sm:w-auto sm:text-sm">
+                <button type="submit" class="w-full inline-flex justify-center rounded-md border border-transparent shadow-sm px-4 py-2 bg-green-600 text-base font-medium text-white hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500 sm:ml-3 sm:w-auto sm:text-xs">
                   Xuất
                 </button>
                 <button type="button"
-                class="mt-3 w-full inline-flex justify-center rounded-md border border-gray-300 shadow-sm px-4 py-2 bg-white text-base font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 sm:mt-0 sm:ml-3 sm:w-auto sm:text-sm modal-close" data-target="#export_modal">
+                class="mt-3 w-full inline-flex justify-center rounded-md border border-gray-300 shadow-sm px-4 py-2 bg-white text-base font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 sm:mt-0 sm:ml-3 sm:w-auto sm:text-xs modal-close" data-target="#export_modal">
                   Cancel
                 </button>
               </div>
@@ -402,11 +402,11 @@
                     </div>
                 </div>
                 <div class="bg-gray-50 px-4 py-3 sm:px-6 sm:flex sm:flex-row-reverse">
-                <button type="submit" class="w-full inline-flex justify-center rounded-md border border-transparent shadow-sm px-4 py-2 bg-green-600 text-base font-medium text-white hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500 sm:ml-3 sm:w-auto sm:text-sm">
+                <button type="submit" class="w-full inline-flex justify-center rounded-md border border-transparent shadow-sm px-4 py-2 bg-green-600 text-base font-medium text-white hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500 sm:ml-3 sm:w-auto sm:text-xs">
                     Lưu
                 </button>
                 <button type="button"
-                class="mt-3 w-full inline-flex justify-center rounded-md border border-gray-300 shadow-sm px-4 py-2 bg-white text-base font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 sm:mt-0 sm:ml-3 sm:w-auto sm:text-sm modal-close" data-target="#staff_update_modal">
+                class="mt-3 w-full inline-flex justify-center rounded-md border border-gray-300 shadow-sm px-4 py-2 bg-white text-base font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 sm:mt-0 sm:ml-3 sm:w-auto sm:text-xs modal-close" data-target="#staff_update_modal">
                     Cancel
                 </button>
                 </div>

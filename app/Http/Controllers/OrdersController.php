@@ -14,6 +14,9 @@ use DB;
 use App\Models\User;
 use App\Exports\OrdersExport;
 use Maatwebsite\Excel\Facades\Excel;
+use Illuminate\Pagination\Paginator;
+use Illuminate\Support\Collection;
+use Illuminate\Pagination\LengthAwarePaginator;
 
 class OrdersController extends Controller
 {
@@ -21,100 +24,65 @@ class OrdersController extends Controller
     {
         $page = $request->get('page', 1);
         $per_page = $request->get('per_page', 20);
-        $status = $request->get('status', '');
-        $search = $request->get('search', '');
+        $status = $request->get('status', null);
+        $search = $request->get('search', null);
         $month = $request->get('month', 'all');
         $user = Auth::user();
 
-        if($user->user_type == 'admin') {
-            if($search != '') {
-                $orders = Orders::where(function($query) use ($month, $status) {
-                    $query->where('status', 'LIKE', "%{$status}%");
+        $orders = new Orders;
 
-                    if($month != 'all') {
-                        $query->whereMonth('created_at', $month);
-                    }
-
-                    return $query;
-                })
-                ->orWhere('code', 'LIKE', "%{$search}%")->with([
-                'user' => function ($query) use($search) {
-                    $query->where('email', 'LIKE', "%{$search}");
-                    $query->orWhere('name', 'LIKE', "%{$search}");
-
-                    return $query;
-                }, 'staff' => function ($query) use($search) {
-                    $query->where('email', 'LIKE', "%{$search}");
-                    $query->orWhere('name', 'LIKE', "%{$search}");
-
-                    return $query;
-                }, 'detail', 'detail.product'])->orderBy('id','DESC')->paginate($per_page, $columns = ['*'], $pageName = 'page', $page)->toArray();
-            } else {
-                $orders = Orders::where(function($query) use ($month, $status) {
-                    $query->where('status', 'LIKE', "%{$status}%");
-
-                    if($month != 'all') {
-                        $query->whereMonth('created_at', $month);
-                    }
-
-                    return $query;
-                })
-                ->orWhere('code', 'LIKE', "%{$search}%")
-                ->with(['user' => function($query) use ($search) {
-                    if($search != '') {
-                        $query->where([['email', 'LIKE', "%{$search}%"], ['name', 'LIKE', "%{$search}%"]]);
-                    }
-
-                    return $query;
-                }, 'staff', 'detail', 'detail.product'])->orderBy('id','DESC')->paginate($per_page, $columns = ['*'], $pageName = 'page', $page)->toArray();
-            }
-        } else {
-            if($search != '') {
-                $orders = Orders::where('print_machine', $user->print_machine ?? 'Unknown')->where(function($query) use ($month, $status) {
-                    $query->where('status', 'LIKE', "%{$status}%");
-
-                    if($month != 'all') {
-                        $query->whereMonth('created_at', $month);
-                    }
-
-                    return $query;
-                })
-                ->where('code', 'LIKE', "%{$search}%")->with('user', 'staff', 'detail', 'detail.product')->orderBy('id','DESC')->paginate($per_page, $columns = ['*'], $pageName = 'page', $page)->toArray();
-                // dd($orders);
-                if(empty($orders['data'])) {
-                    $user = User::where('email', 'LIKE', "%{$search}%")->orWhere('name', 'LIKE', "%{$search}%")->first();
-
-                    if(!empty($user)) {
-                        $orders = Orders::where('print_machine', $user->print_machine ?? 'Unknown')->where('user_id', $user->id)->with('user', 'staff', 'detail', 'detail.product')->orderBy('id','DESC')->paginate($per_page, $columns = ['*'], $pageName = 'page', $page)->toArray();
-                    } else {
-                        $orders = Orders::where('print_machine', $user->print_machine ?? 'Unknown')->where('user_id', 'empty')->with('user', 'staff', 'detail', 'detail.product')->orderBy('id','DESC')->paginate($per_page, $columns = ['*'], $pageName = 'page', $page)->toArray();
-                    }
-                }
-            } else {
-                $orders = Orders::where('print_machine', $user->print_machine ?? 'Unknown')->where(function($query) use ($month, $status) {
-                    $query->where('status', 'LIKE', "%{$status}%");
-
-                    if($month != 'all') {
-                        $query->whereMonth('created_at', $month);
-                    }
-
-                    return $query;
-                })
-                ->where('code', 'LIKE', "%{$search}%")
-                ->with(['user' => function($query) use ($search) {
-                    if($search != '') {
-                        $query->where([['email', 'LIKE', "%{$search}%"], ['name', 'LIKE', "%{$search}%"]]);
-                    }
-
-                    return $query;
-                }, 'staff', 'detail', 'detail.product'])->orderBy('id','DESC')->paginate($per_page, $columns = ['*'], $pageName = 'page', $page)->toArray();
-            }
+        if($status) {
+            $orders = $orders->where('status', $status);
         }
+
+        if($month != 'all') {
+            $orders = $orders->whereMonth('created_at', $month);
+        }
+
+        if($search) {
+            $orders = $orders->orWhere('code', 'LIKE', '%'.$search.'%')->with(['user', 'detail', 'detail.product', 'staff'])->has('detail');
+        } else {
+            $orders = $orders->with(['user', 'detail', 'detail.product', 'staff'])->has('detail');
+        }
+
+        if($search && !$orders->exists()) {
+            $orders = new Orders;
+
+            if($status) {
+                $orders = $orders->where('status', $status);
+            }
+
+            if($month != 'all') {
+                $orders = $orders->whereMonth('created_at', $month);
+            }
+
+            $orders = $orders->with(['user', 'detail', 'detail.product', 'staff'])->has('detail');
+
+            $orders = $orders->orderBy('id', 'DESC')->paginate($per_page, ['*'], 'page', $page)->map(function ($item) use ($search) {
+                if($search && strpos($item->user->email, $search) !== false || strpos($item->user->name, $search) !== false) {
+                    return $item;
+                }
+            })->toArray();
+        } else {
+            $orders = $orders->orderBy('id', 'DESC')->paginate($per_page, ['*'], 'page', $page)->map(function ($item) use ($search) {
+                return $item;
+            })->toArray();
+        }
+
+        $orders = array_filter($orders);
+        $orders = $this->paginate($orders, $per_page, $page)->toArray();
 
         $paper_types = json_decode(Attributes::where('name', 'Chất liệu')->first()->options);
         $paper_sizes = json_decode(Attributes::where('name', 'Kích thước')->first()->options);
         // dd($products);
         return view('backend.orders', compact('orders', 'paper_types', 'paper_sizes'));
+    }
+
+    public function paginate($items, $perPage = 5, $page = null, $options = [])
+    {
+        $page = $page ?: (Paginator::resolveCurrentPage() ?: 1);
+        $items = $items instanceof Collection ? $items : Collection::make($items);
+        return new LengthAwarePaginator($items->forPage($page, $perPage), $items->count(), $perPage, $page, $options);
     }
 
 
