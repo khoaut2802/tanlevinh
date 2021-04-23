@@ -75,7 +75,7 @@
                                 </div>
                                 <div class="relative flex w-full flex-wrap items-stretch mb-3 px-2">
                                     <span class="text-gray-700">Cắt:</span>
-                                    <input type="number" name="cut" min="1" value="{{$action == 'edit' ? $detail->cut : ''}}" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50" required>
+                                    <input type="number" name="cut" min="1" value="{{$action == 'edit' ? $order_detail->cut : ''}}" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50" required>
                                 </div>
                             </div>
 
