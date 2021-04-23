@@ -215,7 +215,7 @@
                                             </td>
                                             <td class="max-w-md px-5 py-5 border-b border-r border-gray-200 bg-white text-xs">
                                                 <p class="text-gray-900 whitespace-no-wrap">
-                                                    {{$order['staff'] ? $order['staff']['email'] : ''}}
+                                                    {{$order['staff'] ? $order['staff']['name'] : ''}}
                                                 </p>
                                             </td>
                                             <td class="px-5 py-5 border-b border-r border-gray-200 bg-white text-xs">
