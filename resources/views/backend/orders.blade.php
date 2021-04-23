@@ -74,7 +74,7 @@
                         </div>
                         <div id="doublescroll" class="-mx-4 sm:-mx-8 px-4 sm:px-8 py-4 overflow-auto">
                             <div class="inline-block min-w-full shadow rounded-lg">
-                                <table class="min-w-full leading-normal">
+                                <table class="min-w-full leading-normal table-fixed">
                                     <thead>
                                         <tr>
                                             <th

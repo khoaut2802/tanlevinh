@@ -5,8 +5,11 @@ namespace App\Exports;
 use App\Models\Orders;
 use Illuminate\Contracts\View\View;
 use Maatwebsite\Excel\Concerns\FromView;
+use Maatwebsite\Excel\Concerns\WithDrawings;
+use PhpOffice\PhpSpreadsheet\Worksheet\Drawing;
+use Maatwebsite\Excel\Concerns\ShouldAutoSize;
 
-class OrdersExport implements FromView
+class OrdersExport implements FromView, ShouldAutoSize
 {
     protected $month;
 
@@ -14,6 +17,7 @@ class OrdersExport implements FromView
     {
         $this->month = $month;
     }
+
     /**
     * @return \Illuminate\Support\Collection
     */
