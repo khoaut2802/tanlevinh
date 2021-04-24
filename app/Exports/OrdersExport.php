@@ -42,8 +42,8 @@ class OrdersExport implements FromCollection, ShouldAutoSize, WithEvents
 
                 if($item->detail[0]->product_id != 0) {
                     $ar['product_name'] = $item->detail[0]->product->name;
-                    $ar['paper_type'] = $product_detail ? $product_detail[0]['values']['name'] : 'Không';
-                    $ar['paper_size'] = $product_detail ? $product_detail[1]['values']['name'] : 'Không';
+                    $ar['paper_type'] = $product_detail ? ($product_detail[0] ? $product_detail[0]['values']['name'] : 'Không') : 'Không';
+                    $ar['paper_size'] = $product_detail ? ($product_detail[1] ? $product_detail[1]['values']['name'] : 'Không') : 'Không';
                 } else {
                     $ar['product_name'] = $product_detail['name'] ?? '';
                     $ar['paper_type'] = $product_detai['paper_type'] ?? 'Không';
