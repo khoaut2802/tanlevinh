@@ -51,7 +51,7 @@ class OrdersExport implements FromCollection, ShouldAutoSize, WithEvents
                 }
 
                 $ar['quantity'] = $item->detail[0]->quantity ?? 0;
-                $ar['print_quantity'] = $item->detail[0]->print_quantity;
+                $ar['print_quantity'] = $item->detail[0]->print_quantity ?? 0;
                 $ar['compensate'] = $item->detail[0]->compensate ?? 0;
                 $ar['cut'] = $item->detail[0]->cut ?? 0;
                 $ar['print_machine'] = $item->print_machine ?? 'Không';
