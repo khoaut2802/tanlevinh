@@ -18,9 +18,9 @@ class UserController extends Controller
 {
     public function index(Request $request)
     {
-        $pending_orders = Orders::where('status', 'pending')->where('user_id', Auth::user()->id)->where('code', 'LIKE', "%OD%")->get();
-        $processing_orders = Orders::where('status', 'processing')->where('user_id', Auth::user()->id)->where('code', 'LIKE', "%OD%")->get();
-        $completed_orders = Orders::whereIn('status', ['completed','canceled'])->where('user_id', Auth::user()->id)->where('code', 'LIKE', "%OD%")->get();
+        $pending_orders = Orders::where('status', 'pending')->where('user_id', Auth::user()->id)->where('code', 'LIKE', "%NOR%")->get();
+        $processing_orders = Orders::where('status', 'processing')->where('user_id', Auth::user()->id)->where('code', 'LIKE', "%NOR%")->get();
+        $completed_orders = Orders::whereIn('status', ['completed','canceled'])->where('user_id', Auth::user()->id)->where('code', 'LIKE', "%NOR%")->get();
 
         return view('user.dashboard', compact('pending_orders', 'processing_orders', 'completed_orders'));
     }
