@@ -50,16 +50,16 @@ class OrdersExport implements FromCollection, ShouldAutoSize, WithEvents
                     $ar['paper_size'] = $product_detai['paper_size'] ?? 'Không';
                 }
 
-                $ar['quantity'] = $item->detail[0]->quantity;
+                $ar['quantity'] = $item->detail[0]->quantity ?? 0;
                 $ar['print_quantity'] = $item->detail[0]->print_quantity;
-                $ar['compensate'] = $item->detail[0]->compensate;
-                $ar['cut'] = $item->detail[0]->cut;
-                $ar['print_machine'] = $item->print_machine;
-                $ar['price'] = $item->detail[0]->price;
+                $ar['compensate'] = $item->detail[0]->compensate ?? 0;
+                $ar['cut'] = $item->detail[0]->cut ?? 0;
+                $ar['print_machine'] = $item->print_machine ?? 'Không';
+                $ar['price'] = $item->detail[0]->price ?? 0;
                 $ar['created_at'] = formatDate($item->created_at);
                 $ar['note'] = $item->note;
                 $ar['staff'] = $item->user ? $item->user->name : 'Không';
-                $ar['status'] = $item->status;
+                $ar['status'] = strip_tags(formatStatus($item->status));
 
                 return $ar;
             });
