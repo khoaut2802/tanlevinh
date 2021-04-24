@@ -24,7 +24,7 @@ class OrdersExport implements FromView, ShouldAutoSize
     public function view(): View
     {
         return view('exports.orders', [
-            'orders' => $this->month == 'all' ? Orders::all() : Orders::whereMonth('created_at', $this->month)->get()
+            'orders' => $this->month == 'all' ? Orders::with('detail', 'detail.product', 'user', 'staff')->has('detail')->get() : Orders::whereMonth('created_at', $this->month)->with('detail', 'detail.product', 'user', 'staff')->get()
         ]);
     }
 }
