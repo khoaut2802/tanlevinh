@@ -12,6 +12,8 @@ use App\Models\OrderDetails;
 use App\Models\User;
 use App\Models\Attributes;
 
+use App\Mail\OrderNewMail;
+use Mail;
 class UserController extends Controller
 {
     public function index(Request $request)
@@ -101,6 +103,7 @@ class UserController extends Controller
                             'created_at'    => Carbon::now()
                         ];
                         OrderDetails::insert($details);
+                        Mail::to('kd.tanlevinh@gmail.com')->send(new OrderNewMail($order));
                     }
                 }
             }
@@ -228,6 +231,7 @@ class UserController extends Controller
                     ];
 
                     OrderDetails::insert($details);
+                    Mail::to('kd.tanlevinh@gmail.com')->send(new OrderNewMail($order));
                 }
             }
 

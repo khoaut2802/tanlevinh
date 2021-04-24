@@ -32,7 +32,7 @@ class OrdersExport implements FromCollection, ShouldAutoSize, WithEvents
         if ($this->calledByEvent) { // flag
             $orders = $this->month == 'all' ? Orders::with('detail', 'detail.product', 'user', 'staff')->has('detail')->get() : Orders::whereMonth('created_at', $this->month)->with('detail', 'detail.product', 'user', 'staff')->has('detail')->get();
             $total = 0;
-            $orders = $orders->map(function($item) use ($total) {
+            $orders = $orders->map(function($item) {
                 $ar = [];
                 $ar['id'] = $item->id;
                 $ar['code'] = $item->code;
@@ -60,11 +60,15 @@ class OrdersExport implements FromCollection, ShouldAutoSize, WithEvents
                 $ar['note'] = $item->note;
                 $ar['staff'] = $item->user ? $item->user->name : 'Không';
                 $ar['status'] = strip_tags(formatStatus($item->status));
-                $total += $item->detail[0]->price ?? 0;
+
                 return $ar;
             })->toArray();
 
-            $new_ar = ['','Tổng đơn:', count($orders), 'Tổng tiền:', $total];
+            foreach($orders as $order) {
+                $total = (float)$total + (float)$order['price'];
+            }
+
+            $new_ar[] = ['', 'Tổng đơn:'.count($orders), 'Tổng tiền:'.$total];
 
             return collect(array_merge($orders, $new_ar));
         }
