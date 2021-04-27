@@ -213,7 +213,7 @@
                                         <td @if($key % 2 == 0)class="border-right border-black"@endif>{{$attr->values->name}} ({{is_numeric($attr->values->price) ? number_format($attr->values->price).'đ' : $attr->values->price}})</td>
                                 @endforeach
                                 @if($loop->last)
-                                    <th class="border"></th>
+                                    <th></th>
                                     <td></td>
                                 @endif
                             </tr>
