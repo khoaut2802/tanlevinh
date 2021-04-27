@@ -212,10 +212,6 @@
                                         <th class="border">{{$attr->name}}:</th>
                                         <td @if($key % 2 == 0)class="border-right border-black"@endif>{{$attr->values->name}} ({{is_numeric($attr->values->price) ? number_format($attr->values->price).'đ' : $attr->values->price}})</td>
                                 @endforeach
-                                @if($loop->last)
-                                    <th></th>
-                                    <td></td>
-                                @endif
                             </tr>
                             @endforeach
                             <tr class="text-center border border-green-900"> <th class="border">Giá</th> <td class="border-right border-black">{{number_format($price)}}đ</td> <td></td><td></td></tr>
