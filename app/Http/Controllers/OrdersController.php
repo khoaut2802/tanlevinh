@@ -31,6 +31,10 @@ class OrdersController extends Controller
 
         $orders = new Orders;
 
+        if($user->user_type == 'staff') {
+            $orders = $orders->where('print_machine', $user->print_machine);
+        }
+
         if($status) {
             $orders = $orders->where('status', $status);
         }

@@ -39,22 +39,20 @@
                                     @endphp
                                     <div class="card-attr @if($loop->first){{'active'}}@endif" data-attr="{{$attr->attr_id}}" data-option="{{$value}}" data-price="{{$attrDetail->price ?? 0}}">
                                         <p>{{$attrDetail->name}}</p>
-                                    </div>                                
-                                @endforeach                        
+                                    </div>
+                                @endforeach
                             @endif
                         </div>
                     @endforeach
                     <div class="d-flex justify-content-left align-items-center my-3">
                         <span class="attr-name font-weight-bold">Số lượng ({{ucfirst($product->unit)}})</span>
-                        @if($product->min_qty == 0)
-                            <input type="number" name="qty" id="qty" min="1" class="form-control" value="1">
-                        @else
-                            <select class="form-control" name="qty" id="qty">
-                                @foreach(explode(',',$product->min_qty) as $qty)
-                                    <option value="{{$qty}}">{{$qty}}</option>
-                                @endforeach
-                            </select>
-                        @endif
+                        <select class="form-control" name="qty" id="qty">
+                            @foreach(explode(',',$product->min_qty) as $qty)
+                                <option value="{{$qty}}">{{$qty}}</option>
+                            @endforeach
+                                <option value="other">Số khác</option>
+                        </select>
+                        <input type="number" name="custom_qty" id="custom_qty" min="1" class="form-control ml-2" style="display: none" value="1">
                     </div>
                     </form>
                 </div>
@@ -70,12 +68,12 @@
                         <dd style="flex-grow: 1" class="text-right" id="sumTotal">0</dd>
                       </dl>
                       <hr>
-                      <button type="button" class="btn btn-primary btn-block" id="addToCart">Thêm vào giỏ hàng</button>                    
+                      <button type="button" class="btn btn-primary btn-block" id="addToCart">Thêm vào giỏ hàng</button>
                 </div>
             </div>
             <div class="card mt-3">
                 <div class="card-body">
-                    <article class="gallery-wrap"> 
+                    <article class="gallery-wrap">
                         <div class="img-big-wrap">
                            <a href="#"><img src="{{asset($product->image)}}"></a>
                         </div> <!-- img-big-wrap.// -->
@@ -87,22 +85,22 @@
                           <a href="#" class="item-thumb"> <img src="bootstrap-ecommerce-html/images/items/8.jpg"></a>
                         </div> <!-- thumbs-wrap.// -->
                         @endif
-                    </article>                    
+                    </article>
                 </div>
             </div>
             </div>
         </div>
     </div>
-    
+
     <x-slot name="script">
         <script>
             var product_price = {{$sumTotal}};
-            
+
             var formatter = new Intl.NumberFormat('en-US', {
                 style: 'currency',
                 currency: 'VND',
             });
-            
+
             refreshPrice();
 
             $('.card-attr').on('click', function() {
@@ -120,31 +118,48 @@
                 refreshPrice()
             })
 
-            $('#qty').on('change', function() {
-                refreshPrice()
-            });
-
-            $('#qty').on('input', function() {
-                refreshPrice()
-            });
 
             $('#addToCart').on('click', function() {
-                if($('#qty').val() > 0 && Number.isInteger(parseInt($('#qty').val())) == true) {
+                var qty = $('#qty').val()
+
+                if(qty == 'other') {
+                    qty = $('#custom_qty').val()
+                }
+
+                if(qty > 0 && Number.isInteger(parseInt(qty)) == true) {
                     $('#addToCartForm').submit();
                 } else {
                     alert('Số lượng phải lớn hơn 0')
                 }
             })
 
+            $('select[name="qty"]').on('change', function() {
+                if($(this).val() == 'other') {
+                    $('#custom_qty').show()
+                } else {
+                    $('#custom_qty').hide()
+                }
+                refreshPrice()
+            })
+
+            $('#custom_qty').on('input', function() {
+                refreshPrice()
+            })
+
             function refreshPrice() {
                 var attr_price = 0;
+                var qty = $('#qty').val()
+
+                if(qty == 'other') {
+                    qty = $('#custom_qty').val()
+                }
 
                 $('.card-attr').each(function() {
                     if($(this).hasClass('active'))
                     attr_price = attr_price + parseInt($(this).attr('data-price'))
                 })
 
-                $('#sumTotal').text(formatter.format((product_price + attr_price ) * parseInt($('#qty').val())))
+                $('#sumTotal').text(formatter.format((product_price + attr_price ) * parseInt(qty)))
             }
         </script>
     </x-slot>

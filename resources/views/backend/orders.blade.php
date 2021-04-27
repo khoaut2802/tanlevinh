@@ -26,12 +26,14 @@
                     <div class="flex justify-between items-center">
                         <a href="{{route('orders')}}">Danh sách đơn hàng</a>
                         @if(auth()->user()->user_type === 'admin')
+                        <div>
                             <button type="button" class="bg-yellow-500 text-white active:bg-pink-600 font-bold uppercase text-xs px-4 py-2 rounded shadow hover:shadow-md outline-none focus:outline-none mr-1 mb-1 modal" data-target="#export_modal">
                                 Xuất báo cáo
                             </button>
                             <button type="button" class="bg-blue-500 text-white active:bg-pink-600 font-bold uppercase text-xs px-4 py-2 rounded shadow hover:shadow-md outline-none focus:outline-none mr-1 mb-1" id="showCreateOrderModal">
                                 Tạo đơn hàng
                             </button>
+                        </div>
                         @endif
                     </div>
                     <div class="py-8">

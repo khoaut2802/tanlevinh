@@ -203,8 +203,8 @@
                                     Tên sản phẩm:
                                 </th>
                                 <td class="border-right border-black">{{$item->product->name}}</td>
-                                <td></td>
-                                <td></td>
+                                <th>Số lượng</th>
+                                <td>{{$item->quantity}}</td>
                             </tr>
                             @foreach(array_chunk(json_decode($item->product_attrs),2) as $attrs)
                             <tr class="text-center border border-green-900">
@@ -213,7 +213,8 @@
                                         <td @if($key % 2 == 0)class="border-right border-black"@endif>{{$attr->values->name}} ({{is_numeric($attr->values->price) ? number_format($attr->values->price).'đ' : $attr->values->price}})</td>
                                 @endforeach
                                 @if($loop->last)
-                                    <th class="border">Số lượng</th> <td>{{$item->quantity}}</td>
+                                    <th class="border"></th>
+                                    <td></td>
                                 @endif
                             </tr>
                             @endforeach

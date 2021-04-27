@@ -27,18 +27,18 @@ class HomeController extends Controller
             return abort(404);
 
         return view('group', compact('group'));
-    } 
-    
+    }
+
     public function product(Request $request, $slug)
     {
         $product = Products::where('slug', $slug)->with('product_group', 'attributes', 'images')->first();
 
         if(empty($product))
             return abort(404);
-            
+
         return view('product', compact('product'));
-    }  
-    
+    }
+
     public function page(Request $request, $slug)
     {
         $page = Pages::where('slug', $slug)->first();
@@ -78,10 +78,10 @@ class HomeController extends Controller
                 'product_price' => $product->price,
                 'image'         => $product->image,
                 'total_amount'  => $sum_total,
-                'quantity'      => $data['qty'] ?? 1,
+                'quantity'      => $data['qty'] == 'other' ? $data['custom_qty'] : 1,
                 'attrs'         => $attrs
             ];
-            
+
             if($cart == 'empty' || $cart == null) {
                 $request->session()->put('cart', [$item]);
             } else {
